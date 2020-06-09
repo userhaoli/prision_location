@@ -1,0 +1,456 @@
+<template>
+  <div class="index root-element" ref="container">
+    <div class="content">
+      <ul class="left-bar">
+        <li class="monitor-key">
+          <h4>重点监控</h4>
+          <div>
+            <video src poster="/images/u23.png"></video>
+          </div>
+        </li>
+        <li class="statistics-alarm">
+          <h4>报警统计</h4>
+          <div ref="statistics"></div>
+        </li>
+        <li class="electronic-call">
+          <h4>电子点名</h4>
+          <div class="call-content">
+            <p>
+              <span style="color:#f00">一监区</span> 应到
+              <span style="color:#61a0a8">100</span> 实到
+              <span style="color:#d48265">95</span>
+            </p>
+            <p>
+              <span style="color:#f00">二监区</span> 应到
+              <span style="color:#61a0a8">100</span> 实到
+              <span style="color:#d48265">95</span>
+            </p>
+            <p>
+              <span style="color:#f00">三监区</span> 应到
+              <span style="color:#61a0a8">100</span> 实到
+              <span style="color:#d48265">95</span>
+            </p>
+            <p>
+              <span style="color:#f00">四监区</span> 应到
+              <span style="color:#61a0a8">100</span> 实到
+              <span style="color:#d48265">95</span>
+            </p>
+            <p>
+              <span style="color:#f00">五监区</span> 应到
+              <span style="color:#61a0a8">100</span> 实到
+              <span style="color:#d48265">95</span>
+            </p>
+            <p>
+              <span style="color:#f00">六监区</span> 应到
+              <span style="color:#61a0a8">100</span> 实到
+              <span style="color:#d48265">95</span>
+            </p>
+            <p>
+              <span style="color:#f00">七监区</span> 应到
+              <span style="color:#61a0a8">100</span> 实到
+              <span style="color:#d48265">95</span>
+            </p>
+            <p>
+              <span style="color:#f00">八监区</span> 应到
+              <span style="color:#61a0a8">100</span> 实到
+              <span style="color:#d48265">95</span>
+            </p>
+          </div>
+        </li>
+      </ul>
+      <ul class="right-bar">
+        <li class="distribution-person">
+          <h4>人员分布</h4>
+          <div ref="distribution"></div>
+        </li>
+        <li class="equipment-data">
+          <h4>设备信息</h4>
+          <div ref="equipment"></div>
+        </li>
+        <li class="alarm-data">
+          <h4>报警信息</h4>
+          <div class="alarm-content">
+            <p>
+              <span style="color:#f00">2020-06-05</span>
+              <span style="color:#61a0a8">张三</span> 在
+              <span style="color:#d48265">一监区厕所</span>发生
+              <span style="color:#d48265">sos主动报警[危急]</span>
+            </p>
+            <p>
+              <span style="color:#f00">2020-06-05</span>
+              <span style="color:#61a0a8">张三</span> 在
+              <span style="color:#d48265">一监区厕所</span>发生
+              <span style="color:#d48265">sos主动报警[危急]</span>
+            </p>
+            <p>
+              <span style="color:#f00">2020-06-05</span>
+              <span style="color:#61a0a8">张三</span> 在
+              <span style="color:#d48265">一监区厕所</span>发生
+              <span style="color:#d48265">sos主动报警[危急]</span>
+            </p>
+            <p>
+              <span style="color:#f00">2020-06-05</span>
+              <span style="color:#61a0a8">张三</span> 在
+              <span style="color:#d48265">一监区厕所</span>发生
+              <span style="color:#d48265">sos主动报警[危急]</span>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+
+
+let echarts = require("echarts/lib/echarts");
+require("echarts/lib/chart/pie");
+// 引入提示框和title组件
+require("echarts/lib/component/tooltip");
+require("echarts/lib/component/title");
+
+export default {
+  data() {
+    return {
+      scene: null,
+      camera: null,
+      renderer: null,
+      timer: null,
+      renderer1: null,
+      composer:null,
+    };
+  },
+  mounted() {
+    this.initAlarm();
+    this.initCall();
+    this.initEquipment();
+    this.init3d();
+    this.createBox();
+    this.animate();
+    window.addEventListener("resize", this.onResize);
+  },
+  methods: {
+    initAlarm() {
+      let myChart = echarts.init(this.$refs.statistics);
+      myChart.setOption({
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+          orient: "vertical",
+          left: 10,
+          data: ["紧急", "一般", "危急"]
+        },
+        series: [
+          {
+            name: "处理情况",
+            type: "pie",
+            selectedMode: "single",
+            radius: [0, "30%"],
+            label: {
+              position: "inner"
+            },
+            labelLine: {
+              show: false
+            },
+            data: [
+              { value: 679, name: "未处理 679" },
+              { value: 1548, name: "已处理 1548" }
+            ]
+          },
+          {
+            name: "报警等级",
+            type: "pie",
+            radius: ["45%", "80%"],
+            label: {
+              position: "inner"
+            },
+            data: [
+              { value: 310, name: "紧急 310" },
+              { value: 234, name: "一般 234" },
+              { value: 135, name: "危急 135" }
+            ]
+          }
+        ]
+      });
+    },
+    initCall() {
+      let myChart = echarts.init(this.$refs.distribution);
+      myChart.setOption({
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+          orient: "vertical",
+          left: "left",
+          data: ["直接访问", "邮件营销", "联盟广告", "视频广告", "搜索引擎"]
+        },
+        series: [
+          {
+            name: "人员分布",
+            type: "pie",
+            radius: "60%",
+            center: ["50%", "50%"],
+            data: [
+              { value: 335, name: "一监区" },
+              { value: 310, name: "一监区" },
+              { value: 234, name: "一厂区" },
+              { value: 135, name: "二厂区" },
+              { value: 1548, name: "一监舍" }
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
+      });
+    },
+    initEquipment() {
+      let myChart = echarts.init(this.$refs.equipment);
+      myChart.setOption({
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+          orient: "vertical",
+          left: 10,
+          data: ["基站", "摄像头", "标签"]
+        },
+        series: [
+          {
+            name: "设备状态",
+            type: "pie",
+            selectedMode: "single",
+            radius: [0, "30%"],
+            label: {
+              position: "inner"
+            },
+            labelLine: {
+              show: false
+            },
+            data: [
+              { value: 679, name: "良好 679" },
+              { value: 20, name: "故障 10" }
+            ]
+          },
+          {
+            name: "设备数量",
+            type: "pie",
+            radius: ["45%", "80%"],
+            label: {
+              position: "inner"
+            },
+            data: [
+              { value: 310, name: "基站 310" },
+              { value: 234, name: "标签 234" },
+              { value: 135, name: "摄像头 135" }
+            ]
+          }
+        ]
+      });
+    },
+    init3d() {
+      console.log(THREE);
+      let control;
+      let width = this.$refs.container.offsetWidth,
+        height = this.$refs.container.offsetHeight;
+      this.scene = new THREE.Scene();
+
+      this.scene.add(new THREE.AmbientLight(0xffffff));
+
+      this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 60000);
+      this.camera.position.set(0, 1500,20);
+      this.camera.lookAt(0, 0, 0);
+
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
+      this.renderer.setSize(width, height);
+      this.renderer.setClearColor(0x00071d);
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.$refs.container.appendChild(this.renderer.domElement);
+      control = new OrbitControls(this.camera, this.renderer.domElement);
+      control.minDistance = 1;
+
+    },
+    createBox() {
+      // let geometry = new THREE.BoxBufferGeometry(40, 40, 40);
+      // let material = new THREE.MeshBasicMaterial({
+      //   color: 0x40b681,
+      //   transparent: true,
+      //   opacity: 0.9
+      // });
+      // let mesh = new THREE.Mesh(geometry, material);
+      // this.scene.add(mesh);
+      var geometry = new THREE.BufferGeometry();
+
+      var vertices = new Float32Array( [
+        -2000, 0,  -2000,
+        2000, 0,  2000,
+        2000, 0,  -2000,
+
+         -2000, 0,  -2000,
+        -2000,  0,  2000,
+        2000, 0,  2000,
+
+
+        -2000, 0,  -2000,
+        2000, 10,  -2000,
+        2000, 0,  -2000,
+
+
+        -2000, 0,  -2000,
+        2000, 0,  -2000,
+        2000, 10,  -2000,
+
+
+        -2000, 0,  -2000,
+        -2000, 10,  -2000,
+        2000, 10,  -2000,
+
+
+        2000, 0,  -2000,
+        2000, 10,  -2000,
+        2000, 0,  2000,
+
+
+        2000, 0,  -2000,
+        2000, 0,  2000,
+        2000, 10,  2000,
+
+        2000, 0,  2000,
+        2000, 10,  2000,
+        -2000, 0,  2000,
+
+        2000, 0,  2000,
+        2000, 10,  2000,
+        -2000, 10,  2000,
+
+        -2000, 0,  2000,
+        -2000, 10,  2000,
+        -2000, 0,  -2000,
+
+        -2000, 0,  2000,
+        -2000, 10,  2000,
+        -2000, 10,  -2000,
+
+
+
+      -2000, 10,  -2000,
+        2000, 10,  2000,
+        2000, 10,  -2000,
+
+
+        
+         -2000, 10,  -2000,
+        -2000,  10,  2000,
+        2000, 10,  2000,
+
+
+      ] );
+      // itemSize = 3 因为每个顶点都是一个三元组。
+      // let texture = new THREE.TextureLoader().load("/images/color.jpg");
+      // texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      // texture.repeat.set(200,200);
+      geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
+      var material = new THREE.MeshBasicMaterial( { side:THREE.DoubleSide,transparent:true,opacity:1.0,depthTest:false,color:0x00042d} );
+      var mesh = new THREE.Mesh( geometry, material );
+      this.scene.add(mesh);
+    },
+    render() {
+      this.renderer.render(this.scene, this.camera);
+    },
+    animate() {
+      this.timer = requestAnimationFrame(this.animate);
+      this.render();
+    },
+    onResize() {
+      var width = this.$refs.container.offsetWidth;
+      var height = this.$refs.container.offsetHeight;
+      this.camera.aspect = width / height;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(width, height);
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onResize);
+    window.cancelAnimationFrame(this.timer);
+  }
+};
+</script>
+
+<style lang="less">
+@hei: 3.4rem;
+@pHeight: 2.6rem;
+
+.index {
+  color: #fff;
+  font-size: 1.6rem;
+  position: relative;
+  h4 {
+    height: @hei;
+    line-height: @hei;
+    text-indent: 0.6rem;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    li {
+      width: 25rem;
+      height: 25rem;
+      margin: 0 auto;
+      margin-top: 1rem;
+      border: 1px solid #fff;
+      & > div {
+        height: calc(~"100% - @{hei}");
+      }
+    }
+  }
+  .left-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    & > li {
+      video {
+        display: block;
+        width: 90%;
+        height: 98%;
+        margin: 0 auto;
+      }
+    }
+    .call-content {
+      overflow: hidden;
+      p {
+        height: @pHeight;
+        line-height: @pHeight;
+        text-indent: 1rem;
+      }
+    }
+  }
+  .right-bar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    .alarm-content {
+      overflow: hidden;
+      p {
+        height: 4rem;
+        text-indent: 1rem;
+        margin-top: 0.4rem;
+        margin-left: 0.4rem;
+      }
+    }
+  }
+}
+</style>

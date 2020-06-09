@@ -72,8 +72,8 @@ function getBuffer(parmas) {
   return buffer;
   //绘制背景
   function drawBgImage() {
+    // console.log(bgImg, bgImg.width, bgImg.height, sx, sy, scale)
     bufCtx.drawImage(bgImg, 0, 0, bgImg.width, bgImg.height, sx, sy, bgImg.width * scale, bgImg.height * scale);
-    // bufCtx.drawImage(bgImg, 0, 0, bgImg.width*ratio, bgImg.height*ratio, sx, sy, bgImg.width * scale, bgImg.height * scale);
   }
 
   //绘制基站
@@ -86,11 +86,11 @@ function getBuffer(parmas) {
           value.i++;
           let pos = imageToCanvas([value.startX, value.startY]),
             x = pos.x - value.width * scale / 2,
-            y = (value.checked && value.i / 6 === parseInt(value.i / 6)) ? pos.y - (value.height - 40) * scale : pos.y - value.height * scale,
+            y = (value.checked && value.i / 6 === ~~(value.i / 6)) ? pos.y - (value.height - 40) * scale : pos.y - value.height * scale,
             width = value.checked ? (value.width + 15) * scale : value.width * scale,
             height = value.checked ? (value.height + 15) * scale : value.height * scale;
-          value.status && bufCtx.drawImage(baseImg, parseInt(x), parseInt(y), width, height);
-          !value.status && bufCtx.drawImage(baseImgAbn, parseInt(x), parseInt(y), width, height);
+          value.status && bufCtx.drawImage(baseImg, ~~(x), ~~(y), width, height);
+          !value.status && bufCtx.drawImage(baseImgAbn, ~~(x), ~~(y), width, height);
         })()
       })
     })()
@@ -106,11 +106,11 @@ function getBuffer(parmas) {
             value.i++;
             let pos = imageToCanvas([value.startX, value.startY]),
               x = pos.x - value.width * scale / 2,
-              y = (value.checked && value.i / 6 === parseInt(value.i / 6)) ? pos.y - (value.height - 40) * scale : pos.y - value.height * scale,
+              y = (value.checked && value.i / 6 === ~~(value.i / 6)) ? pos.y - (value.height - 40) * scale : pos.y - value.height * scale,
               width = value.checked ? (value.width + 15) * scale : value.width * scale,
               height = value.checked ? (value.height + 15) * scale : value.height * scale;
-            value.status && bufCtx.drawImage(value.IMGS_GOOD[value.direction], parseInt(x), parseInt(y), width, height);
-            !value.status && bufCtx.drawImage(value.IMGS_BAD[value.direction], parseInt(x), parseInt(y), width, height);
+            value.status && bufCtx.drawImage(value.IMGS_GOOD[value.direction], ~~(x), ~~(y), width, height);
+            !value.status && bufCtx.drawImage(value.IMGS_BAD[value.direction], ~~(x), ~~(y), width, height);
           })()
       })
     })()
@@ -172,8 +172,8 @@ function getBuffer(parmas) {
           }
           if (value.follow) {
             let arr = [],
-              arr1 = [],
-              oldIndex = -1;
+                arr1 = [],
+                oldIndex = -1;
             let length = value.trackArr.length,
               isEqual = true;
             value.trackArr.forEach((value, index) => {
@@ -194,6 +194,7 @@ function getBuffer(parmas) {
                 arr.push([...arr1])
               }
             }) 
+            console.log(arr)
             arr.forEach(val => {
               val[0] && mapid === val[0][2] && value.drawTrack(val, value.color)
             })
@@ -298,8 +299,8 @@ function getBuffer(parmas) {
 
   function imageToCanvas(pos) {
     return {
-      x: parseInt(pos[0] * scale + sx),
-      y: parseInt(pos[1] * scale + sy)
+      x: ~~(pos[0] * scale + sx),
+      y: ~~(pos[1] * scale + sy)
     }
   }
 }

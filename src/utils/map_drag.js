@@ -24,7 +24,7 @@ function mapDrag(e) {
             x: this.canvas.width,
             y: 0
         }, {
-            x: this.img.width,
+            x: this.mapImg.width,
             y: 0
         }).x,
         maxSy = this.getOffset({
@@ -39,7 +39,7 @@ function mapDrag(e) {
             y: this.canvas.height
         }, {
             x: 0,
-            y: this.img.height
+            y: this.mapImg.height
         }).y;
     if (maxSx <= minSx) {
         this.sx = maxSx;
@@ -55,9 +55,9 @@ function mapDrag(e) {
     } else if (this.sy < minSy) {
         this.sy = minSy
     }
-    this.buffer = this.getBufferCanvas({
+    this.buffer = this.getBufferData({
         isShowTrack: this.isShowTrack,
-        isShowDefence: true
+        isShowDefence: false
     }, this.$store.state.chartArr);
     this.drawImage();
     this.mousePos = {

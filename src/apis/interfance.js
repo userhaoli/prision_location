@@ -1,9 +1,9 @@
 import axios from 'axios';
 // import Qs from 'qs';
 import params from "@/apis/commonParams.js";
-import {
-    getCookie
-} from '@/utils/cookie_set.js';
+// import {
+//     getCookie
+// } from '@/utils/cookie_set.js';
 let baseURL = params.baseUrl;
 // var instance = axios.create({
 //     timeout: 1000 * 6
@@ -12,11 +12,11 @@ let baseURL = params.baseUrl;
 axios.interceptors.request.use(
     config => {
         //   config.headers.token = JSON.stringify({stationid:1,token:2})
-        let stationid = getCookie("stationid");
-        let token = getCookie("token");
+        // let stationid = getCookie("stationid");
+        // let token = getCookie("token");
         config.headers = {
-            "stationid": stationid,
-            "token": token,
+            // "stationid": stationid,
+            // "token": token,
             "Accept": 'application/json',
             "Content-Type": 'application/json;charset=UTF-8'
             // "Content-Type": 'application/x-www-form-urlencoded;charset=UTF-8'
