@@ -40,12 +40,6 @@
           :isChecked="$store.state.fenceData.range ? true : false"
         ></lh-checkbox>
       </div>
-      <!-- <div>
-        <lh-checkbox content="是否记录"></lh-checkbox>
-      </div>
-      <div>
-        <lh-checkbox content="是否发送邮件"></lh-checkbox>
-      </div>-->
       <div class="add-number-bar type-item">
         已添加人数:
         <span class="number">{{ checkedNum }}</span>
@@ -92,17 +86,10 @@
         <p>可添加人员</p>
         <ul @touchstart="getFirstY" @touchmove="scrollElement" ref="listBar">
           <li class="person-class">
-            <!-- <div>
-              <spinner content="区域" ></spinner>
-            </div>-->
-            <!-- <div>
-              <spinner content="等级"></spinner>
-            </div>-->
             <div>
               <spinner :content="personType[typeid]" :list="personType" @sendValue="getPersonType"></spinner>
             </div>
             <div class="search-bar">
-              <!-- <search-item holder="输入人员"></search-item> -->
               <search-item holder="请输入人员信息" @search="getValue" @valueChange="valueChange"></search-item>
             </div>
           </li>
@@ -112,7 +99,6 @@
             </span>
             <span>姓名</span>
             <span>人员编号</span>
-            <!-- <span>互监组</span> -->
             <span>类型</span>
           </li>
           <li v-for="(value, index) in checkPerson" :key="index" @dblclick="rightToLeft(index)">
@@ -121,7 +107,6 @@
             </span>
             <span>{{ value.name }}</span>
             <span>{{ value.pid }}</span>
-            <!-- <span>{{ value.level }}</span> -->
             <span>{{ value.type===0?'公安':'地铁人员' }}</span>
           </li>
         </ul>

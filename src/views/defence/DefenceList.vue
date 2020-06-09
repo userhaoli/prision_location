@@ -111,8 +111,6 @@ import {
   getFenceData,
   deleteFence,
   getClassFence,
-  // getAllMap
-  // getAllStation
 } from "@/apis/interfance.js";
 
 export default {
@@ -163,14 +161,6 @@ export default {
   },
   methods: {
     getAllQueryMap(){
-        // getAllMap().then(data => {
-        //     let maps = [];
-        //     maps = data.results;
-        //     this.mapArr = [];
-        //     maps.forEach(value =>{
-        //         this.mapArr.push(value.name);
-        //     })
-        // })
     },
     checkStaff(id) {
       this.rightFlag = true;
@@ -190,7 +180,7 @@ export default {
       });
     },
     add() {
-      this.$emit("add");
+      this.$router.push('/home/defencebuild')
     },
     edit() {
       let newArr = this.classList.filter(value => {
@@ -206,7 +196,6 @@ export default {
       });
     },
     dele() {
-      // this.$emit("dele");
       let arr = this.classList.filter(value => {
         return value.is_selected === true;
       });

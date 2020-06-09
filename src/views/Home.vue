@@ -17,7 +17,8 @@ import getBuffer from "@/utils/buffer_canvas.js";
 import Person from "@/utils/person.js";
 import mapScale from "@/utils/map_scale.js";
 import mapDrag from "@/utils/map_drag.js";
-
+import interval from "@/utils/interval.js";
+import { getAllLabel } from "@/apis/interfance.js";
 export default {
   data() {
     return {
@@ -30,7 +31,12 @@ export default {
       scale: 1.0,
       minScale: 0.6,
       isDrag: false, //地图拖动标识
-      popupShow: false //弹框显示标识
+      popupShow: false, //弹框显示标识
+      personTimer: null, //获取人员数据计时器
+      stopAnimate: false, //停止绘制图形标识
+      time: 100,
+      pos:[],
+      trackBackFlag:false,
     };
   },
   mounted() {
@@ -73,6 +79,16 @@ export default {
       );
       this.drawImage();
     };
+    this.imgInit();
+    getAllLabel().then(data => {
+      data = data.results;
+      let obj = {};
+      data.forEach(value => {
+        obj[value.id] = value.person;
+      });
+      this.$store.state.personList = obj;
+      this.personTimer = interval.call(this, Person, this.$store.state.mapid);
+    });
     //地图缩放
     canvas.addEventListener(
       "mousewheel",
@@ -107,8 +123,89 @@ export default {
       };
     });
     window.addEventListener("resize", this.onResize);
+    this.animate();
   },
   methods: {
+    animate() {
+      let timer = setTimeout(() => {
+        this.pos = [];
+        this.time = 100;
+        this.$store.state.persons.forEach(value => {
+          let steps = value.steps;
+          if (steps.length > 0) {
+            value.update(
+              steps[0].pos[0],
+              steps[0].pos[1],
+              steps[0].direction,
+              this.scale,
+              this.sx,
+              this.sy,
+              steps[0].map_id
+            );
+            // if (value.isFirst && value.follow) {
+            //   this.popMonitorVideo(steps[0].cameras[0]);
+            //   value.isFirst = false;
+            // }
+            if (steps.length > 1) {
+              (value.track || value.follow) &&
+                value.trackArr.push([
+                  steps[0].pos[0],
+                  steps[0].pos[1],
+                  steps[0].map_id
+                ]);
+              // if (value.follow && steps[0].cameras[0] !== steps[1].cameras[0]) {
+              //   this.popMonitorVideo(steps[1].cameras[0]);
+              // }
+              steps.shift();
+            }
+            if (steps.length > 40) {
+              let time = 30;
+              this.time = this.time < time ? this.time : time;
+            } else if (steps.length > 30) {
+              let time = 40;
+              this.time = this.time < time ? this.time : time;
+            } else if (steps.length > 20) {
+              let time = 50;
+              this.time = this.time < time ? this.time : time;
+            } else if (steps.length > 10) {
+              let time = 60;
+              this.time = this.time < time ? this.time : time;
+            }
+            steps[0].map_id === this.$store.state.mapid &&
+              this.pos.push([
+                steps[0].pos[0],
+                steps[0].pos[1],
+                steps[0].map_id
+              ]);
+          }
+          // if (value.follow) {
+          //   personFollow.call(this, value.startX, value.startY, value.follow);
+          //   value.mapid !== this.$store.state.mapid &&
+          //     this.changeMap(undefined, value.mapid);
+          // }
+        });
+        if (this.trackBackFlag === false) {
+          this.buffer = this.getBufferData(
+            {
+              isShowTrack: this.isShowTrack,
+              isShowDefence: false
+            },
+            this.$store.state.chartArr
+          );
+          this.drawImage();
+        }
+        // littleMapFollow.call(this);
+        // this.chartFlag && this.drawHeatChart(this.chartFlag);
+        clearTimeout(timer);
+        // console.log(+new Date() - time);
+        if (this.stopAnimate == false) {
+          this.animate();
+          console.log("111")
+        } else {
+          return;
+        }
+      }, this.time);
+    },
     //获取缓冲画布
     getBufferData(flag, point) {
       return getBuffer({
@@ -118,7 +215,7 @@ export default {
         cla: Person,
         sx: this.sx,
         sy: this.sy,
-        person: null,
+        person: this.$store.state.persons,
         baseStation: null,
         camera: null,
         scale: this.scale,
@@ -134,12 +231,12 @@ export default {
         resetFlag: false,
         stopFlag: false,
         imgStatus: {
-          isShowPerson: false,
+          isShowPerson: true,
           isShowStation: false,
           isShowCamera: false,
           isShowTrack: false,
           isShowDefenceImg: false,
-          waterFlag: false
+          waterFlag: true
         }
       });
     },
@@ -147,6 +244,22 @@ export default {
       let { ctx, canvas, buffer } = this;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(buffer, 0, 0);
+    },
+    //图片初始化
+    imgInit() {
+      let staff_unchecked = [];
+
+      let police_unchecked = new Image();
+      police_unchecked.src = "/images/police_unchecked.png";
+
+      for (let i = 0; i < 4; i++) {
+        staff_unchecked[i] = new Image();
+        staff_unchecked[i].src = "/images/staff_unchecked" + i + ".png";
+      }
+      Person.prototype.waterShape = {
+        staff_unchecked,
+        police_unchecked
+      };
     },
     //偏移量计算
     getOffset(canvasPos, imgPos) {
@@ -190,7 +303,10 @@ export default {
       this.drawImage();
     }
   },
-  beforeDestroy() {},
+  beforeDestroy() {
+    this.stopAnimate = true;
+    
+  },
   watch: {
     // $route(to, from) {
     //   console.log(to.path);
@@ -198,10 +314,10 @@ export default {
     // }
     $route: {
       handler(val) {
-        console.log(val)
-        if(val.name === "Main" || val.name === "Home"){
+        console.log(val);
+        if (val.name === "Main" || val.name === "Home") {
           this.popupShow = false;
-        }else{
+        } else {
           this.popupShow = true;
         }
       },
@@ -227,9 +343,9 @@ export default {
     }
   }
   .popup {
-    position:fixed;
-    top:8rem;
-    left:0;
+    position: fixed;
+    top: 8rem;
+    left: 0;
     width: 100%;
     height: 100%;
   }

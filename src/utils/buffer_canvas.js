@@ -50,7 +50,6 @@ function getBuffer(parmas) {
   buffer.height = height;
   bufCtx.clearRect(0, 0, width, height);
   drawBgImage();
-  // drawText();
   if (trackBackFlag) {
     if (resetFlag) {
       reset(trackBackArr, forwardArr)
@@ -172,8 +171,8 @@ function getBuffer(parmas) {
           }
           if (value.follow) {
             let arr = [],
-                arr1 = [],
-                oldIndex = -1;
+              arr1 = [],
+              oldIndex = -1;
             let length = value.trackArr.length,
               isEqual = true;
             value.trackArr.forEach((value, index) => {
@@ -193,7 +192,7 @@ function getBuffer(parmas) {
               if (index === length - 1) {
                 arr.push([...arr1])
               }
-            }) 
+            })
             console.log(arr)
             arr.forEach(val => {
               val[0] && mapid === val[0][2] && value.drawTrack(val, value.color)

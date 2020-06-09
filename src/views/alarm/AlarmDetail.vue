@@ -113,10 +113,12 @@ export default {
                 uniform float max_height;
                 void main(){ 
                     float uOpacity = 1.0;
+                    float y = (max_height / 2.0 + vp.y) / max_height;
                     if( vp.y >= 0.0 ){
-                       uOpacity = 20.0 / (max_height / 2.0 + vp.y);
-                    }else{
-                      uOpacity = 10.0 / (max_height / 2.0 + vp.y);
+                       uOpacity = (max_height - (max_height / 2.0 + vp.y)) / max_height;
+                    }
+                    else{
+                      uOpacity =  (max_height - (max_height / 2.0 + vp.y)) / max_height;
                     }
                     gl_FragColor = vec4(color,uOpacity);
                 }
@@ -176,8 +178,9 @@ export default {
 
       this.createCone();
       this.createSprite();
-      this.createCylinder();
+      // this.createCylinder();
       this.createPoints();
+      // this.createLineBox();
       let geometry = new THREE.BoxBufferGeometry(600, 10, 600);
       let material = new THREE.ShaderMaterial({
         vertexShader: this.Shader.vertexShader,
@@ -195,7 +198,7 @@ export default {
       var material1 = new THREE.MeshBasicMaterial({
         color: 0xff0000,
         transparent: true,
-        opacity: 0.5
+        opacity: 0.8
       });
       this.cone = new THREE.Mesh(geometry, material1);
       this.cone.rotation.x = -Math.PI;
@@ -203,7 +206,7 @@ export default {
       this.cone.position.y += 12;
       var lineMaterial = new THREE.LineBasicMaterial({
         // 线的颜色
-        color: 0xfffffe,
+        color: 0xffffff,
         transparent: true,
         opacity: 0.5,
         depthFunc: THREE.AlwaysDepth
@@ -224,7 +227,7 @@ export default {
       var spriteMaterial = new THREE.SpriteMaterial({
         map: spriteMap,
         color: 0xffffff,
-        depthTest:false,
+        depthTest: false
       });
       var sprite = new THREE.Sprite(spriteMaterial);
       sprite.updateMatrix();
@@ -294,7 +297,7 @@ export default {
     random() {
       this.geometry.verticesNeedUpdate = true;
       this.geometry.vertices = [];
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 20; i++) {
         this.geometry.vertices.push(
           new THREE.Vector3(
             Math.random() * 200 - 100,
@@ -315,7 +318,7 @@ export default {
       });
       this.geometry = new THREE.Geometry();
 
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 20; i++) {
         this.geometry.vertices.push(
           new THREE.Vector3(
             Math.random() * 200 - 100,
@@ -327,6 +330,18 @@ export default {
       let points = new THREE.Points(this.geometry, material);
       this.scene.add(points);
     },
+    // createLineBox() {
+    //   let geometry = new THREE.BoxBufferGeometry(20, 20, 20);
+    //   let material = new THREE.LineBasicMaterial({
+    //     color: 0xff0000,
+    //     linewidth: 2,
+    //     opacity: 0.5,
+    //     depthFunc: THREE.AlwaysDepth
+    //   });
+    //   let box = new THREE.LineSegments(geometry, material);
+    //   box.position.set(60,0,0);
+    //   this.scene.add(box);
+    // },
     animate() {
       this.timer = requestAnimationFrame(this.animate);
       this.cone.rotation.y += 0.02;

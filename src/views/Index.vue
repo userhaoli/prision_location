@@ -268,6 +268,9 @@ export default {
       this.scene = new THREE.Scene();
 
       this.scene.add(new THREE.AmbientLight(0xffffff));
+      let pointLight = new THREE.PointLight(0xffffff);
+      pointLight.position.set(0,100,0);
+      this.scene.add(pointLight)
 
       this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 60000);
       this.camera.position.set(0, 1500,20);
@@ -280,91 +283,19 @@ export default {
       this.$refs.container.appendChild(this.renderer.domElement);
       control = new OrbitControls(this.camera, this.renderer.domElement);
       control.minDistance = 1;
-
     },
     createBox() {
-      // let geometry = new THREE.BoxBufferGeometry(40, 40, 40);
-      // let material = new THREE.MeshBasicMaterial({
-      //   color: 0x40b681,
-      //   transparent: true,
-      //   opacity: 0.9
-      // });
-      // let mesh = new THREE.Mesh(geometry, material);
-      // this.scene.add(mesh);
-      var geometry = new THREE.BufferGeometry();
-
-      var vertices = new Float32Array( [
-        -2000, 0,  -2000,
-        2000, 0,  2000,
-        2000, 0,  -2000,
-
-         -2000, 0,  -2000,
-        -2000,  0,  2000,
-        2000, 0,  2000,
-
-
-        -2000, 0,  -2000,
-        2000, 10,  -2000,
-        2000, 0,  -2000,
-
-
-        -2000, 0,  -2000,
-        2000, 0,  -2000,
-        2000, 10,  -2000,
-
-
-        -2000, 0,  -2000,
-        -2000, 10,  -2000,
-        2000, 10,  -2000,
-
-
-        2000, 0,  -2000,
-        2000, 10,  -2000,
-        2000, 0,  2000,
-
-
-        2000, 0,  -2000,
-        2000, 0,  2000,
-        2000, 10,  2000,
-
-        2000, 0,  2000,
-        2000, 10,  2000,
-        -2000, 0,  2000,
-
-        2000, 0,  2000,
-        2000, 10,  2000,
-        -2000, 10,  2000,
-
-        -2000, 0,  2000,
-        -2000, 10,  2000,
-        -2000, 0,  -2000,
-
-        -2000, 0,  2000,
-        -2000, 10,  2000,
-        -2000, 10,  -2000,
-
-
-
-      -2000, 10,  -2000,
-        2000, 10,  2000,
-        2000, 10,  -2000,
-
-
-        
-         -2000, 10,  -2000,
-        -2000,  10,  2000,
-        2000, 10,  2000,
-
-
-      ] );
-      // itemSize = 3 因为每个顶点都是一个三元组。
-      // let texture = new THREE.TextureLoader().load("/images/color.jpg");
-      // texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-      // texture.repeat.set(200,200);
-      geometry.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
-      var material = new THREE.MeshBasicMaterial( { side:THREE.DoubleSide,transparent:true,opacity:1.0,depthTest:false,color:0x00042d} );
-      var mesh = new THREE.Mesh( geometry, material );
+      let geometry = new THREE.BoxBufferGeometry(40, 40, 40);
+      let material = new THREE.MeshBasicMaterial({
+        color: 0x40b681,
+        transparent: true,
+        opacity: 0.9
+      });
+      let mesh = new THREE.Mesh(geometry, material);
       this.scene.add(mesh);
+      // var material = new THREE.MeshBasicMaterial( { side:THREE.DoubleSide,transparent:true,opacity:1.0,depthTest:false,color:0x00042d} );
+      // var mesh = new THREE.Mesh( geometry, material );
+      // this.scene.add(mesh);
     },
     render() {
       this.renderer.render(this.scene, this.camera);
@@ -405,10 +336,10 @@ export default {
   ul {
     display: flex;
     flex-direction: column;
-    width: 20%;
+    width: 30rem;
     li {
-      width: 25rem;
-      height: 25rem;
+      width: 26rem;
+      height: 26rem;
       margin: 0 auto;
       margin-top: 1rem;
       border: 1px solid #fff;

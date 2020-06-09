@@ -75,17 +75,10 @@
         <p>可添加人员</p>
         <ul @touchstart="getFirstY" @touchmove="scrollElement" ref="listBar">
           <li class="person-class">
-            <!-- <div>
-              <spinner content="区域" ></spinner>
-            </div>-->
-            <!-- <div>
-              <spinner content="等级"></spinner>
-            </div>-->
             <div>
               <spinner :content="personType[typeid]" :list="personType" @sendValue="getPersonType"></spinner>
             </div>
             <div class="search-bar">
-              <!-- <search-item holder="输入人员"></search-item> -->
               <search-item holder="请输入人员信息" @search="getValue" @valueChange="valueChange"></search-item>
             </div>
           </li>
@@ -94,7 +87,6 @@
               <lh-checkbox @sendCheckMsg="addAll" :isChecked="allAdd"></lh-checkbox>
             </span>
             <span>姓名</span>
-            <!-- <span>性别</span> -->
             <span>人员编号</span>
             <span>类型</span>
           </li>
@@ -103,7 +95,6 @@
               <lh-checkbox @sendCheckMsg="addItem($event, index)" :isChecked="item.is_selected"></lh-checkbox>
             </span>
             <span>{{ item.name }}</span>
-            <!-- <span>{{ item.type }}</span> -->
             <span>{{ item.pid }}</span>
             <span>{{ item.type===0?'公安':'地铁人员' }}</span>
           </li>

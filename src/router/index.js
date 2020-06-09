@@ -30,6 +30,11 @@ const routes = [{
     component: () => import('@/views/user/Login.vue')
   },
   {
+    path: '/policelocation',
+    name: 'PoliceLocation' ,
+    component: () => import('@/views/police/PoliceLocation.vue')
+  },
+  {
     path: '/home',
     name: 'Home' ,
     component: () => import('@/views/Home.vue'),
@@ -58,7 +63,11 @@ const routes = [{
       name: 'TrackList',
       component: () => import('@/views/track/TrackList.vue')
     },
-
+    {
+      path: 'cameralist',
+      name: 'CameraList',
+      component: () => import('@/views/camera/CameraList.vue')
+    },
   ]
   }
 ]
