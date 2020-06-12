@@ -1,13 +1,14 @@
 <template>
   <div id="app">
     <div class="title-style">
+      <span class="icon iconfont" @click="routeBack">&#xe608;</span>
       <h1>UWB高精度定位系统</h1>
       <div class="account">
         <img src="/images/favicon.ico" alt />
         <button>注销</button>
       </div>
     </div>
-    <router-view />
+    <router-view/>
   </div>
 </template>
 <script>
@@ -26,20 +27,34 @@ export default {
       } else {
         docEl.style.fontSize = "8px";
       }
+    },
+    routeBack(){
+     this.$router.back();
     }
-  }
+  },
 };
 </script>
 
 <style lang="less">
 #app {
   background: #00071d;
-  color:#fff;
+  color: #fff;
   .title-style {
+    position: relative;
     height: 8rem;
     width: 100%;
     background: url("/images/title.png") no-repeat;
     background-size: 100% 100%;
+    .icon {
+      position: absolute;
+      font-size: 2.4rem;
+      left: 2rem;
+      top: 1rem;
+      color:#00071d;
+      &:hover {
+        color: aqua;
+      }
+    }
     h1 {
       width: 23rem;
       font-size: 2.4rem;
@@ -48,7 +63,7 @@ export default {
       line-height: 6rem;
     }
     .account {
-      position: fixed;
+      position: absolute;
       right: 2rem;
       top: 0.6rem;
       display: flex;

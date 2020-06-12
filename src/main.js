@@ -3,7 +3,8 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import "normalize.css";
-import "@/styles/common.less"
+import "@/styles/common.less";
+import "@/assets/fonts/iconfont.css";
 import { Pagination,Form,DatePicker,TimeSelect,Switch,Table} from  'element-ui';
 Vue.use(Pagination);
 Vue.use(Form);

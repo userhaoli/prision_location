@@ -68,6 +68,31 @@ const routes = [{
       name: 'CameraList',
       component: () => import('@/views/camera/CameraList.vue')
     },
+    {
+      path: 'hjzlist',
+      name: 'HjzList',
+      component: () => import('@/views/hjz/HjzList.vue')
+    },
+    {
+      path: 'hjzadd',
+      name: 'HjzAdd',
+      component: () => import('@/views/hjz/HjzAdd.vue')
+    },
+    {
+      path: 'hjzedit',
+      name: 'HjzEdit',
+      component: () => import('@/views/hjz/HjzEdit.vue')
+    },
+    {
+      path: 'alarmlist',
+      name: 'AlarmList',
+      component: () => import('@/views/alarm/AlarmList.vue')
+    },
+    {
+      path: 'equipmentlist',
+      name: 'EquipmentList',
+      component: () => import('@/views/equipment/EquipmentList.vue')
+    },
   ]
   }
 ]

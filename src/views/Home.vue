@@ -1,13 +1,62 @@
 <template>
   <div class="home root-element">
     <canvas class="canvas" ref="canvas"></canvas>
-    <div class="main-nav">
-      <button>人员信息</button>
-      <button>电子围栏</button>
-      <button>设备管理</button>
-    </div>
+    <!-- 弹窗 -->
     <div class="popup" v-show="popupShow">
       <router-view></router-view>
+    </div>
+    <!-- 导航栏 -->
+    <div class="nav-container">
+      <div class="main-nav">
+        <div class="nav-check">
+          <span class="icon iconfont">&#xe61c;</span>
+        </div>
+        <ul class="nav-items">
+          <li @click="linkPage(0)">
+            <span class="icon iconfont">&#xe61d;</span>
+            <p>主页</p>
+          </li>
+          <li @click="linkPage(1)">
+            <span class="icon iconfont">&#xe61e;</span>
+            <p>轨迹回放</p>
+          </li>
+          <li @click="linkPage(2)">
+            <span class="icon iconfont">&#xe638;</span>
+            <p>电子考勤</p>
+          </li>
+          <li @click="linkPage(3)">
+            <span class="icon iconfont">&#xe61a;</span>
+            <p>电子围栏</p>
+          </li>
+          <li @click="linkPage(4)">
+            <span class="icon iconfont">&#xe62e;</span>
+            <p class="name">数据分析</p>
+          </li>
+          <li @click="linkPage(5)">
+            <span class="icon iconfont">&#xe63d;</span>
+            <p class="name">警力部署</p>
+          </li>
+          <li @click="linkPage(6)">
+            <span class="icon iconfont">&#xe603;</span>
+            <p class="name">设备管理</p>
+          </li>
+          <li @click="linkPage(7)">
+            <span class="icon iconfont">&#xe624;</span>
+            <p class="name">报警信息</p>
+          </li>
+          <li @click="linkPage(8)">
+            <span class="icon iconfont">&#xe6d8;</span>
+            <p class="name">人员信息</p>
+          </li>
+          <li @click="linkPage(9)">
+            <span class="icon iconfont">&#xe60d;</span>
+            <p class="name">互监组</p>
+          </li>
+        </ul>
+        <div class="nav-check">
+          <span class="icon iconfont">&#xe61b;</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -35,8 +84,8 @@ export default {
       personTimer: null, //获取人员数据计时器
       stopAnimate: false, //停止绘制图形标识
       time: 100,
-      pos:[],
-      trackBackFlag:false,
+      pos: [],
+      trackBackFlag: false
     };
   },
   mounted() {
@@ -200,7 +249,7 @@ export default {
         // console.log(+new Date() - time);
         if (this.stopAnimate == false) {
           this.animate();
-          console.log("111")
+          console.log("111");
         } else {
           return;
         }
@@ -301,20 +350,52 @@ export default {
         null
       );
       this.drawImage();
+    },
+    linkPage(index) {
+      console.log(index);
+      switch (index) {
+        case 0:
+          this.$router.push("/home");
+          break;
+        case 1:
+          this.$router.push("/home/tracklist");
+          break;
+        case 2:
+          this.$router.push("/home/tracklist");
+          break;
+        case 3:
+          this.$router.push("/home/defencelist");
+          break;
+        case 4:
+          this.$router.push("/home/tracklist");
+          break;
+        case 5:
+          this.$router.push("/home/policelocation");
+          break;
+        case 6:
+          this.$router.push("/home/equipmentlist");
+          break;
+        case 7:
+          this.$router.push("/home/alarmlist");
+          break;
+        case 8:
+          this.$router.push("/home/personlist");
+          break;
+        case 9:
+          this.$router.push("/home/hjzlist");
+          break;
+        default:
+          break;
+      }
     }
   },
   beforeDestroy() {
     this.stopAnimate = true;
-    
+    window.removeEventListener("resize", this.onResize);
   },
   watch: {
-    // $route(to, from) {
-    //   console.log(to.path);
-    //   console.log(from.path);
-    // }
     $route: {
       handler(val) {
-        console.log(val);
         if (val.name === "Main" || val.name === "Home") {
           this.popupShow = false;
         } else {
@@ -334,14 +415,47 @@ export default {
     width: 100%;
     height: 100%;
   }
-  .main-nav {
+  .nav-container {
     position: fixed;
-    top: 100px;
-    left: 100px;
-    button {
-      color: #ffffff;
+    bottom: 0rem;
+    left: 0rem;
+    width: 100%;
+    font-size: 1.4rem;
+    // background: rgba(36, 48, 87, 0.9);
+    .main-nav {
+      width: 100rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      // color: #33eaff;
+      color: rgba(91, 169, 233, 0.8);
+      margin: 0 auto;
+      border-radius: 4px;
+      .nav-check {
+        .icon {
+          font-size: 5rem;
+        }
+        &:hover {
+          color: #33eaff;
+        }
+      }
+      .nav-items {
+        display: flex;
+        width: 80rem;
+        text-align: center;
+        li {
+          width: 10rem;
+          &:hover {
+            color: #33eaff;
+          }
+        }
+      }
+      .icon {
+        font-size: 2.4rem;
+      }
     }
   }
+
   .popup {
     position: fixed;
     top: 8rem;

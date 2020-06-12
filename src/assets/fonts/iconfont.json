@@ -1,0 +1,107 @@
+{
+  "id": "1874871",
+  "name": "p'ri'si'o'n",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "166603",
+      "name": "轨迹回放",
+      "font_class": "guijihuifang",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "2448130",
+      "name": "实时点名",
+      "font_class": "shishidianming",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "2959012",
+      "name": "电子围栏",
+      "font_class": "dianziweilan",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "4192796",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "5304721",
+      "name": "数据分析",
+      "font_class": "zhongguohangtiantubiaoheji-weizhuanlunkuo-",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "7045318",
+      "name": "部署发布",
+      "font_class": "bushufabu",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "7287161",
+      "name": "设备管理",
+      "font_class": "shebeiguanli",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "8481581",
+      "name": "报警信息",
+      "font_class": "baojingxinxi",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "12972087",
+      "name": "组 3871",
+      "font_class": "zu",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "13332453",
+      "name": "首页",
+      "font_class": "shouye1",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "14626428",
+      "name": "人员信息",
+      "font_class": "renyuanxinxi",
+      "unicode": "e6d8",
+      "unicode_decimal": 59096
+    },
+    {
+      "icon_id": "1089289",
+      "name": "返回",
+      "font_class": "buoumaotubiao09",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "10056984",
+      "name": "右",
+      "font_class": "you",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "10056987",
+      "name": "左",
+      "font_class": "zuo",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    }
+  ]
+}

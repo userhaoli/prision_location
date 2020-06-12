@@ -38,6 +38,7 @@ export default {
       cone: null,
       geometry: null,
       oldTime: undefined,
+      texture: null,
       Shader: {
         vertexShader: `
             varying vec3 vp; 
@@ -131,6 +132,77 @@ export default {
         max_height: {
           value: 1000.0
         }
+      },
+      Shader2: {
+        vertexShader: `
+            #include <common>
+
+            uniform float speed;
+            uniform float time;
+            uniform float timeOffset;
+            varying vec2 vUv;
+            varying float vAlpha;
+
+            void main() {
+
+            vec3 pos = position;
+
+            float l = ( time * speed * 0.01 ) + timeOffset;
+            float f = fract( l ); // linear time factor [0,1)
+            float a = f * f; // quadratic time factor [0,1)
+
+            // slightly animate the vertices of light shaft if necessary
+
+            // pos.x += cos( l * 20.0 ) * sin( l * 10.0 );
+
+            vAlpha = saturate( 0.7 + min( 1.0, a * 10.0 ) * ( sin( a * 40.0 ) * 0.25 ) );
+
+            vUv = uv;
+
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );
+        }
+        `,
+        fragmentShader: `
+            uniform float attenuation;
+            uniform vec3 color;
+            uniform sampler2D texture;
+
+            varying vec2 vUv;
+            varying float vAlpha;
+
+            void main() {
+
+            vec4 textureColor = texture2D( texture, vUv );
+            gl_FragColor = vec4( textureColor.rgb * color.rgb, textureColor.a * vAlpha );
+            gl_FragColor.a *= pow( gl_FragCoord.z, attenuation );
+          }
+          `
+      },
+      uniform2: {
+        // controls how fast the ray attenuates when the camera comes closer
+        attenuation: {
+          value: 10
+        },
+        // controls the speed of the animation
+        speed: {
+          value: 5
+        },
+        // the color of the ray
+        color: {
+          value: new THREE.Color(0xdadc9f)
+        },
+        // the visual representation of the ray highly depends on the used texture
+        texture: {
+          value: this.texture
+        },
+        // global time value for animation
+        time: {
+          value: 2
+        },
+        // individual time offset so rays are animated differently if necessary
+        timeOffset: {
+          value: 2
+        }
       }
     };
   },
@@ -174,12 +246,13 @@ export default {
       let textureCube = new THREE.CubeTextureLoader().load(urls);
       textureCube.encoding = THREE.sRGBEncoding;
       this.scene.background = textureCube;
-      console.log(this.scene);
+      // console.log(this.scene);
 
       this.createCone();
       this.createSprite();
+      this.createLight();
       // this.createCylinder();
-      this.createPoints();
+      // this.createPoints();
       // this.createLineBox();
       let geometry = new THREE.BoxBufferGeometry(600, 10, 600);
       let material = new THREE.ShaderMaterial({
@@ -194,11 +267,16 @@ export default {
       this.scene.add(this.plane);
     },
     createCone() {
+      // let texture = new THREE.TextureLoader().load("/images/color.jpg");
+      // texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      // texture.repeat.set(4,1);
+      // console.log(texture)
       var geometry = new THREE.ConeBufferGeometry(8, 16, 4);
       var material1 = new THREE.MeshBasicMaterial({
         color: 0xff0000,
+        // map:texture,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.9
       });
       this.cone = new THREE.Mesh(geometry, material1);
       this.cone.rotation.x = -Math.PI;
@@ -294,23 +372,10 @@ export default {
       texture.needsUpdate = true; //使用贴图时进行更新
       return texture;
     },
-    random() {
-      this.geometry.verticesNeedUpdate = true;
-      this.geometry.vertices = [];
-      for (let i = 0; i < 20; i++) {
-        this.geometry.vertices.push(
-          new THREE.Vector3(
-            Math.random() * 200 - 100,
-            Math.random() * 1000,
-            Math.random() * 200 - 100
-          )
-        );
-      }
-    },
     createPoints() {
       let material = new THREE.PointsMaterial({
         color: 0xffffff,
-        size: 200,
+        size: 400,
         map: this.createLightMateria(),
         depthTest: false,
         blending: THREE.AdditiveBlending,
@@ -330,6 +395,36 @@ export default {
       let points = new THREE.Points(this.geometry, material);
       this.scene.add(points);
     },
+    createLight() {
+      this.uniform2.texture.value = new THREE.TextureLoader().load("/images/guangshu.png");
+      var geometry = new THREE.PlaneBufferGeometry(5, 20, 32);
+      var material = new THREE.ShaderMaterial({
+        vertexShader: this.Shader2.vertexShader,
+        fragmentShader: this.Shader2.fragmentShader,
+        side: THREE.DoubleSide,
+        uniforms: this.uniform2,
+        transparent: true,
+        depthWrite: false,
+        depthTest:false,
+      });
+      var plane = new THREE.Mesh(geometry, material);
+      plane.position.set(0,100,0)
+      this.scene.add(plane);
+    },
+    random() {
+      this.geometry.verticesNeedUpdate = true;
+      this.geometry.vertices = [];
+      for (let i = 0; i < 20; i++) {
+        this.geometry.vertices.push(
+          new THREE.Vector3(
+            Math.random() * 200 - 100,
+            Math.random() * 1000,
+            Math.random() * 200 - 100
+          )
+        );
+      }
+    },
+
     // createLineBox() {
     //   let geometry = new THREE.BoxBufferGeometry(20, 20, 20);
     //   let material = new THREE.LineBasicMaterial({
@@ -356,7 +451,7 @@ export default {
       }
       disTime = +new Date() - this.oldTime;
       if (disTime > 300) {
-        this.random(disTime);
+        // this.random(disTime);
         this.oldTime = +new Date();
       }
       this.render();
