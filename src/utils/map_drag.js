@@ -29,7 +29,7 @@ function mapDrag(e) {
         }).x,
         maxSy = this.getOffset({
             x: 0,
-            y: 30,
+            y: 80,
         }, {
             x: 0,
             y: 0

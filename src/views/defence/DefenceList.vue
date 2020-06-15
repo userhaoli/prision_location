@@ -527,17 +527,17 @@ export default {
     }
   }
 }
-.fence/deep/ .el-switch__core {
+.fence .el-switch__core {
   height: 1.2rem;
   // margin-left:-12px;
 }
-.fence/deep/ .el-switch__core:after {
+.fence .el-switch__core:after {
   width: 1rem !important;
   height: 1rem !important;
   top: 0;
   // margin-left: -10px;
 }
-.fence/deep/ .el-switch.is-checked .el-switch__core::after {
+.fence .el-switch.is-checked .el-switch__core::after {
   margin-left: -0.9rem;
 }
 .el-pagination__total{

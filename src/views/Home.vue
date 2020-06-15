@@ -52,6 +52,10 @@
             <span class="icon iconfont">&#xe60d;</span>
             <p class="name">互监组</p>
           </li>
+          <li @click="linkPage(10)">
+            <span class="icon iconfont">&#xe627;</span>
+            <p class="name">系统设置</p>
+          </li>
         </ul>
         <div class="nav-check">
           <span class="icon iconfont">&#xe61b;</span>
@@ -352,41 +356,48 @@ export default {
       this.drawImage();
     },
     linkPage(index) {
-      console.log(index);
+      let path;
       switch (index) {
         case 0:
-          this.$router.push("/home");
+          path = "/home";
           break;
         case 1:
-          this.$router.push("/home/tracklist");
+          path = "/home/tracklist";
           break;
         case 2:
-          this.$router.push("/home/tracklist");
+          path = "/attendance";
           break;
         case 3:
-          this.$router.push("/home/defencelist");
+          path = "/home/defencelist";
           break;
         case 4:
-          this.$router.push("/home/tracklist");
+          path = "/home/tracklist";
           break;
         case 5:
-          this.$router.push("/home/policelocation");
+          path = "/policelocation";
           break;
         case 6:
-          this.$router.push("/home/equipmentlist");
+          path = "/home/equipmentlist";
           break;
         case 7:
-          this.$router.push("/home/alarmlist");
+          path = "/home/alarmlist";
           break;
         case 8:
-          this.$router.push("/home/personlist");
+          path = "/home/personlist";
           break;
         case 9:
-          this.$router.push("/home/hjzlist");
+          path = "/home/hjzlist";
+          break;
+        case 10:
+          path = "/home/set";
           break;
         default:
           break;
       }
+      if (this.$route.path === path) {
+        return;
+      }
+      this.$router.push(path);
     }
   },
   beforeDestroy() {

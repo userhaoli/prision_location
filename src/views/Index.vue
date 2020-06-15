@@ -448,7 +448,9 @@ export default {
           this.linePos.forEach((e, i) => {
             console.log(Line2)
             const meshLine = new Line2();
-            meshLine.setGeometry(getLineGeo(e));
+            console.dir(meshLine)
+            meshLine.geometry.vertices = getLineGeo(e).vertices;
+            console.log(getLineGeo(e))
             const line = new THREE.Mesh(
               meshLine.geometry,
               new LineMaterial({

@@ -71,7 +71,6 @@ function getBuffer(parmas) {
   return buffer;
   //绘制背景
   function drawBgImage() {
-    // console.log(bgImg, bgImg.width, bgImg.height, sx, sy, scale)
     bufCtx.drawImage(bgImg, 0, 0, bgImg.width, bgImg.height, sx, sy, bgImg.width * scale, bgImg.height * scale);
   }
 

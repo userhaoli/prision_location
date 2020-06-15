@@ -5,13 +5,16 @@ import store from './store';
 import "normalize.css";
 import "@/styles/common.less";
 import "@/assets/fonts/iconfont.css";
-import { Pagination,Form,DatePicker,TimeSelect,Switch,Table} from  'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import { Pagination,Form,DatePicker,TimeSelect,Switch,Table,Checkbox,CheckboxGroup } from  'element-ui';
 Vue.use(Pagination);
 Vue.use(Form);
 Vue.use(DatePicker);
 Vue.use(TimeSelect);
 Vue.use(Switch);
 Vue.use(Table);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
 
 
 

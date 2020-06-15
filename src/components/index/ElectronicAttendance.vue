@@ -388,11 +388,11 @@ export default {
   overflow-x: hidden;
   border-right: none;
 }
-.el-menu /deep/  .el-submenu__title {
+.el-menu   .el-submenu__title {
   font-size: 1.5rem;
   padding-left:0rem !important;
 }
-.el-menu-item, /deep/  .el-submenu__title {
+.el-menu-item,   .el-submenu__title {
   height: 3.9rem;
   line-height: 3.6rem;
   position: relative;
@@ -400,10 +400,10 @@ export default {
   white-space: nowrap;
   list-style: none;
 }
-.el-menu /deep/.el-submenu__icon-arrow{
+.el-menu .el-submenu__icon-arrow{
   right:1rem !important;
 }
-.el-menu /deep/.el-menu-item-group__title {
+.el-menu .el-menu-item-group__title {
   padding: 0rem;
 }
 </style>

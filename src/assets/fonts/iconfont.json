@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6842464",
+      "name": "系统设置",
+      "font_class": "xitongshezhi",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "6878129",
+      "name": "信息",
+      "font_class": "xinxi",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
       "icon_id": "166603",
       "name": "轨迹回放",
       "font_class": "guijihuifang",

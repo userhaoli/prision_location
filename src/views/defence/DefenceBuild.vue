@@ -404,7 +404,7 @@ export default {
 p {
   margin: 0.6rem 0;
 }
-.defence-build /deep/ .el-steps {
+.defence-build  .el-steps {
   padding: 0 1rem;
 }
 .defence-build {
@@ -585,11 +585,11 @@ p {
   border-radius: 0.3rem;
   background: rgba(134, 208, 255, 0.3);
 }
-/deep/ .el-step__title {
+ .el-step__title {
   font-size: 1.4rem;
   line-height: 3rem;
 }
-/deep/ .el-step__title.is-process {
+ .el-step__title.is-process {
   font-weight: 700;
   color: #f2f6fc;
 }

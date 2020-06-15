@@ -187,44 +187,44 @@ export default {
   color: rgba(255, 255, 255, 1);
 }
 
-.table-wrapper /deep/ .el-table--fit {
+.table-wrapper  .el-table--fit {
   /*height: 40rem;*/
   background: rgba(178, 223, 255, 0.1);
   border-radius: 0.5rem;
 }
-// .table-wrapper /deep/ .el-table,
+// .table-wrapper  .el-table,
 .el-table__expanded-cell {
   background-color: transparent;
 }
-.table-wrapper /deep/ .el-table_1_column_5 {
+.table-wrapper  .el-table_1_column_5 {
   width: 5rem !important;
 }
-.table-wrapper /deep/ .el-table__header-wrapper {
+.table-wrapper  .el-table__header-wrapper {
   height: 3.6rem;
   background: rgba(178, 223, 255, 0.2);
   border-radius: 0.5rem 0.5rem 0rem 0rem;
 }
-.table-wrapper /deep/ .el-table__header-wrapper th {
+.table-wrapper  .el-table__header-wrapper th {
   padding: 0;
 }
-.table-wrapper /deep/ .el-table__expand-icon {
+.table-wrapper  .el-table__expand-icon {
   color: #fff;
 }
-.table-wrapper /deep/ .el-form-item__label {
+.table-wrapper  .el-form-item__label {
   color: #fff;
 }
-.table-wrapper /deep/ .el-table__expand-icon > .el-icon {
+.table-wrapper  .el-table__expand-icon > .el-icon {
   margin-top: -0.7rem;
 }
-.table-wrapper /deep/ .el-form-item {
+.table-wrapper  .el-form-item {
   padding: 0 5.5rem;
   margin: 0;
 }
-.table-wrapper /deep/ .el-table tr {
+.table-wrapper  .el-table tr {
   background-color: transparent !important;
   height: 3.6rem;
 }
-.table-wrapper /deep/ .el-table--enable-row-transition .el-table__body td,
+.table-wrapper  .el-table--enable-row-transition .el-table__body td,
 .el-table .cell {
   background-color: transparent;
   padding: 0;
@@ -249,7 +249,7 @@ export default {
     height: 3rem;
   }
 }
-.table-wrapper /deep/ .el-table tr:hover {
+.table-wrapper  .el-table tr:hover {
   background: rgba(134, 208, 255, 0.1) !important;
 }
 .table-wrapper {
