@@ -12,47 +12,47 @@
           <span class="icon iconfont">&#xe61c;</span>
         </div>
         <ul class="nav-items">
-          <li @click="linkPage(0)">
+          <li @click="linkPage(0)" :class="classArr[0]">
             <span class="icon iconfont">&#xe61d;</span>
             <p>主页</p>
           </li>
-          <li @click="linkPage(1)">
+          <li @click="linkPage(1)" :class="classArr[1]">
             <span class="icon iconfont">&#xe61e;</span>
             <p>轨迹回放</p>
           </li>
-          <li @click="linkPage(2)">
+          <li @click="linkPage(2)" :class="classArr[2]">
             <span class="icon iconfont">&#xe638;</span>
             <p>电子考勤</p>
           </li>
-          <li @click="linkPage(3)">
+          <li @click="linkPage(3)" :class="classArr[3]">
             <span class="icon iconfont">&#xe61a;</span>
             <p>电子围栏</p>
           </li>
-          <li @click="linkPage(4)">
+          <li @click="linkPage(4)" :class="classArr[4]">
             <span class="icon iconfont">&#xe62e;</span>
             <p class="name">数据分析</p>
           </li>
-          <li @click="linkPage(5)">
+          <li @click="linkPage(5)" :class="classArr[5]">
             <span class="icon iconfont">&#xe63d;</span>
             <p class="name">警力部署</p>
           </li>
-          <li @click="linkPage(6)">
+          <li @click="linkPage(6)" :class="classArr[6]">
             <span class="icon iconfont">&#xe603;</span>
             <p class="name">设备管理</p>
           </li>
-          <li @click="linkPage(7)">
+          <li @click="linkPage(7)" :class="classArr[7]">
             <span class="icon iconfont">&#xe624;</span>
             <p class="name">报警信息</p>
           </li>
-          <li @click="linkPage(8)">
+          <li @click="linkPage(8)" :class="classArr[8]">
             <span class="icon iconfont">&#xe6d8;</span>
             <p class="name">人员信息</p>
           </li>
-          <li @click="linkPage(9)">
+          <li @click="linkPage(9)" :class="classArr[9]">
             <span class="icon iconfont">&#xe60d;</span>
             <p class="name">互监组</p>
           </li>
-          <li @click="linkPage(10)">
+          <li @click="linkPage(10)" :class="classArr[10]">
             <span class="icon iconfont">&#xe627;</span>
             <p class="name">系统设置</p>
           </li>
@@ -60,6 +60,19 @@
         <div class="nav-check">
           <span class="icon iconfont">&#xe61b;</span>
         </div>
+      </div>
+    </div>
+    <!-- 摄像头右键操作面板 -->
+    <div class="camera-menu" v-show="cameraMenu" ref="cameraMenu">
+      <div>
+        <button @click="viewVideo" @touchstart.stop.prevent="viewVideo">查看实时视频</button>
+      </div>
+      <div>
+        <!-- 282828 -->
+        <button
+          @click="showEquipPanel({flag:'camera',id:cameraid})"
+          @touchstart.stop.prevent="showEquipPanel({flag:'camera',id:cameraid})"
+        >查看详情</button>
       </div>
     </div>
   </div>
@@ -71,14 +84,14 @@ import Person from "@/utils/person.js";
 import mapScale from "@/utils/map_scale.js";
 import mapDrag from "@/utils/map_drag.js";
 import interval from "@/utils/interval.js";
-import { getAllLabel } from "@/apis/interfance.js";
+import { getAllLabel, getCameraData } from "@/apis/interfance.js";
 export default {
   data() {
     return {
       canvas: null,
       ctx: null,
       buffer: null,
-      mapImg: null,
+      mapImg: null,  //地图
       sx: 0,
       sy: 0,
       scale: 1.0,
@@ -89,7 +102,23 @@ export default {
       stopAnimate: false, //停止绘制图形标识
       time: 100,
       pos: [],
-      trackBackFlag: false
+      trackBackFlag: false, //轨迹回放标识
+      mousePos: null,
+      cameraMenu: false, //右键摄像头菜单栏
+      pathArr: [
+        "/home",
+        "/home/tracklist",
+        "/attendance",
+        "/home/defencelist",
+        "/home/analysis",
+        "/policelocation",
+        "/home/equipmentlist",
+        "/home/alarmlist",
+        "/home/personlist",
+        "/home/hjzlist",
+        "/home/set"
+      ],
+      classArr: []
     };
   },
   mounted() {
@@ -153,7 +182,7 @@ export default {
     );
     //地图拖动
     canvas.addEventListener("mousedown", e => {
-      // this.cameraMenu = false;
+      this.cameraMenu = false;
       if (e.target !== canvas) return;
       this.isDrag = true;
       this.mousePos = {
@@ -161,19 +190,35 @@ export default {
         y: e.clientY
       };
     });
-    window.addEventListener("mousemove", e => {
-      mapDrag.call(this, e, getBuffer);
-      // littleMapFollow.call(this);
-    });
-    window.addEventListener("mouseup", () => {
-      this.isfollowing = true;
-      this.litMapflag = false;
-      this.isDrag = false;
-      this.littleDrag = false;
-      this.mousePos = {
-        x: undefined,
-        y: undefined
-      };
+    window.addEventListener("mousemove", this.moveHandler);
+    window.addEventListener("mouseup", this.upHandler);
+    //摄像头面板
+    canvas.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      if (this.$store.state.isShowCamera === false) return;
+      this.$store.state.camera.forEach(value => {
+        if (value.mapid === this.$store.state.mapid) {
+          let pos = this.imageToCanvas([value.startX, value.startY]);
+          let minX = pos[0] - (value.width * this.scale) / 2,
+            maxX = pos[0] + (value.width * this.scale) / 2,
+            // minY = pos[1] - value.height,
+            minY = pos[1] - value.height * this.scale,
+            maxY = pos[1];
+
+          if (
+            e.clientX >= minX &&
+            e.clientX <= maxX &&
+            e.clientY >= minY &&
+            e.clientY <= maxY
+          ) {
+            let el = this.$refs.cameraMenu;
+            el.style.left = e.clientX + "px";
+            el.style.top = e.clientY + "px";
+            this.cameraMenu = true;
+            this.cameraid = value.id;
+          }
+        }
+      });
     });
     window.addEventListener("resize", this.onResize);
     this.animate();
@@ -253,7 +298,6 @@ export default {
         // console.log(+new Date() - time);
         if (this.stopAnimate == false) {
           this.animate();
-          console.log("111");
         } else {
           return;
         }
@@ -275,20 +319,20 @@ export default {
         mapid: 3,
         flag: flag,
         point: point,
-        defenceImgArr: null,
+        defenceImgArr: this.$store.state.defenceImgArr,
         groupPointArr: null,
         trackBackPerson: null, //轨迹回放人物实例
-        trackBackFlag: false,
-        trackBackArr: null,
-        forwardArr: null,
+        trackBackFlag: false, //轨迹回放标识
+        trackBackArr: null, //
+        forwardArr: null, //
         resetFlag: false,
         stopFlag: false,
         imgStatus: {
           isShowPerson: true,
-          isShowStation: false,
-          isShowCamera: false,
-          isShowTrack: false,
-          isShowDefenceImg: false,
+          isShowStation: this.$store.state.isShowStation,
+          isShowCamera: this.$store.state.isShowCamera,
+          isShowTrack: this.$store.state.isShowTrack,
+          isShowDefenceImg: this.$store.state.isShowDefenceImg,
           waterFlag: true
         }
       });
@@ -321,6 +365,7 @@ export default {
         y: canvasPos.y - imgPos.y * this.scale
       };
     },
+    //页面大小变化
     onResize() {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight - 80;
@@ -355,62 +400,73 @@ export default {
       );
       this.drawImage();
     },
+    //鼠标移动
+    moveHandler(e) {
+      mapDrag.call(this, e, getBuffer);
+    },
+    upHandler() {
+      this.isfollowing = true;
+      this.litMapflag = false;
+      this.isDrag = false;
+      this.littleDrag = false;
+      this.mousePos = {
+        x: undefined,
+        y: undefined
+      };
+    },
     linkPage(index) {
-      let path;
-      switch (index) {
-        case 0:
-          path = "/home";
-          break;
-        case 1:
-          path = "/home/tracklist";
-          break;
-        case 2:
-          path = "/attendance";
-          break;
-        case 3:
-          path = "/home/defencelist";
-          break;
-        case 4:
-          path = "/home/tracklist";
-          break;
-        case 5:
-          path = "/policelocation";
-          break;
-        case 6:
-          path = "/home/equipmentlist";
-          break;
-        case 7:
-          path = "/home/alarmlist";
-          break;
-        case 8:
-          path = "/home/personlist";
-          break;
-        case 9:
-          path = "/home/hjzlist";
-          break;
-        case 10:
-          path = "/home/set";
-          break;
-        default:
-          break;
-      }
+      let path = this.pathArr[index];
       if (this.$route.path === path) {
         return;
       }
       this.$router.push(path);
+    },
+    //观看视频
+    viewVideo() {
+      this.popMonitorVideo(this.cameraid);
+      this.cameraMenu = false;
+    },
+    //调取实时监控
+    popMonitorVideo(id) {
+      getCameraData(id)
+        .then(data => {
+          let vId = data.id;
+          let name = data.camera_name;
+          let player = data.id;
+          let rtsp = data.url;
+          let active = false;
+          let newMonitorList = [
+            { id: vId, name: name, rtsp: rtsp, player: player, active: active }
+          ]; //要调取的监控
+
+          this.$store.commit("changeNewMonitorList", newMonitorList);
+          this.$store.state.monitorListFlag = true;
+        })
+        .catch(() => {
+          this.$message.error("调取监控失败");
+        });
     }
   },
   beforeDestroy() {
     this.stopAnimate = true;
     window.removeEventListener("resize", this.onResize);
+    window.removeEventListener("mousemove", this.moveHandler);
+    window.removeEventListener("mouseup", this.upHandler);
   },
   watch: {
     $route: {
       handler(val) {
+        this.classArr = [];
         if (val.name === "Main" || val.name === "Home") {
           this.popupShow = false;
+          this.classArr[0] = "active";
         } else {
           this.popupShow = true;
+          this.pathArr.forEach((value, index) => {
+            if (value === val.path) {
+              this.classArr[index] = "active";
+            }
+          });
         }
       },
       immediate: true,
@@ -432,7 +488,6 @@ export default {
     left: 0rem;
     width: 100%;
     font-size: 1.4rem;
-    // background: rgba(36, 48, 87, 0.9);
     .main-nav {
       width: 100rem;
       display: flex;
@@ -460,19 +515,47 @@ export default {
             color: #33eaff;
           }
         }
+        .active{
+          color: #33eaff;
+        }
       }
       .icon {
         font-size: 2.4rem;
       }
     }
   }
-
   .popup {
     position: fixed;
     top: 8rem;
     left: 0;
     width: 100%;
     height: 100%;
+  }
+  //摄像头菜单
+  .camera-menu {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    background: rgba(16, 30, 51, 1);
+    opacity: 0.85;
+    border-radius: 0px 0.3rem 0.3rem 0px;
+    box-shadow: 0.4rem 0.3rem 1rem 0px rgba(4, 0, 0, 0.6);
+    & > div {
+      // padding: 5px 5px;
+      border-bottom: 1px solid rgba(178, 223, 255, 0.2);
+      button {
+        background: 0;
+        border: 0;
+        color: #fff;
+        font-size: 1.4rem;
+        padding: 0.6rem 0.5rem;
+        width: 100%;
+        &:hover {
+          background: rgba(0, 0, 0, 0.5);
+          color: #86d0ff;
+        }
+      }
+    }
   }
 }
 </style>

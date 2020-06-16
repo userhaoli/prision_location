@@ -13,27 +13,30 @@ function mapDrag(e) {
     this.mousePos.y = Math.abs(this.mousePos.y - e.clientY) > 1 ? this.mousePos.y : e.clientY;
     this.sx += e.clientX - this.mousePos.x;
     this.sy += e.clientY - this.mousePos.y;
-    let maxSx = this.getOffset({
+    let maxSx,minSx,maxSy,minSy;
+    // let cWidth = this.canvas.width,cHeight = this.canvas.height,iWidth = this.mapImg.width,iHeight = this.mapImg.height,;
+    // let viewWidth = ~~(iWidth*this.scale),viewHeight = ~~(iHeight*this.scale);
+    maxSx = this.getOffset({
             x: 0,
             y: 0
         }, {
             x: 0,
             y: 0
-        }).x,
+        }).x;
         minSx = this.getOffset({
             x: this.canvas.width,
             y: 0
         }, {
             x: this.mapImg.width,
             y: 0
-        }).x,
+        }).x;
         maxSy = this.getOffset({
             x: 0,
             y: 80,
         }, {
             x: 0,
             y: 0
-        }).y,
+        }).y;
         minSy = this.getOffset({
             x: 0,
             y: this.canvas.height
@@ -55,6 +58,7 @@ function mapDrag(e) {
     } else if (this.sy < minSy) {
         this.sy = minSy
     }
+
     this.buffer = this.getBufferData({
         isShowTrack: this.isShowTrack,
         isShowDefence: false

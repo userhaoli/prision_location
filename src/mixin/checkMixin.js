@@ -13,7 +13,7 @@ const checkMixin = {
             });
         },
         backToMain() {
-            this.$emit("back");
+            this.$router.back();
             this.$store.state.fenceData = {
                 persons: []
             };

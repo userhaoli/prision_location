@@ -446,13 +446,12 @@ export default {
       textureLoader.load("/images/red_line.png", (texture) => {
         textureLoader.load("/images/green_line.png", (texture2) => {
           this.linePos.forEach((e, i) => {
-            console.log(Line2)
             const meshLine = new Line2();
-            console.dir(meshLine)
             meshLine.geometry.vertices = getLineGeo(e).vertices;
             console.log(getLineGeo(e))
             const line = new THREE.Mesh(
               meshLine.geometry,
+              new 
               new LineMaterial({
                 color: i % 2 === 0 ? "red" : "green",
                 map: i % 2 === 0 ? texture : texture2,

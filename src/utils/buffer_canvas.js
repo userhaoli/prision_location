@@ -138,25 +138,6 @@ function getBuffer(parmas) {
     })()
   }
   //绘制轨迹
-  // function drawTrack() {
-  //   if (!isShowTrack) return;
-  //   flag.isShowTrack === true && (() => {
-  //     let k = 0,
-  //       colorArr = ["#f00", "#0f0", "#00f", "#ff0", "#000", "#009C7C"];
-  //     person.forEach(value => {
-  //       if (value.track === true) {
-  //         value.scale = scale;
-  //         value.sx = sx;
-  //         value.sy = sy;
-  //         let color = value.color ? value.color : colorArr[k];
-  //         mapid === value.mapid && value.drawTrack(value.trackArr, color);
-  //         k++;
-  //       }
-  //     })
-  //   })()
-  // }
-
-  //绘制轨迹
   function drawTrack() {
     if (!isShowTrack) return;
     flag.isShowTrack === true && (() => {
@@ -192,7 +173,6 @@ function getBuffer(parmas) {
                 arr.push([...arr1])
               }
             })
-            console.log(arr)
             arr.forEach(val => {
               val[0] && mapid === val[0][2] && value.drawTrack(val, value.color)
             })
@@ -235,8 +215,7 @@ function getBuffer(parmas) {
         bufCtx.beginPath();
         bufCtx.strokeStyle = "#f00";
         bufCtx.fillStyle = "rgba(0,166,123,0.2)";
-        let points = value.points;
-        let len = points.length / 2;
+        let points = value.points,name = value.name,len = points.length / 2;
         for (let i = 0; i < len; i++) {
           let pos = imageToCanvas([points[2 * i], points[2 * i + 1]]);
           if (i === 0) {
@@ -248,6 +227,15 @@ function getBuffer(parmas) {
         bufCtx.closePath();
         bufCtx.stroke();
         bufCtx.fill();
+
+        bufCtx.beginPath();
+        bufCtx.font = `bold ${16*scale}px Arial`;
+        bufCtx.fillStyle = "#f00";
+        bufCtx.textAlign = 'center';
+        bufCtx.textBaseline = 'middle';
+        let point = imageToCanvas([value.points[0], value.points[1]]);
+        bufCtx.fillText(name, point.x, point.y);
+        bufCtx.closePath();
       }
     })
   }

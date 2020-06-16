@@ -185,7 +185,7 @@ export default {
   },
   methods: {
     drawFence() {
-      this.$emit("sendClickMsg", true);
+      this.$router.push("/blankmap/fence");
     },
     getRange(flag) {
       this.$store.state.fenceData.range = flag === true ? 1 : 0;

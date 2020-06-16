@@ -187,7 +187,7 @@ export default {
   },
   methods: {
     drawFence() {
-      this.$emit("sendClickMsg");
+      this.$router.push("/blankmap/fence");
     },
     getType(type) {
       this.typeArr.forEach((value, index) => {

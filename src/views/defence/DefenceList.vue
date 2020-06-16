@@ -192,7 +192,8 @@ export default {
       }
       this.$emit("edit");
       getFenceData(newArr[0].id).then(data => {
-        this.$store.commit("changeFenceData", data);
+        this.$store.state.fenceData = data;
+        this.$router.push("/home/defenceedit")
       });
     },
     dele() {

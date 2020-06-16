@@ -6,7 +6,7 @@ import "normalize.css";
 import "@/styles/common.less";
 import "@/assets/fonts/iconfont.css";
 import 'element-ui/lib/theme-chalk/index.css';
-import { Pagination,Form,DatePicker,TimeSelect,Switch,Table,Checkbox,CheckboxGroup } from  'element-ui';
+import { Pagination,Form,DatePicker,TimeSelect,Switch,Table,Checkbox,CheckboxGroup,Step,Steps,Message } from  'element-ui';
 Vue.use(Pagination);
 Vue.use(Form);
 Vue.use(DatePicker);
@@ -15,6 +15,10 @@ Vue.use(Switch);
 Vue.use(Table);
 Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
+Vue.use(Step);
+Vue.use(Steps);
+Vue.prototype.$message = Message;
+
 
 
 

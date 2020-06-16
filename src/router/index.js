@@ -40,6 +40,12 @@ const routes = [{
     component: () => import('@/views/attendance/Index.vue')
   },
   {
+    path: '/blankmap/:oper',
+    name: 'Blankmap',
+    props: true,
+    component: () => import('@/views/BlankMap.vue')
+  },
+  {
     path: '/home',
     name: 'Home',
     component: () => import('@/views/Home.vue'),
@@ -102,6 +108,11 @@ const routes = [{
         path: 'set',
         name: 'Set',
         component: () => import('@/views/set/Set.vue')
+      },
+      {
+        path: 'analysis',
+        name: 'Analysis',
+        component: () => import('@/views/analysis/Analysis.vue')
       },
     ]
   }

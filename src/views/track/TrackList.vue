@@ -8,7 +8,9 @@
     <transition-group
       tag="ul"
       class="list"
-       @touchstart="getFirstY" @touchmove="scrollElement" ref="listBar"
+      @touchstart="getFirstY"
+      @touchmove="scrollElement"
+      ref="listBar"
     >
       <li class="title" key="5624ll">
         <div>人员姓名</div>
@@ -20,9 +22,11 @@
         <div>{{item.name}}</div>
         <div>{{item.type==0?'公安':'地铁工作人员'}}</div>
         <div>{{item.pid}}</div>
-        <div @click="changeState(true,item.id,item.type)" @touchstart.stop.prevent="changeState(true,item.id,item.type)">
+        <div
+          @click="changeState(true,item.id,item.type)"
+          @touchstart.stop.prevent="changeState(true,item.id,item.type)"
+        >
           <lh-button content="轨迹回放"></lh-button>
-
         </div>
       </li>
     </transition-group>
@@ -42,10 +46,15 @@
       ></el-pagination>
     </div>
     <div class="time-picker" v-show="isShow">
-      
       <!--lfq-->
-      <el-form >
-        <el-date-picker v-model="dateSelected" type="date" placeholder="选择日期" style="width:150px;" :editable="false"></el-date-picker>&nbsp;
+      <el-form>
+        <el-date-picker
+          v-model="dateSelected"
+          type="date"
+          placeholder="选择日期"
+          style="width:150px;"
+          :editable="false"
+        ></el-date-picker>&nbsp;
         <el-time-select
           placeholder="起始时间"
           v-model="sTime"
@@ -79,7 +88,11 @@
 <script>
 import SearchItem from "@/components/common/SearchItem.vue";
 import LhButton from "@/components/common/LhButton.vue";
-import { getSearchResult, getPagePerson } from "@/apis/interfance.js";
+import {
+  getSearchResult,
+  getPagePerson,
+  getTrackData
+} from "@/apis/interfance.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
 
 export default {
@@ -123,17 +136,23 @@ export default {
         this.$message.error("必须选择起始时间");
         return;
       }
-      this.$store.state.startTime = this.sTime
+      let time1 = this.sTime
         ? +new Date(
             new Date(this.dateSelected).toDateString() + " " + this.sTime
           )
         : "";
-      this.$store.state.endTime = this.eTime
+      let time2 = this.eTime
         ? +new Date(
             new Date(this.dateSelected).toDateString() + " " + this.eTime
           )
         : "";
-      this.$emit("trackBack", this.id, this.type);
+      getTrackData(time1, time2,this.id).then(data => {
+        if (data.length === 0 || data.msg) {
+          this.$message.error("该时间段无可播放轨迹");
+          return;
+        }
+        this.$router.pusg("/blankmap/track");
+      });
     },
     changeState(flag, id, type) {
       this.isShow = flag;
