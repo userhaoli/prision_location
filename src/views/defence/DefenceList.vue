@@ -299,6 +299,7 @@ export default {
           }
         });
       }
+      this.saveDefence();
     },
     getData(page) {
       this.page = page;
@@ -331,6 +332,9 @@ export default {
           });
         });
       });
+    },
+    saveDefence(){
+      localStorage.setItem("defence",JSON.stringify(this.$store.state.defenceImgArr))
     },
     hidden() {
       this.rightFlag = false;

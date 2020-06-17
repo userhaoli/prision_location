@@ -211,7 +211,7 @@ function getBuffer(parmas) {
     if (!defenceImgArr) return;
     if (!defenceImgArr.length) return;
     defenceImgArr.forEach((value) => {
-      if (mapid === value.mapid) {
+      // if (mapid === value.mapid) {
         bufCtx.beginPath();
         bufCtx.strokeStyle = "#f00";
         bufCtx.fillStyle = "rgba(0,166,123,0.2)";
@@ -236,7 +236,7 @@ function getBuffer(parmas) {
         let point = imageToCanvas([value.points[0], value.points[1]]);
         bufCtx.fillText(name, point.x, point.y);
         bufCtx.closePath();
-      }
+      // }
     })
   }
   //绘制基站组区域

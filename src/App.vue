@@ -22,6 +22,10 @@ export default {
     window.addEventListener("resize", () => {
       this.computedRem();
     });
+    window.addEventListener("load", () => {
+      let data = JSON.parse(localStorage.getItem("defence"));
+      this.$store.state.defenceImgArr = data ? data : [];
+    });
   },
   methods: {
     computedRem() {
@@ -83,12 +87,12 @@ export default {
           font-size: 2.8rem;
           color: #fff;
         }
-        .message-num{
-          color:rgb(44, 39, 39);
+        .message-num {
+          color: rgb(44, 39, 39);
           position: absolute;
-          bottom:0;
-          right:0;
-          background:rgb(196, 47, 47);
+          bottom: 0;
+          right: 0;
+          background: rgb(196, 47, 47);
           border-radius: 1rem;
         }
       }

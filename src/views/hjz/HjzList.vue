@@ -15,14 +15,34 @@
         <div>10</div>
         <div>200</div>
         <div>2020-06-10</div>
-        <div><span>详情</span>|<span>编辑</span>|<span>删除</span></div>
+        <div class="oper"><span @click="showDetail">详情</span>|<span @click="edit">编辑</span>|<span @click="delet">删除</span></div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+ 
+    }
+  },
+  mounted(){
+
+  },
+  methods:{
+  showDetail(){
+     
+  },
+  edit(){
+    this.$router.push("/home/hjzedit")
+  },
+  dele(){
+
+  }
+  }
+};
 </script>
 
 <style lang="less">
@@ -37,6 +57,15 @@ export default {};
       width: 100%;
       & > div {
         width: 16%;
+      }
+      .oper{
+        span{
+          cursor: pointer;
+          color: aqua;
+          &:hover{
+            text-decoration: underline;
+          }
+        }
       }
     }
   }

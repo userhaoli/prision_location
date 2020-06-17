@@ -53,6 +53,10 @@
             <p class="name">互监组</p>
           </li>
           <li @click="linkPage(10)" :class="classArr[10]">
+            <span class="icon iconfont">&#xe7e8;</span>
+            <p class="name">摄像头</p>
+          </li>
+          <li @click="linkPage(11)" :class="classArr[11]">
             <span class="icon iconfont">&#xe627;</span>
             <p class="name">系统设置</p>
           </li>
@@ -75,6 +79,25 @@
         >查看详情</button>
       </div>
     </div>
+    <!-- 小地图 -->
+    <transition name="slide-fade">
+      <div class="little-map" v-show="!mapHidden" ref="littleMap">
+        <div class="map-nav">
+          <div calss="map-name">小地图</div>
+        </div>
+        <div class="container">
+            <canvas ref="littleCanvas" id="littleCanvas" width="280" height="140">
+              <P>你的浏览器不支持"canvas"!请升级浏览器!</P>
+            </canvas>
+          <canvas
+            id="innerCanvas"
+            ref="innerCanvas"
+            width="280"
+            height="140"
+          ></canvas>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -91,7 +114,7 @@ export default {
       canvas: null,
       ctx: null,
       buffer: null,
-      mapImg: null,  //地图
+      mapImg: null, //地图
       sx: 0,
       sy: 0,
       scale: 1.0,
@@ -116,9 +139,11 @@ export default {
         "/home/alarmlist",
         "/home/personlist",
         "/home/hjzlist",
+        "/home/cameralist",
         "/home/set"
       ],
-      classArr: []
+      classArr: [],
+      mapHidden:false,
     };
   },
   mounted() {
@@ -515,7 +540,7 @@ export default {
             color: #33eaff;
           }
         }
-        .active{
+        .active {
           color: #33eaff;
         }
       }
@@ -557,6 +582,169 @@ export default {
       }
     }
   }
+  //小地图  77777
+  .little-map {
+    position: fixed;
+    left: 1rem;
+    bottom: 1rem;
+    border: 1px solid rgba(178, 223, 255, 0.3);
+    color: rgba(255, 255, 255, 1);
+    font-size: 1.3rem;
+    text-align: center;
+    // position: relative;
+    .map-nav {
+      display: flex;
+      background: rgba(42, 72, 137, 1);
+      line-height: 3rem;
+      div {
+        color: #86d0ff;
+        margin-left: 0.8rem;
+        margin-right: 3rem;
+      }
+      ul {
+        flex-grow: 5;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        li {
+          cursor: pointer;
+        }
+        & > .line {
+          width: 1px;
+          height: 1rem;
+          background: #ffffff;
+          opacity: 0.2;
+          margin: 0 0.4rem;
+        }
+      }
+      span {
+        padding: 0.2rem 0.3rem;
+        box-sizing: border-box;
+      }
+      span:hover {
+        // color: #86d0ff;
+        box-sizing: border-box;
+        background: rgba(0, 0, 0, 0.3);
+        // border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.3rem;
+      }
+    }
+    .container {
+      position: relative;
+      background: rgba(0, 31, 98, 0.85);
+      box-sizing: border-box;
+      // background:#fff;
+    }
+    #littleCanvas {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+    }
+    #innerCanvas {
+      margin: 2rem 0;
+      // background: url(./UI/min_map_back.png) no-repeat;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    .switch-btn {
+      position: relative;
+      //地图切换
+      .map-switch {
+        width: 32.3rem;
+        box-sizing: border-box;
+        overflow: auto;
+        display: flex;
+        justify-content: flex-start;
+        position: absolute;
+        bottom: 3rem;
+        left: -23rem;
+
+        &::-webkit-scrollbar {
+          width: 20%;
+          height: 1rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: #3b68b6;
+          border-radius: 0.4rem;
+        }
+
+        li {
+          box-sizing: border-box;
+          width: 8rem;
+          & > div {
+            width: 7rem;
+            height: 6rem;
+            border: 1px solid rgba(178, 223, 255, 0.3);
+            margin-top: 6px;
+            border-radius: 3px;
+            padding: 4px;
+            box-sizing: border-box;
+            background: rgba(16, 30, 51, 0.85);
+            &:hover {
+              box-shadow: 0px 0px 0.4rem rgb(61, 14, 190);
+            }
+          }
+          .active {
+            border: 2px solid rgb(150, 35, 40);
+            box-shadow: 0px 0px 0.4rem rgba(33, 71, 128, 1);
+          }
+        }
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &:hover > .map-switch {
+        top: -8.2rem;
+        display: flex;
+      }
+    }
+    .set {
+      position: relative;
+      .set-display {
+        font-size: 1.2rem;
+        padding-top: 0.6rem;
+        width: 10rem;
+        position: absolute;
+        bottom: 3rem;
+        left: -2rem;
+        display: block;
+        flex-direction: column;
+        background: rgba(27, 63, 132, 0.9);
+        padding-left: 0.8rem;
+        line-height: 3rem;
+        li {
+          display: flex;
+          height: 25px;
+          align-items: center;
+          .el-checkbox {
+            color: #fff;
+          }
+        }
+      }
+      &:hover .set-display {
+        display: block;
+      }
+    }
+  }
+}
+
+//过渡动画
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+.slide-fade-enter-active {
+  transition: all 0.6s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.6s cubic-bezier(1, 0.5, 0.8, 1);
 }
 </style>
 
