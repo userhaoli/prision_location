@@ -64,6 +64,7 @@ export default {
       background-color: rgba(36, 24, 24, 0.2);
       background: url("./views/UI/title.png") no-repeat;
       background-size: 100% 100%;
+      z-index: 10;
       & > .time {
         position: absolute;
         font-size: 1.8rem;

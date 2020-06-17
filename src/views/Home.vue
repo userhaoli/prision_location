@@ -111,7 +111,7 @@
       </div>
     </transition>
     <!-- 报警信息 -->
-    <div class="alarm-item">2020-06-17 18:12:51 <span style="color:#f00">[危急]</span>  一监区 32号监舍发生越界报警越界报...</div>
+    <div class="alarm-item" v-show="true">2020-06-17 18:12:51 <span style="color:#f00">[危急]</span>  一监区 32号监舍发生越界报警越界报...</div>
   </div>
 </template>
 
