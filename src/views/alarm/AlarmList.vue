@@ -9,11 +9,6 @@
         content="设置"
       />
     </div>
-    <!--<div class="alarm-type">
-      <button :class="classArr[0]" @click="showClass(0)">全部</button>
-      <button :class="classArr[1]" @click="showClass(1)">已处理</button>
-      <button :class="classArr[2]" @click="showClass(2)">未处理</button>
-    </div>-->
     <ul class="check-bar">
       <!--报警等级-->
       <li style="width: 11.4rem;">
@@ -55,11 +50,7 @@
           >{{value.name}}</el-checkbox>
         </el-checkbox-group>
       </li>
-      <!--<li style="width: 100px;">
-        <spinner :content="dateArr[date]" :list="dateArr" @sendValue="getDateList"></spinner>
-      </li>-->
     </ul>
-    <!-- <ul class="alarm-msg"> -->
     <transition-group
       tag="ul"
       class="alarm-msg"
@@ -363,8 +354,7 @@ export default {
       content = content === "全部区域" ? "" : content;
     },
     showDetail(id) {
-      this.$emit("alarmDetail", id);
-      this.$store.commit("changeAlarmId", id);
+      this.$router.push("/home/detail/"+id);
     },
     //根据地图id获取地图名称
     getMapNameById(mapId) {

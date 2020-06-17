@@ -20,8 +20,8 @@ const routes = [{
     component: () => import('../views/person/PersonInfo.vue')
   },
   {
-    path: '/detail',
-    name: 'Detail',
+    path: '/alarmdetail',
+    name: 'AlarmDetail',
     component: () => import('@/views/alarm/AlarmDetail.vue')
   },
   {
@@ -38,6 +38,11 @@ const routes = [{
     path: '/attendance',
     name: 'Attendance',
     component: () => import('@/views/attendance/Index.vue')
+  },
+  {
+    path: '/record',
+    name: 'Record',
+    component: () => import('@/views/attendance/Record.vue')
   },
   {
     path: '/blankmap/:oper',
@@ -98,6 +103,12 @@ const routes = [{
         path: 'alarmlist',
         name: 'AlarmList',
         component: () => import('@/views/alarm/AlarmList.vue')
+      },
+      {
+        path: 'detail/:id',
+        name: 'Detail',
+        props: true,
+        component: () => import('@/views/alarm/Detail.vue')
       },
       {
         path: 'equipmentlist',

@@ -38,7 +38,7 @@ export default {
   edit(){
     this.$router.push("/home/hjzedit")
   },
-  dele(){
+  delet(){
 
   }
   }

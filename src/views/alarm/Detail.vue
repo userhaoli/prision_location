@@ -122,9 +122,10 @@ export default {
   },
   mounted() {
     this.baseUrl = params.cameraImgUrl;
-    getAlarmDetail(this.$store.state.alarmid).then(data => {
+    console.log(this.$route.params.id)
+    getAlarmDetail(this.$route.params.id).then(data => {
       this.alarmData = data;
-      this.$store.state.labelData.id = data.labelid;
+      // this.$store.state.labelData.id = data.labelid;
       this.imgSrc = this.mapImg[data.map.id];
       this.tips = `${data.x}   ${data.y}`;
       // this.$nextTick(() => {
@@ -343,14 +344,13 @@ export default {
         color: #fff;
         border: 0;
         background-color: #152947;
-        background-image: url(../images/set.png);
         background-repeat: no-repeat;
         background-size: 100% 100%;
         cursor: pointer;
         padding: 0.4rem 1rem;
       }
       .active {
-        background-image: url(../images/set_hover.png);
+        // background-image: url(../images/set_hover.png);
         background-repeat: no-repeat;
         background-size: 100% 100%;
       }
