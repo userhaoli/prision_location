@@ -6,6 +6,188 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "715982",
+      "name": "摄像头",
+      "font_class": "shexiangtou1",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "798101",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "1311981",
+      "name": "对",
+      "font_class": "dui",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "1312140",
+      "name": "对",
+      "font_class": "dui1",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "2078817",
+      "name": "dkw_消息 ",
+      "font_class": "dkw_xiaoxi",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "2718752",
+      "name": "右",
+      "font_class": "you1",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "3369109",
+      "name": "修改",
+      "font_class": "xiugai",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "3405405",
+      "name": "消息",
+      "font_class": "xiaoxi",
+      "unicode": "e6eb",
+      "unicode_decimal": 59115
+    },
+    {
+      "icon_id": "5158031",
+      "name": "消息",
+      "font_class": "xiaoxi-",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "5208779",
+      "name": "摄像头",
+      "font_class": "shexiangtou2",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "5321787",
+      "name": "轨迹",
+      "font_class": "guiji",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
+      "icon_id": "5321794",
+      "name": "基站信号",
+      "font_class": "jizhanxinhao",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "5664683",
+      "name": "搜索",
+      "font_class": "sousuo1",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "5831258",
+      "name": "错",
+      "font_class": "cuo",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "6237070",
+      "name": "竖线",
+      "font_class": "tubiaozhizuo-",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "6237075",
+      "name": "下",
+      "font_class": "tubiaozhizuo-1",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "6299335",
+      "name": "轨迹分析",
+      "font_class": "icon-",
+      "unicode": "e675",
+      "unicode_decimal": 58997
+    },
+    {
+      "icon_id": "6755280",
+      "name": "下",
+      "font_class": "xia",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    },
+    {
+      "icon_id": "10292039",
+      "name": "删 除",
+      "font_class": "shanchu",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "12771532",
+      "name": "详情",
+      "font_class": "xiangqing",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "13409784",
+      "name": "下",
+      "font_class": "xia1",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "14005652",
+      "name": "左",
+      "font_class": "zuo1",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "14005653",
+      "name": "上",
+      "font_class": "shang",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "14005658",
+      "name": "右",
+      "font_class": "you2",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "14112863",
+      "name": "上",
+      "font_class": "shang1",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "14918225",
+      "name": "you1",
+      "font_class": "you11",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
       "icon_id": "4752501",
       "name": "摄像头",
       "font_class": "shexiangtou",

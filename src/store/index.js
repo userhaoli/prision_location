@@ -17,6 +17,7 @@ export default new Vuex.Store({
     isShowTrack: true, // 是否显示轨迹
     isShowDefenceImg: true, //是否显示围栏
     chartArr:[],  //绘制围栏坐标点
+    unhandleAlarm:[],//未处理报警信息
   },
   mutations: {},
   actions: {},

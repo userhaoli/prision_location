@@ -9,7 +9,7 @@
     <div class="nav-container">
       <div class="main-nav">
         <div class="nav-check">
-          <span class="icon iconfont">&#xe61c;</span>
+          <span class="icon iconfont">&#xe600;</span>
         </div>
         <ul class="nav-items">
           <li @click="linkPage(0)" :class="classArr[0]">
@@ -62,7 +62,7 @@
           </li>
         </ul>
         <div class="nav-check">
-          <span class="icon iconfont">&#xe61b;</span>
+          <span class="icon iconfont">&#xe602;</span>
         </div>
       </div>
     </div>
@@ -79,6 +79,23 @@
         >查看详情</button>
       </div>
     </div>
+    <!-- 左侧信息栏 -->
+    <div class="aside-left">
+      <div class="first-item">一监区 一楼 302监舍</div>
+      <div class="second-item"></div>
+      <div class="third-item"></div>
+      <div class="fourth-item"></div>
+      <div class="fifth-item"></div>
+    </div>
+    <!-- 右侧报警处理 -->
+    <div class="aside-right">
+      <transition name="slide-fade">
+        <handle v-if="rightFlag" @getDetail="showDetail"></handle>
+      </transition>
+      <div class="title" @click="rightBar" @touchstart.stop.prevent="rightBar">
+        <p>警报处理</p>
+      </div>
+    </div>
     <!-- 小地图 -->
     <transition name="slide-fade">
       <div class="little-map" v-show="!mapHidden" ref="littleMap">
@@ -86,22 +103,21 @@
           <div calss="map-name">小地图</div>
         </div>
         <div class="container">
-            <canvas ref="littleCanvas" id="littleCanvas" width="280" height="140">
-              <P>你的浏览器不支持"canvas"!请升级浏览器!</P>
-            </canvas>
-          <canvas
-            id="innerCanvas"
-            ref="innerCanvas"
-            width="280"
-            height="140"
-          ></canvas>
+          <canvas ref="littleCanvas" id="littleCanvas" width="280" height="140">
+            <P>你的浏览器不支持"canvas"!请升级浏览器!</P>
+          </canvas>
+          <canvas id="innerCanvas" ref="innerCanvas" width="280" height="140"></canvas>
         </div>
       </div>
     </transition>
+    <!-- 报警信息 -->
+    <div class="alarm-item">2020-06-17 18:12:51 <span style="color:#f00">[危急]</span>  一监区 32号监舍发生越界报警越界报...</div>
   </div>
 </template>
 
 <script>
+const Handle = () => import("@/views/index/Handle.vue");
+
 import getBuffer from "@/utils/buffer_canvas.js";
 import Person from "@/utils/person.js";
 import mapScale from "@/utils/map_scale.js";
@@ -109,6 +125,9 @@ import mapDrag from "@/utils/map_drag.js";
 import interval from "@/utils/interval.js";
 import { getAllLabel, getCameraData } from "@/apis/interfance.js";
 export default {
+  components: {
+    Handle
+  },
   data() {
     return {
       canvas: null,
@@ -143,7 +162,8 @@ export default {
         "/home/set"
       ],
       classArr: [],
-      mapHidden:false,
+      rightFlag: false,
+      mapHidden: false
     };
   },
   mounted() {
@@ -470,6 +490,13 @@ export default {
         .catch(() => {
           this.$message.error("调取监控失败");
         });
+    },
+    rightBar() {
+      this.rightFlag = !this.rightFlag;
+    },
+    //显示报警详情页
+    showDetail() {
+      this.$router.push("/home/detail");
     }
   },
   beforeDestroy() {
@@ -503,28 +530,31 @@ export default {
 
 <style lang="less">
 .home {
+  position: relative;
   .canvas {
     width: 100%;
     height: 100%;
   }
   .nav-container {
     position: fixed;
-    bottom: 0rem;
+    bottom: 2rem;
     left: 0rem;
     width: 100%;
     font-size: 1.4rem;
     .main-nav {
-      width: 100rem;
+      width: 124rem;
+      height: 8rem;
+      background: url("./UI/nav.png");
       display: flex;
       align-items: center;
       justify-content: space-around;
-      // color: #33eaff;
       color: rgba(91, 169, 233, 0.8);
       margin: 0 auto;
       border-radius: 4px;
       .nav-check {
         .icon {
-          font-size: 5rem;
+          font-size: 3rem;
+          opacity: 0.8;
         }
         &:hover {
           color: #33eaff;
@@ -579,6 +609,60 @@ export default {
           background: rgba(0, 0, 0, 0.5);
           color: #86d0ff;
         }
+      }
+    }
+  }
+  // 左侧栏
+  .aside-left {
+    width: 27rem;
+    height: 54rem;
+    // background: rgba(8, 29, 79, 1);
+    background: url("./UI/left_color.png");
+    // border: 1px solid rgba(30, 159, 255, 1);
+    box-shadow: 0px 9px 21px 0px rgba(12, 7, 4, 0.35);
+    opacity: 0.95;
+    position: absolute;
+    top: 3.2rem;
+    left: 1rem;
+    .first-item {
+      height: 7rem;
+    }
+    .second-item {
+      height: 7.9rem;
+    }
+    .third-item {
+      height: 8.2rem;
+    }
+    .fourth-item {
+      height: 14.3rem;
+    }
+    .fifth-item {
+      height: 16rem;
+    }
+  }
+  //右侧边栏
+  .aside-right {
+    height: calc(~"100% - 5.5rem");
+    position: fixed;
+    right: 0;
+    top: 5.5rem;
+    z-index: 10;
+    .title {
+      width: 2.7rem;
+      height: 20rem;
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 1);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      position: absolute;
+      left: -2.6rem;
+      top: calc(~"50% - 10rem");
+      background: url(./UI/right.png) no-repeat;
+      background-position: center;
+      p {
+        text-align: center;
+        cursor: pointer;
       }
     }
   }
@@ -731,6 +815,19 @@ export default {
         display: block;
       }
     }
+  }
+  //报警信息
+  .alarm-item {
+    position: absolute;
+    top: 5rem;
+    left: calc(~"50% - 37rem");
+    width: 74rem;
+    height: 5rem;
+    line-height: 5rem;
+    font-size: 1.6rem;
+    background: url("./UI/alarm.png") no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
   }
 }
 
