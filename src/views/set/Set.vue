@@ -5,6 +5,7 @@
         <li>显示</li>
         <li>报警</li>
         <li>考勤</li>
+        <li>设备</li>
       </ul>
       <div class="content">
         <div class="set-show">
@@ -21,6 +22,9 @@
         <div class="set-attendance">
           <input type="checkbox" />基站
           <input type="checkbox" />摄像头
+        </div>
+        <div class="set-equip">
+           定位频率:<input type="text" />
         </div>
       </div>
     </div>

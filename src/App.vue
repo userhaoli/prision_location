@@ -45,12 +45,14 @@ export default {
 
 <style lang="less">
 #app {
-  background: #00071d;
+  // background-color: #00071d;
   color: #fff;
   .title-style {
     position: relative;
-    height: 8rem;
+    height: 7.5rem;
     width: 100%;
+    opacity: 0.1;
+    // background-color:rgba(255, 255, 255, 0.2);
     background: url("/images/title.png") no-repeat;
     background-size: 100% 100%;
     & > .icon {
