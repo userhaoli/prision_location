@@ -16,44 +16,34 @@
           <h4>电子点名</h4>
           <div class="call-content">
             <p>
-              <span style="color:#f00">一监区</span> 应到
-              <span style="color:#61a0a8">100</span> 实到
-              <span style="color:#d48265">95</span>
+              <span style="margin-right:2rem">一监区:</span> 应到
+              <span style="color:#A3C5FF;margin-right:2.5rem">100</span> 实到
+              <span style="color:#A3C5FF">95</span>
             </p>
             <p>
-              <span style="color:#f00">二监区</span> 应到
-              <span style="color:#61a0a8">100</span> 实到
-              <span style="color:#d48265">95</span>
+              <span style="margin-right:2rem">二监区:</span> 应到
+              <span style="color:#A3C5FF;margin-right:2.5rem">100</span> 实到
+              <span style="color:#A3C5FF">95</span>
             </p>
             <p>
-              <span style="color:#f00">三监区</span> 应到
-              <span style="color:#61a0a8">100</span> 实到
-              <span style="color:#d48265">95</span>
+              <span style="margin-right:2rem">三监区:</span> 应到
+              <span style="color:#A3C5FF;margin-right:2.5rem">100</span> 实到
+              <span style="color:#A3C5FF">95</span>
             </p>
             <p>
-              <span style="color:#f00">四监区</span> 应到
-              <span style="color:#61a0a8">100</span> 实到
-              <span style="color:#d48265">95</span>
+              <span style="margin-right:2rem">四监区:</span> 应到
+              <span style="color:#A3C5FF;margin-right:2.5rem">100</span> 实到
+              <span style="color:#A3C5FF">95</span>
             </p>
             <p>
-              <span style="color:#f00">五监区</span> 应到
-              <span style="color:#61a0a8">100</span> 实到
-              <span style="color:#d48265">95</span>
+              <span style="margin-right:2rem">五监区:</span> 应到
+              <span style="color:#A3C5FF;margin-right:2.5rem">100</span> 实到
+              <span style="color:#A3C5FF">95</span>
             </p>
             <p>
-              <span style="color:#f00">六监区</span> 应到
-              <span style="color:#61a0a8">100</span> 实到
-              <span style="color:#d48265">95</span>
-            </p>
-            <p>
-              <span style="color:#f00">七监区</span> 应到
-              <span style="color:#61a0a8">100</span> 实到
-              <span style="color:#d48265">95</span>
-            </p>
-            <p>
-              <span style="color:#f00">八监区</span> 应到
-              <span style="color:#61a0a8">100</span> 实到
-              <span style="color:#d48265">95</span>
+              <span style="margin-right:2rem">六监区:</span> 应到
+              <span style="color:#A3C5FF;margin-right:2.5rem">100</span> 实到
+              <span style="color:#A3C5FF">95</span>
             </p>
           </div>
         </li>
@@ -102,7 +92,7 @@
 </template>
 
 <script>
-import { init3d, animate,onResize } from "@/utils/three/index.js";
+import { init3d, animate, onResize } from "@/utils/three/index.js";
 
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/pie");
@@ -143,6 +133,53 @@ export default {
     window.addEventListener("resize", onResize.bind(this));
   },
   methods: {
+    // initAlarm() {
+    //   let myChart = echarts.init(this.$refs.statistics);
+    //   myChart.setOption({
+    //     tooltip: {
+    //       trigger: "item",
+    //       formatter: "{a} <br/>{b}: {c} ({d}%)"
+    //     },
+    //     legend: {
+    //       orient: "vertical",
+    //       left: 10,
+    //       data: ["紧急", "一般", "危急"],
+    //       textStyle:{color:"#859EED"}
+    //     },
+    //     series: [
+    //       {
+    //         name: "处理情况",
+    //         type: "pie",
+    //         selectedMode: "single",
+    //         radius: [0, "30%"],
+    //         label: {
+    //           position: "inner"
+    //         },
+    //         labelLine: {
+    //           show: false
+    //         },
+    //         data: [
+    //           { value: 679, name: "未处理 679",itemStyle:{color:"#6E88DF"}  },
+    //           { value: 1548, name: "已处理 1548",itemStyle:{color:"#3252BA"}  }
+    //         ]
+    //       },
+    //       {
+    //         name: "报警等级",
+    //         type: "pie",
+    //         radius: ["50%", "80%"],
+    //         label: {
+    //           position: "outside",
+    //           color:"#859EED"
+    //         },
+    //         data: [
+    //           { value: 310, name: "紧急 310" },
+    //           { value: 234, name: "一般 234" },
+    //           { value: 135, name: "危急 135" }
+    //         ]
+    //       }
+    //     ]
+    //   });
+    // },
     initAlarm() {
       let myChart = echarts.init(this.$refs.statistics);
       myChart.setOption({
@@ -153,36 +190,56 @@ export default {
         legend: {
           orient: "vertical",
           left: 10,
-          data: ["紧急", "一般", "危急"]
+          data: ["紧急", "一般", "危急"],
+          textStyle: { color: "#859EED" }
         },
         series: [
           {
-            name: "处理情况",
-            type: "pie",
-            selectedMode: "single",
-            radius: [0, "30%"],
-            label: {
-              position: "inner"
-            },
-            labelLine: {
-              show: false
-            },
-            data: [
-              { value: 679, name: "未处理 679" },
-              { value: 1548, name: "已处理 1548" }
-            ]
-          },
-          {
             name: "报警等级",
             type: "pie",
-            radius: ["45%", "80%"],
+            radius: ["30%", "60%"],
             label: {
-              position: "inner"
+              position: "outside",
+              color: "#859EED"
+            },
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "#859EED"
+              }
             },
             data: [
-              { value: 310, name: "紧急 310" },
-              { value: 234, name: "一般 234" },
-              { value: 135, name: "危急 135" }
+              {
+                value: 310,
+                name: "已处理 310",
+                itemStyle: { color: "#3252BA" },
+                labelLine: { length: 10, length2: 10 }
+              },
+              {
+                value: 40,
+                name: "未处理 10",
+                itemStyle: {
+                  color: {
+                    type: "radial",
+                    x: 1,
+                    y: 1,
+                    r: 3,
+                    colorStops: [
+                      {
+                        offset: 0,
+                        color: "rgba(163,185,255,1)" // 0% 处的颜色
+                      },
+                      {
+                        offset: 1,
+                        color: "rgba(50,82,186,1)" // 100% 处的颜色
+                      }
+                    ],
+                    global: false // 缺省为 false
+                  }
+                },
+                labelLine: { length: 10, length2: 10 }
+              }
             ]
           }
         ]
@@ -197,8 +254,7 @@ export default {
         },
         legend: {
           orient: "vertical",
-          left: "left",
-          data: ["直接访问", "邮件营销", "联盟广告", "视频广告", "搜索引擎"]
+          left: "left"
         },
         series: [
           {
@@ -207,17 +263,18 @@ export default {
             radius: "60%",
             center: ["50%", "50%"],
             data: [
-              { value: 335, name: "一监区" },
-              { value: 310, name: "一监区" },
-              { value: 234, name: "一厂区" },
-              { value: 135, name: "二厂区" },
-              { value: 1548, name: "一监舍" }
+              { value: 335, name: "一监区",label:{color:"#EFBF6F"}, itemStyle: { color: "#EFBF6F" }, },
+              { value: 310, name: "一监区",label:{color:"#849DEC"}, itemStyle: { color: "#849DEC" },},
+              { value: 234, name: "一厂区",label:{color:"#E65F7F"}, itemStyle: { color: "#E65F7F" } },
+              { value: 135, name: "二厂区",label:{color:"#3252BA"}, itemStyle: { color: "#3252BA"} , },
+              // { value: 1548, name: "一监舍",label:{color:"#EFBF6F"} }
             ],
+            labelLine: { length: 6, length2: 6 },
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
+                shadowColor: "#859EED"
               }
             }
           }
@@ -285,7 +342,7 @@ export default {
 </script>
 
 <style lang="less">
-@hei: 3.4rem;
+@hei: 3.8rem;
 @pHeight: 2.6rem;
 
 .index {
@@ -296,18 +353,28 @@ export default {
     height: @hei;
     line-height: @hei;
     text-indent: 0.6rem;
+    font-weight: 400;
+    font-size: 2rem;
+    color: rgba(61, 209, 255, 1);
+    padding: 0 2rem;
+    box-sizing: border-box;
   }
 
   ul {
     display: flex;
     flex-direction: column;
-    width: 30rem;
+    width: 31rem;
     li {
-      width: 26rem;
-      height: 26rem;
+      font-family: Microsoft YaHei;
+      width: 30rem;
+      height: 29rem;
       margin: 0 auto;
       margin-top: 1rem;
-      border: 1px solid #fff;
+      background: url("./UI/index_box.png") no-repeat;
+      background-position: center;
+      background-size: 100% 100%;
+      // padding: 0 2rem;
+      box-sizing: border-box;
       & > div {
         height: calc(~"100% - @{hei}");
       }
@@ -325,11 +392,18 @@ export default {
         margin: 0 auto;
       }
     }
+    .monitor-key {
+      background: url("./UI/important_monitor.png") no-repeat;
+      background-position: center;
+      background-size: 100% 100%;
+    }
     .call-content {
       overflow: hidden;
+      padding: 0 2rem;
+      box-sizing: border-box;
       p {
-        height: @pHeight;
-        line-height: @pHeight;
+        height: 3.6rem;
+        line-height: 3.6rem;
         text-indent: 1rem;
       }
     }
@@ -340,6 +414,8 @@ export default {
     top: 0;
     .alarm-content {
       overflow: hidden;
+      padding: 0 2rem;
+      box-sizing: border-box;
       p {
         height: 4rem;
         text-indent: 1rem;

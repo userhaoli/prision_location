@@ -1,71 +1,6 @@
 <template>
   <div class="home root-element">
     <canvas class="canvas" ref="canvas"></canvas>
-    <!-- 弹窗 -->
-    <div class="popup" v-show="popupShow">
-      <router-view></router-view>
-    </div>
-    <!-- 导航栏 -->
-    <div class="nav-container">
-      <div class="main-nav">
-        <div class="nav-check">
-          <span class="icon iconfont">&#xe600;</span>
-        </div>
-        <ul class="nav-items">
-          <li @click="linkPage(0)" :class="classArr[0]">
-            <span class="icon iconfont">&#xe61d;</span>
-            <p>主页</p>
-          </li>
-          <li @click="linkPage(1)" :class="classArr[1]">
-            <span class="icon iconfont">&#xe61e;</span>
-            <p>轨迹回放</p>
-          </li>
-          <li @click="linkPage(2)" :class="classArr[2]">
-            <span class="icon iconfont">&#xe638;</span>
-            <p>电子考勤</p>
-          </li>
-          <li @click="linkPage(3)" :class="classArr[3]">
-            <span class="icon iconfont">&#xe61a;</span>
-            <p>电子围栏</p>
-          </li>
-          <li @click="linkPage(4)" :class="classArr[4]">
-            <span class="icon iconfont">&#xe62e;</span>
-            <p class="name">数据分析</p>
-          </li>
-          <li @click="linkPage(5)" :class="classArr[5]">
-            <span class="icon iconfont">&#xe63d;</span>
-            <p class="name">警力部署</p>
-          </li>
-          <li @click="linkPage(6)" :class="classArr[6]">
-            <span class="icon iconfont">&#xe603;</span>
-            <p class="name">设备管理</p>
-          </li>
-          <li @click="linkPage(7)" :class="classArr[7]">
-            <span class="icon iconfont">&#xe624;</span>
-            <p class="name">报警信息</p>
-          </li>
-          <li @click="linkPage(8)" :class="classArr[8]">
-            <span class="icon iconfont">&#xe6d8;</span>
-            <p class="name">人员信息</p>
-          </li>
-          <li @click="linkPage(9)" :class="classArr[9]">
-            <span class="icon iconfont">&#xe60d;</span>
-            <p class="name">互监组</p>
-          </li>
-          <li @click="linkPage(10)" :class="classArr[10]">
-            <span class="icon iconfont">&#xe7e8;</span>
-            <p class="name">摄像头</p>
-          </li>
-          <li @click="linkPage(11)" :class="classArr[11]">
-            <span class="icon iconfont">&#xe627;</span>
-            <p class="name">系统设置</p>
-          </li>
-        </ul>
-        <div class="nav-check">
-          <span class="icon iconfont">&#xe602;</span>
-        </div>
-      </div>
-    </div>
     <!-- 摄像头右键操作面板 -->
     <div class="camera-menu" v-show="cameraMenu" ref="cameraMenu">
       <div>
@@ -80,12 +15,88 @@
       </div>
     </div>
     <!-- 左侧信息栏 -->
-    <div class="aside-left">
+    <div class="open-left" v-show="isShowOther" @click="switchHandle(6)"></div>
+    <div class="aside-left" v-show="!isShowOther">
       <div class="first-item">一监区 一楼 302监舍</div>
-      <div class="second-item"></div>
-      <div class="third-item"></div>
-      <div class="fourth-item"></div>
-      <div class="fifth-item"></div>
+      <div class="second-item">
+        <div class="item-title">人员统计</div>
+        <div class="box-statistics">
+          <span>78</span>
+          <p>总人数</p>
+        </div>
+        <div class="box-statistics">
+          <span>69</span>
+          <p>当前人数</p>
+        </div>
+      </div>
+      <div class="third-item">
+        <div class="item-title">报警信息</div>
+        <div class="box-statistics">
+          <span>5</span>
+          <p>待处理</p>
+        </div>
+        <div class="box-statistics">
+          <span>1</span>
+          <p>危急</p>
+        </div>
+      </div>
+      <div class="fourth-item">
+        <div class="item-title">设备统计</div>
+        <div class="box-statistics">
+          <span>30</span>
+          <p>基站</p>
+          <span class="spanmt20">20</span>
+          <p>标签</p>
+        </div>
+        <div class="box-statistics">
+          <span>32</span>
+          <p>摄像头</p>
+          <span class="spanmt20">12</span>
+          <p>其它</p>
+        </div>
+      </div>
+      <ul class="fifth-item">
+        <div @click="switchHandle(0)">
+          <p>水滴图</p>
+          <img src="./UI/switch_off.png" alt v-show="!isWaterImg" />
+          <img src="./UI/switch_on.png" alt v-show="isWaterImg" />
+        </div>
+        <div @click="switchHandle(1)">
+          <p>人员</p>
+          <img src="./UI/switch_off.png" alt v-show="!isShowPeson" />
+          <img src="./UI/switch_on.png" alt v-show="isShowPeson" />
+        </div>
+        <div @click="switchHandle(2)">
+          <p>围栏</p>
+          <img src="./UI/switch_off.png" alt v-show="!isShowDefence" />
+          <img src="./UI/switch_on.png" alt v-show="isShowDefence" />
+        </div>
+        <div @click="switchHandle(3)">
+          <p>基站</p>
+          <img src="./UI/switch_off.png" alt v-show="!isShowStation" />
+          <img src="./UI/switch_on.png" alt v-show="isShowStation" />
+        </div>
+        <div @click="switchHandle(4)">
+          <p>摄像头</p>
+          <img src="./UI/switch_off.png" alt v-show="!isShowCamera" />
+          <img src="./UI/switch_on.png" alt v-show="isShowCamera" />
+        </div>
+        <div @click="switchHandle(5)">
+          <p>3D地图</p>
+          <img src="./UI/switch_off.png" alt v-show="!isShow3D" />
+          <img src="./UI/switch_on.png" alt v-show="isShow3D" />
+        </div>
+        <div @click="switchHandle(6)">
+          <p>面板隐藏</p>
+          <img src="./UI/switch_off.png" alt v-show="!isShowOther" />
+          <img src="./UI/switch_on.png" alt v-show="isShowOther" />
+        </div>
+        <div @click="switchHandle(7)">
+          <p>导航栏</p>
+          <img src="./UI/switch_off.png" alt v-show="!isShowNav" />
+          <img src="./UI/switch_on.png" alt v-show="isShowNav" />
+        </div>
+      </ul>
     </div>
     <!-- 右侧报警处理 -->
     <div class="aside-right">
@@ -101,17 +112,65 @@
       <div class="little-map" v-show="!mapHidden" ref="littleMap">
         <div class="map-nav">
           <div calss="map-name">小地图</div>
+          <ul>
+            <li>
+              <span @click="hidden(true)" @touchstart.stop.prevent="hidden(true)">隐藏</span>
+            </li>
+          </ul>
         </div>
         <div class="container">
           <canvas ref="littleCanvas" id="littleCanvas" width="280" height="140">
             <P>你的浏览器不支持"canvas"!请升级浏览器!</P>
           </canvas>
           <canvas id="innerCanvas" ref="innerCanvas" width="280" height="140"></canvas>
+          <!-- :style="'backgroundImage:' + backImage" -->
+        </div>
+      </div>
+    </transition>
+    <transition name="slide-fade">
+      <div
+        class="map-hidden"
+        v-show="mapHidden"
+        @click="hidden(false)"
+        @touchstart.stop.prevent="hidden(false)"
+      >
+        <div>
+          <img src="./UI/mapBtn.png" alt />
+          <span>小地图</span>
         </div>
       </div>
     </transition>
     <!-- 报警信息 -->
-    <div class="alarm-item" v-show="true">2020-06-17 18:12:51 <span style="color:#f00">[危急]</span>  一监区 32号监舍发生越界报警越界报...</div>
+    <div class="alarm-item" v-show="true">
+      2020-06-17 18:12:51
+      <span style="color:#f00">[危急]</span> 一监区 32号监舍发生越界报警越界报...
+    </div>
+    <!-- 弹窗 -->
+    <div class="popup" v-show="popupShow">
+      <router-view></router-view>
+    </div>
+    <!-- 导航栏 -->
+    <div class="nav-container" v-show="isShowNav">
+      <div class="main-nav">
+        <div class="nav-check" @click="changeSwitch">
+          <span class="icon iconfont">&#xe600;</span>
+        </div>
+        <ul class="nav-items">
+          <li
+            @click="linkPage(item.path)"
+            :class="item.class"
+            v-for="(item,index) in navArr"
+            :key="index"
+          >
+            <span class="icon iconfont" v-html="item.icon"></span>
+            <p>{{item.name}}</p>
+          </li>
+        </ul>
+        <div class="nav-check right-check" @click="changeSwitch">
+          <span class="icon iconfont">&#xe602;</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -147,6 +206,62 @@ export default {
       trackBackFlag: false, //轨迹回放标识
       mousePos: null,
       cameraMenu: false, //右键摄像头菜单栏
+      navArr: [],
+      allNav: [
+        { name: "主页", icon: "&#xe61d;", path: "/home", class: "" },
+        {
+          name: "轨迹回放",
+          icon: "&#xe61e;",
+          path: "/home/tracklist",
+          class: ""
+        },
+        { name: "电子考勤", icon: "&#xe638;", path: "/attendance", class: "" },
+        {
+          name: "电子围栏",
+          icon: "&#xe61a;",
+          path: "/home/defencelist",
+          class: ""
+        },
+        {
+          name: "数据分析",
+          icon: "&#xe62e;",
+          path: "/home/analysis",
+          class: ""
+        },
+        {
+          name: "警力部署",
+          icon: "&#xe63d;",
+          path: "/policelocation",
+          class: ""
+        },
+        {
+          name: "设备管理",
+          icon: "&#xe603;",
+          path: "/home/equipmentlist",
+          class: ""
+        },
+        {
+          name: "报警信息",
+          icon: "&#xe624;",
+          path: "/home/alarmlist",
+          class: ""
+        },
+        {
+          name: "人员信息",
+          icon: "&#xe6d8;",
+          path: "/home/personlist",
+          class: ""
+        },
+        { name: "互监组", icon: "&#xe60d;", path: "/home/hjzlist", class: "" },
+        {
+          name: "摄像头",
+          icon: "&#xe7e8;",
+          path: "/home/cameralist",
+          class: ""
+        },
+        { name: "系统设置", icon: "&#xe627;", path: "/home/set", class: "" }
+      ],
+      classArr: [],
       pathArr: [
         "/home",
         "/home/tracklist",
@@ -160,13 +275,29 @@ export default {
         "/home/hjzlist",
         "/home/cameralist",
         "/home/set"
-      ],
-      classArr: [],
-      rightFlag: false,
-      mapHidden: false
+      ], //导航路径
+      maxNavLength: 10,
+      rightFlag: false, //右侧栏显示隐藏
+      mapHidden: false, //小地图隐藏
+      isWaterImg: true,
+      isShowPeson: true,
+      isShowDefence: true,
+      isShowStation: false,
+      isShowCamera: true,
+      isShow3D: false,
+      isShowOther: false,
+      isShowNav: true
     };
   },
   mounted() {
+    // let data = JSON.parse(sessionStorage.getItem("nav"));
+    // if (data) {
+    //   this.navArr = data;
+    // } else {
+    this.navArr = this.allNav.slice(0, this.maxNavLength);
+    //   sessionStorage.setItem("nav", JSON.stringify(this.navArr));
+    // }
+    console.log(this.navArr);
     let canvas = this.$refs.canvas;
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
@@ -228,6 +359,7 @@ export default {
     //地图拖动
     canvas.addEventListener("mousedown", e => {
       this.cameraMenu = false;
+      this.$refs.canvas.style.cursor = "move";
       if (e.target !== canvas) return;
       this.isDrag = true;
       this.mousePos = {
@@ -450,6 +582,7 @@ export default {
       mapDrag.call(this, e, getBuffer);
     },
     upHandler() {
+      this.$refs.canvas.style.cursor = "default";
       this.isfollowing = true;
       this.litMapflag = false;
       this.isDrag = false;
@@ -459,8 +592,7 @@ export default {
         y: undefined
       };
     },
-    linkPage(index) {
-      let path = this.pathArr[index];
+    linkPage(path) {
       if (this.$route.path === path) {
         return;
       }
@@ -497,6 +629,49 @@ export default {
     //显示报警详情页
     showDetail() {
       this.$router.push("/home/detail");
+    },
+    //切换导航栏
+    changeSwitch() {
+      if (this.navArr.length === this.maxNavLength) {
+        this.navArr = this.allNav.slice(this.maxNavLength);
+      } else {
+        this.navArr = this.allNav.slice(0, this.maxNavLength);
+      }
+      sessionStorage.setItem("nav", JSON.stringify(this.navArr));
+    },
+    //切换开关
+    switchHandle(index) {
+      switch (index) {
+        case 0:
+          this.isWaterImg = !this.isWaterImg;
+          break;
+        case 1:
+          this.isShowPeson = !this.isShowPeson;
+          break;
+        case 2:
+          this.isShowDefence = !this.isShowDefence;
+          break;
+        case 3:
+          this.isShowStation = !this.isShowStation;
+          break;
+        case 4:
+          this.isShowCamera = !this.isShowCamera;
+          break;
+        case 5:
+          this.isShow3D = !this.isShow3D;
+          break;
+        case 6:
+          this.isShowOther = !this.isShowOther;
+          break;
+        case 7:
+          this.isShowNav = !this.isShowNav;
+          break;
+        default:
+          break;
+      }
+    },
+    hidden(flag) {
+      this.mapHidden = flag;
     }
   },
   beforeDestroy() {
@@ -507,18 +682,39 @@ export default {
   },
   watch: {
     $route: {
+      // handler(val) {
+      //   let length = this.navArr.length;
+      //   this.classArr = [];
+      //   if (val.name === "Main" || val.name === "Home") {
+      //     this.popupShow = false;
+      //     if (length === 0 || length === this.maxNavLength) {
+      //      this.classArr[0] = "active";
+      //     }
+      //   } else {
+      //     this.popupShow = true;
+      //     this.pathArr.forEach((value, index) => {
+      //       if (value === val.path) {
+      //         if( length === 0 ||  length  === this.maxNavLength ){
+      //               this.classArr[index] = "active";
+      //         }else{
+      //            this.classArr[index-this.maxNavLength] = "active";
+      //         }
+      //       }
+      //     });
+      //   }
+      // },
       handler(val) {
-        this.classArr = [];
+        this.popupShow = true;
+        this.allNav.forEach(value => {
+          value.class = "";
+          if (value.path === val.path) {
+            value.class = "active";
+          }
+        });
         if (val.name === "Main" || val.name === "Home") {
           this.popupShow = false;
-          this.classArr[0] = "active";
-        } else {
-          this.popupShow = true;
-          this.pathArr.forEach((value, index) => {
-            if (value === val.path) {
-              this.classArr[index] = "active";
-            }
-          });
+          this.allNav[0].class = "active";
+          console.log(this.allNav, this.navArr);
         }
       },
       immediate: true,
@@ -534,6 +730,7 @@ export default {
   .canvas {
     width: 100%;
     height: 100%;
+    // cursor: move;
   }
   .nav-container {
     position: fixed;
@@ -547,7 +744,7 @@ export default {
       background: url("./UI/nav.png");
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: center;
       color: rgba(91, 169, 233, 0.8);
       margin: 0 auto;
       border-radius: 4px;
@@ -560,18 +757,32 @@ export default {
           color: #33eaff;
         }
       }
+      .right-check {
+        margin-left: 4rem;
+      }
       .nav-items {
         display: flex;
-        width: 80rem;
+        width: 100rem;
         text-align: center;
         li {
-          width: 10rem;
+          cursor: pointer;
+          width: 6rem;
+          height: 8rem;
+          background: rgba(255, 255, 255, 0);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-left: 4rem;
           &:hover {
-            color: #33eaff;
+            color: #66e4ff;
+            background: url("./UI/active.png") no-repeat;
+            background-position: center;
           }
         }
         .active {
-          color: #33eaff;
+          color: #66e4ff;
+          background: url("./UI/active.png") no-repeat;
+          background-position: center;
         }
       }
       .icon {
@@ -616,29 +827,85 @@ export default {
   .aside-left {
     width: 27rem;
     height: 54rem;
-    // background: rgba(8, 29, 79, 1);
     background: url("./UI/left_color.png");
-    // border: 1px solid rgba(30, 159, 255, 1);
     box-shadow: 0px 9px 21px 0px rgba(12, 7, 4, 0.35);
     opacity: 0.95;
     position: absolute;
     top: 3.2rem;
     left: 1rem;
+    & > div {
+      display: flex;
+      justify-content: space-around;
+      font-size: 1.6rem;
+      text-align: center;
+      align-items: center;
+      .item-title {
+        width: 3.2rem;
+      }
+      .box-statistics {
+        width: 22%;
+        span {
+          font-size: 2.4rem;
+        }
+        p {
+          font-size: 1.4rem;
+        }
+      }
+    }
     .first-item {
+      display: block;
       height: 7rem;
+      line-height: 8rem;
+      text-align: left;
+      font-size: 2rem;
+      text-indent: 1.6rem;
+      border-bottom: 1px solid rgba(51, 119, 233, 0.5);
     }
     .second-item {
       height: 7.9rem;
+      border-bottom: 1px solid rgba(51, 119, 233, 0.5);
     }
     .third-item {
       height: 8.2rem;
+      border-bottom: 1px solid rgba(51, 119, 233, 0.5);
     }
     .fourth-item {
       height: 14.3rem;
+      border-bottom: 1px solid rgba(51, 119, 233, 0.5);
     }
     .fifth-item {
+      display: flex;
       height: 16rem;
+      font-size: 1.6rem;
+      flex-wrap: wrap;
+      padding: 0.5rem 1.5rem 1.2rem 1rem;
+      box-sizing: border-box;
+      justify-content: space-between;
+      & > div {
+        width: 46%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        // padding:0 1rem;
+        box-sizing: border-box;
+        img {
+          width: 3.2rem;
+          height: 1.6rem;
+          cursor: pointer;
+        }
+        p {
+          width: 7rem;
+        }
+      }
     }
+  }
+  .open-left {
+    width: 10rem;
+    height: 4rem;
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    background: #f00;
   }
   //右侧边栏
   .aside-right {
@@ -814,6 +1081,40 @@ export default {
       &:hover .set-display {
         display: block;
       }
+    }
+  }
+  .map-hidden {
+    position: fixed;
+    left: 2rem;
+    bottom: 2rem;
+    display: flex;
+    align-items: flex-end;
+    div {
+      font-size: 1.2rem;
+      color: #fff;
+      margin-right: 1rem;
+      width: 5rem;
+      height: 5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(42, 72, 137, 1);
+      box-shadow: 1px 1px 0.5rem 0px rgba(4, 0, 0, 0.8);
+      border-radius: 3px;
+      cursor: pointer;
+      img {
+        width: 2.4rem;
+        margin-bottom: 0.2rem;
+        // vertical-align: bottom;
+      }
+    }
+    .rate {
+      width: 8rem;
+      height: 3rem;
+      // background-image: url(./UI/line.png);
+      background-repeat: no-repeat;
+      background-position: 50% 80%;
     }
   }
   //报警信息

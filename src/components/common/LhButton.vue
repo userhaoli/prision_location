@@ -32,7 +32,7 @@ export default {
 button {
   font-size: 1.3rem;
   color: rgba(255, 255, 255, 1);
-  background: rgba(54, 114, 195, 1);
+  background: #3672C3;
   background-position: center;
   box-sizing: border-box;
   border: 0;

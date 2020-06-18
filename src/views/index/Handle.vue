@@ -55,7 +55,7 @@
             }}
           </span>
           <p>
-            {{ item.logtime | formatTime }}
+             <span style="line-height:2.6rem">{{ item.logtime | formatTime }}</span> <br/>
             <span style="color:#FF7352">[{{item.map.name}}]</span>发生
             <span style="color:#D9354E">
               [{{
@@ -426,6 +426,7 @@ button {
       border: 1px solid rgba(51, 119, 233, 1);
       opacity: 0.8;
       border-radius: 0.3rem;
+      box-sizing: border-box;
       .top-bar {
         display: flex;
         justify-content: space-between;
@@ -441,7 +442,7 @@ button {
         }
         p {
           margin: 0;
-          width: 19rem;
+          width: 22rem;
           padding-right: 0.6rem;
           font-size: 1.3rem;
           line-height: 1.6rem;
@@ -450,6 +451,7 @@ button {
       .bot-bar {
         text-align: right;
         line-height: 2.6rem;
+        margin-top:0.6rem;
         button {
           font-size: 1.2rem;
           color: #fff;
