@@ -1,5 +1,6 @@
 <template>
-  <div class="track-panel">
+  <div class="track-panel  pop-container">
+     <div class="pop-title">电子围栏</div>
     <ul class="view-mode">
       <li>
         <search-item holder="请输入人员信息" @search="getValue" @valueChange="valueChange"></search-item>
@@ -280,11 +281,6 @@ li.el-time-spinner__item .active {
 }
 .el-picker-panel__icon-btn {
   color: #eee;
-}
-.track-panel {
-  /*background: rgba(24, 45, 77, 0.6);*/
-  height: 94%;
-  padding: 0 1rem;
 }
 .view-mode {
   display: flex;

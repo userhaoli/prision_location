@@ -1,5 +1,6 @@
 <template>
-  <div class="table-wrapper">
+  <div class="table-wrapper pop-container">
+    <div class="pop-title">摄像头</div>
     <div class="camera-oper">
       <spinner :content="mapArr[mapid]||'地图'" :list="mapArr" @sendValue="getValue"></spinner>
       <search-item @valueChange="searchValue" holder="请输入设备编号"></search-item>
@@ -41,7 +42,7 @@
           <div class="check-detail">
             <div class="content-controller play-icon">
               <img
-                src=""
+                src
                 alt="播放"
                 title="播放"
                 @click="loadMonitor(scopes.row.id)"
@@ -187,7 +188,7 @@ export default {
   color: rgba(255, 255, 255, 1);
 }
 
-.table-wrapper  .el-table--fit {
+.table-wrapper .el-table--fit {
   /*height: 40rem;*/
   background: rgba(178, 223, 255, 0.1);
   border-radius: 0.5rem;
@@ -196,35 +197,35 @@ export default {
 .el-table__expanded-cell {
   background-color: transparent;
 }
-.table-wrapper  .el-table_1_column_5 {
+.table-wrapper .el-table_1_column_5 {
   width: 5rem !important;
 }
-.table-wrapper  .el-table__header-wrapper {
+.table-wrapper .el-table__header-wrapper {
   height: 3.6rem;
   background: rgba(178, 223, 255, 0.2);
   border-radius: 0.5rem 0.5rem 0rem 0rem;
 }
-.table-wrapper  .el-table__header-wrapper th {
+.table-wrapper .el-table__header-wrapper th {
   padding: 0;
 }
-.table-wrapper  .el-table__expand-icon {
+.table-wrapper .el-table__expand-icon {
   color: #fff;
 }
-.table-wrapper  .el-form-item__label {
+.table-wrapper .el-form-item__label {
   color: #fff;
 }
-.table-wrapper  .el-table__expand-icon > .el-icon {
+.table-wrapper .el-table__expand-icon > .el-icon {
   margin-top: -0.7rem;
 }
-.table-wrapper  .el-form-item {
+.table-wrapper .el-form-item {
   padding: 0 5.5rem;
   margin: 0;
 }
-.table-wrapper  .el-table tr {
+.table-wrapper .el-table tr {
   background-color: transparent !important;
   height: 3.6rem;
 }
-.table-wrapper  .el-table--enable-row-transition .el-table__body td,
+.table-wrapper .el-table--enable-row-transition .el-table__body td,
 .el-table .cell {
   background-color: transparent;
   padding: 0;
@@ -249,16 +250,10 @@ export default {
     height: 3rem;
   }
 }
-.table-wrapper  .el-table tr:hover {
+.table-wrapper .el-table tr:hover {
   background: rgba(134, 208, 255, 0.1) !important;
 }
 .table-wrapper {
-  padding: 0 1rem;
-  // margin-top: 1rem;
-  height: 45rem;
-  // overflow: auto;
-  color: rgba(255, 255, 255, 1);
-  border: none;
   .camera-oper {
     display: flex;
     justify-content: space-between;

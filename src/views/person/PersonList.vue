@@ -1,5 +1,6 @@
 <template>
-  <div class="person-info">
+  <div class="person-list pop-container">
+       <div class="pop-title">人员列表</div>
     <div class="monitor-content">
       <div class="left-content">
         <div class="content-controller">
@@ -352,13 +353,7 @@ export default {
 </script>
 
 <style lang="less">
-.person-info {
-  width: 100%;
-  height: 95%;
-  color: #72b2e3;
-  overflow: auto;
-  padding: 0 1rem;
-  box-sizing: border-box;
+.person-list {
   .monitor-content {
     font-size: 1.4rem;
     display: flex;

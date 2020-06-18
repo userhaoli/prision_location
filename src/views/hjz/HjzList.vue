@@ -1,5 +1,6 @@
 <template>
-  <div class="hjz-list">
+  <div class="hjz-list pop-container">
+    <div class="pop-title">互监组</div>
     <ul class="list">
       <li class="item">
         <div></div>
@@ -15,7 +16,11 @@
         <div>10</div>
         <div>200</div>
         <div>2020-06-10</div>
-        <div class="oper"><span @click="showDetail">详情</span>|<span @click="edit">编辑</span>|<span @click="delet">删除</span></div>
+        <div class="oper">
+          <span @click="showDetail">详情</span>|
+          <span @click="edit">编辑</span>|
+          <span @click="delet">删除</span>
+        </div>
       </li>
     </ul>
   </div>
@@ -23,31 +28,22 @@
 
 <script>
 export default {
-  data(){
-    return{
- 
-    }
+  data() {
+    return {};
   },
-  mounted(){
-
-  },
-  methods:{
-  showDetail(){
-     
-  },
-  edit(){
-    this.$router.push("/home/hjzedit")
-  },
-  delet(){
-
-  }
+  mounted() {},
+  methods: {
+    showDetail() {},
+    edit() {
+      this.$router.push("/home/hjzedit");
+    },
+    delet() {}
   }
 };
 </script>
 
 <style lang="less">
 .hjz-list {
-  font-size: 1.6rem;
   .list {
     width: 120rem;
     margin: 0 auto;
@@ -58,11 +54,11 @@ export default {
       & > div {
         width: 16%;
       }
-      .oper{
-        span{
+      .oper {
+        span {
           cursor: pointer;
           color: aqua;
-          &:hover{
+          &:hover {
             text-decoration: underline;
           }
         }

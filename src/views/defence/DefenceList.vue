@@ -1,10 +1,11 @@
 <template>
-  <div class="fence">
-    <div class="monitor-content">
+  <div class="fence pop-container">
+    <div class="pop-title">电子围栏</div>
+    <div class="defence-list">
       <div class="content-controller">
         <lh-button content="新增" @checkClick="add"></lh-button>
-        <lh-button content="编辑" @checkClick="edit" ></lh-button>
-        <lh-button content="删除" @checkClick="dele" ></lh-button>
+        <lh-button content="编辑" @checkClick="edit"></lh-button>
+        <lh-button content="删除" @checkClick="dele"></lh-button>
         <div class="check-bar">
           <div class="check-type">
             <spinner :content="mapArr[mapid]||'地图'" :list="mapArr" @sendValue="getMap"></spinner>
@@ -14,13 +15,14 @@
           </div>
         </div>
       </div>
-
       <div class="content">
         <!-- <ul class="monitor-grop-list left-content"> -->
         <transition-group
           tag="ul"
           class="monitor-grop-list left-content"
-           @touchstart="getFirstY" @touchmove="scrollElement" ref="listBar"
+          @touchstart="getFirstY"
+          @touchmove="scrollElement"
+          ref="listBar"
         >
           <li class="grop-title" key="title">
             <span class="first-item">
@@ -52,17 +54,20 @@
         </transition-group>
         <!-- </ul> -->
         <!-- <ul class="right-content" v-show="rightFlag"> -->
-        <transition-group
-          tag="ul"
-          class="right-content"
-          v-show="rightFlag"
-        >
+        <transition-group tag="ul" class="right-content" v-show="rightFlag">
           <li class="description" key="class">
             <div>围栏名称：{{ staffData.name }}</div>
             <div>触发类型：{{ staffData.type | formatType }}</div>
             <div>报警等级：{{ staffData.level == 0?'普通':'危险' }}</div>
-            <div>关联人员：<strong style="color: #d7e0ee">{{ staffData.range?'全体人员':'非全体人员' }}</strong></div>
-            <span class="icon iconfont hidden" @click="hidden" @touchstart.stop.prevent="hidden">&#xe614;</span>
+            <div>
+              关联人员：
+              <strong style="color: #d7e0ee">{{ staffData.range?'全体人员':'非全体人员' }}</strong>
+            </div>
+            <span
+              class="icon iconfont hidden"
+              @click="hidden"
+              @touchstart.stop.prevent="hidden"
+            >&#xe614;</span>
           </li>
           <li class="right-content-head" key="title">
             <span>姓名</span>
@@ -96,7 +101,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import LhButton from "@/components/common/LhButton.vue";
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
@@ -105,12 +109,11 @@ import Spinner from "@/components/common/Spinner.vue";
 import params from "@/apis/commonParams.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
 
-
 import {
   getPageFence,
   getFenceData,
   deleteFence,
-  getClassFence,
+  getClassFence
 } from "@/apis/interfance.js";
 
 export default {
@@ -124,7 +127,12 @@ export default {
   data() {
     return {
       classList: [],
-      titleBar: { name: "围栏名称", type: "触发类型", map: "地图", isShow: "地图显示" },
+      titleBar: {
+        name: "围栏名称",
+        type: "触发类型",
+        map: "地图",
+        isShow: "地图显示"
+      },
       staffData: { persons: [] },
       total: 0,
       isAll: false,
@@ -150,7 +158,7 @@ export default {
         "天府广场中间圆形区域",
         "",
         "天府广场负三楼一号线",
-        "天府广场负四楼二号线",
+        "天府广场负四楼二号线"
       ]
     };
   },
@@ -160,8 +168,7 @@ export default {
     this.getAllQueryMap();
   },
   methods: {
-    getAllQueryMap(){
-    },
+    getAllQueryMap() {},
     checkStaff(id) {
       this.rightFlag = true;
       getFenceData(id).then(data => {
@@ -180,7 +187,7 @@ export default {
       });
     },
     add() {
-      this.$router.push('/home/defencebuild')
+      this.$router.push("/home/defencebuild");
     },
     edit() {
       let newArr = this.classList.filter(value => {
@@ -193,7 +200,7 @@ export default {
       this.$emit("edit");
       getFenceData(newArr[0].id).then(data => {
         this.$store.state.fenceData = data;
-        this.$router.push("/home/defenceedit")
+        this.$router.push("/home/defenceedit");
       });
     },
     dele() {
@@ -333,8 +340,11 @@ export default {
         });
       });
     },
-    saveDefence(){
-      localStorage.setItem("defence",JSON.stringify(this.$store.state.defenceImgArr))
+    saveDefence() {
+      localStorage.setItem(
+        "defence",
+        JSON.stringify(this.$store.state.defenceImgArr)
+      );
     },
     hidden() {
       this.rightFlag = false;
@@ -353,19 +363,12 @@ export default {
 <style lang="less" scoped>
 .fence {
   font-size: 1.4rem;
-  width: 100%;
-  height: 94%;
-  color: #72b2e3;
   overflow: auto;
-  padding: 0 1rem;
   box-sizing: border-box;
-  .monitor-content {
-    // display: flex;
-    // margin-top: 30px;
-    // height: calc(~"100% - 30px");
-    // background: rgba(24, 45, 77, 0.6);
-    height: 100%;
+  .defence-list {
+    width: 100%;
     color: #fff;
+    margin: 0 auto;
     .left-content {
       width: 30%;
       height: 100%;
@@ -505,7 +508,7 @@ export default {
           margin: 0.4rem;
           &:hover {
             background: rgba(0, 0, 0, 0.3);
-            border-radius:0.3rem;
+            border-radius: 0.3rem;
           }
         }
       }
@@ -545,7 +548,7 @@ export default {
 .fence .el-switch.is-checked .el-switch__core::after {
   margin-left: -0.9rem;
 }
-.el-pagination__total{
+.el-pagination__total {
   color: #fff !important;
 }
 </style>

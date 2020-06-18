@@ -1,5 +1,6 @@
 <template>
-  <div class="equip-manage" @click="cancelAll">
+  <div class="equip-manage pop-container" @click="cancelAll">
+    <div class="pop-title">数据分析</div>
     <div class="content-controller">
       <div class="select-bar type-item">
         <button
@@ -113,7 +114,7 @@
         <div class="check-detail" style="width:15%">
           <div class="content-controller play-icon">
             <img
-              src=""
+              src
               alt="播放"
               title="播放"
               @click="loadMonitor(value.id)"
@@ -344,8 +345,7 @@ export default {
           uwb: "20.6.58.2",
           rfid: "19.3.9.6.2",
           soft_version: "v0.6.2.3"
-        }
-        ,
+        },
         {
           is_selected: false,
           ip: "10.106.200.205",
@@ -359,8 +359,7 @@ export default {
           uwb: "20.6.58.2",
           rfid: "19.3.9.6.2",
           soft_version: "v0.6.2.3"
-        }
-        ,
+        },
         {
           is_selected: false,
           ip: "10.106.200.207",
@@ -696,7 +695,13 @@ export default {
     },
     styleFilter(item) {
       let ip = item.ip;
-      if(ip === "10.106.200.11" || ip==="10.106.200.5" || ip==="10.106.200.14" || ip==="10.106.200.17" || ip==="10.106.200.20"){
+      if (
+        ip === "10.106.200.11" ||
+        ip === "10.106.200.5" ||
+        ip === "10.106.200.14" ||
+        ip === "10.106.200.17" ||
+        ip === "10.106.200.20"
+      ) {
         return 0;
       }
       let disTime = new Date() - item.lastreceivetime;
@@ -730,13 +735,8 @@ export default {
 </script>
 <style lang="less">
 .equip-manage {
-  width: 100%;
-  height: 94%;
-  color: #72b2e3;
   overflow: auto;
   font-size: 1.4rem;
-  padding: 0 1rem;
-  box-sizing: border-box;
   .equip-oper {
     display: flex;
     justify-content: space-between;

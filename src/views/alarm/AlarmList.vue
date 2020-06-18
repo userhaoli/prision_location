@@ -1,13 +1,8 @@
 <template>
-  <div class="alarm-panel">
+  <div class="alarm-panel pop-container">
+    <div class="pop-title">报警信息</div>
     <div @click="set" @touchstart.stop.prevent="set">
-      <img
-        width="22px"
-        height="22px"
-        class="setting-button"
-        src=""
-        content="设置"
-      />
+      <img width="22px" height="22px" class="setting-button" src content="设置" />
     </div>
     <ul class="check-bar">
       <!--报警等级-->
@@ -354,7 +349,7 @@ export default {
       content = content === "全部区域" ? "" : content;
     },
     showDetail(id) {
-      this.$router.push("/home/detail/"+id);
+      this.$router.push("/home/detail/" + id);
     },
     //根据地图id获取地图名称
     getMapNameById(mapId) {
@@ -552,11 +547,6 @@ li.el-time-spinner__item .active {
   border: none;
 }
 .alarm-panel {
-  font-size: 1.4rem;
-  height: 100%;
-  color: #fff;
-  padding: 0 1rem;
-  // background: rgba(24, 45, 77, 0.6);
   .alarm-type {
     padding: 0.4rem 1rem;
     border-bottom: 1px solid rgba(134, 208, 255, 0.1);
@@ -644,12 +634,12 @@ li.el-time-spinner__item .active {
     }
   }
 }
-.check-bar > li  .el-range-editor {
+.check-bar > li .el-range-editor {
   display: flex;
   align-items: center;
   // justify-content: center;
 }
-.check-bar > li  .el-range-editor i {
+.check-bar > li .el-range-editor i {
   display: inline-block;
   height: 3.2rem !important;
   line-height: 3.2rem;
@@ -657,7 +647,7 @@ li.el-time-spinner__item .active {
   box-sizing: border-box;
 }
 
-.check-bar > li  .el-range-editor span {
+.check-bar > li .el-range-editor span {
   height: 3.4rem;
   line-height: 3.4rem;
   box-sizing: border-box;
