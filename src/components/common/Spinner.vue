@@ -1,11 +1,16 @@
 <template>
-  <div class="item" @mouseenter="enterSelection" @mouseleave="leaveSelection">
+  <div class="spinner-item height38" @mouseenter="enterSelection" @mouseleave="leaveSelection">
     <span @touchstart.stop.prevent="selectionTouch">
       {{ area }}
       <span class="icon iconfont">&#xe65a;</span>
     </span>
-    <ul class="selection" v-show="selectShow" >
-      <li v-for="(value,index) in list" :key="index" @click.stop="checkContent(value,index)" @touchstart.stop.prevent="checkContent(value,index)">{{ value }}</li>
+    <ul class="selection" v-show="selectShow">
+      <li
+        v-for="(value,index) in list"
+        :key="index"
+        @click.stop="checkContent(value,index)"
+        @touchstart.stop.prevent="checkContent(value,index)"
+      >{{ value }}</li>
     </ul>
   </div>
 </template>
@@ -24,21 +29,20 @@ export default {
     check() {
       this.flag = !this.flag;
     },
-    selectionTouch(){
+    selectionTouch() {
       this.selectShow = !this.selectShow;
     },
-    checkContent(content,index) {
-      if(this.$store.state.isiPad){
-          this.selectShow = false;
+    checkContent(content, index) {
+      if (this.$store.state.isiPad) {
+        this.selectShow = false;
       }
       this.flag = false;
-      // this.area = content;
-      this.$emit("sendValue", content,index);
+      this.$emit("sendValue", content, index);
     },
-    enterSelection(){
+    enterSelection() {
       this.selectShow = true;
     },
-    leaveSelection(){
+    leaveSelection() {
       this.selectShow = false;
     }
   },
@@ -51,25 +55,22 @@ export default {
 </script>
 
 <style lang="less" scopeds>
-.item {
+.spinner-item {
   border-radius: 0.5rem;
-  line-height: 2rem;
-  font-size: 1.4rem;
   position: relative;
   cursor: pointer;
   text-indent: 0.6rem;
-  background: rgba(0, 0, 0, 0.2);
-  padding-right: 0.4rem;
+  background: rgba(82, 145, 255, 1);
+  border-radius: 0.4rem;
+  font-size: 1.6rem;
   &:hover {
-    // background: rgba(39, 74, 127, 1);
+    background: rgba(38, 67, 158, 1);
     .selection {
       display: block;
     }
   }
   & > span {
-    line-height: 3rem;
     display: flex;
-    // background: rgba(0, 0, 0, 0.2);
     border-radius: 0.5rem;
     opacity: 0.8;
     span {
@@ -83,24 +84,21 @@ export default {
     width: 100%;
     position: absolute;
     left: 0;
-    // background: #274a7f;
     color: #fff;
-    // max-height: 8rem;
     overflow: auto;
     z-index: 10;
     display: block;
-    background: rgba(49, 95, 157, 1);
-    box-shadow: 1px 1px 1rem 0rem rgba(4, 0, 0, 0.5);
-    border-radius: 0.3rem;
-    line-height: 3rem;
+    background: rgba(38, 67, 158, 1);
+    box-shadow: 0px 1px 1.8rem 0px rgba(6, 26, 77, 0.71);
+    border-radius: 0.2rem;
     li {
-      padding-left: 0.4rem;
-      padding-right: 0.4rem;
+      height: 3.8rem;
+      padding:0 0.4rem;
       box-sizing: border-box;
     }
     li:hover {
       border-radius: 0.3rem;
-      background: rgba(61, 209, 255, 1);
+      background: rgba(82, 145, 255, 0.87);
     }
   }
 }

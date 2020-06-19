@@ -1,22 +1,21 @@
 <template>
   <div class="fence pop-container">
-    <div class="pop-title">电子围栏</div>
+    <pop-title :title="'电子围栏'"></pop-title>
     <div class="defence-list">
       <div class="content-controller">
-        <button class="common-button" @click="add">新增</button>
-        <button class="common-button" @click="edit">编辑</button>
-        <button class="common-button" @click="dele">删除</button>
-        <div class="check-bar">
+        <button class="common-button height38 marginL20" @click="add">新增</button>
+        <button class="common-button height38 marginL20" @click="edit">编辑</button>
+        <button class="common-button height38 marginL20" @click="dele">删除</button>
+        <div class="check-bar marginL20">
           <div class="check-type">
             <spinner :content="mapArr[mapid]||'地图'" :list="mapArr" @sendValue="getMap"></spinner>
           </div>
-          <div class="search-bar">
+          <div class="search-bar marginR20">
             <search-item holder="输入围栏信息"></search-item>
           </div>
         </div>
       </div>
       <div class="content">
-        <!-- <ul class="monitor-grop-list left-content"> -->
         <transition-group
           tag="ul"
           class="monitor-grop-list left-content"
@@ -24,7 +23,7 @@
           @touchmove="scrollElement"
           ref="listBar"
         >
-          <li class="grop-title" key="title">
+          <li class="grop-title list-title" key="title">
             <span class="first-item">
               <lh-checkbox @sendCheckMsg="selectAll" :isChecked="isAll"></lh-checkbox>
             </span>
@@ -34,7 +33,12 @@
             <span style="width:30%">{{ titleBar.map }}</span>
             <span class="first-item" style="width:15%">{{ titleBar.isShow }}</span>
           </li>
-          <li v-for="(value, index) in classList" :key="index" @click="checkStaff(value.id)">
+          <li
+            v-for="(value, index) in classList"
+            :key="index"
+            @click="checkStaff(value.id)"
+            class="list-item"
+          >
             <span class="first-item">
               <lh-checkbox @sendCheckMsg="selectItem($event, index)" :isChecked="value.is_selected"></lh-checkbox>
             </span>
@@ -52,37 +56,6 @@
             </span>
           </li>
         </transition-group>
-        <!-- </ul> -->
-        <!-- <ul class="right-content" v-show="rightFlag"> -->
-        <transition-group tag="ul" class="right-content" v-show="rightFlag">
-          <li class="description" key="class">
-            <div>围栏名称：{{ staffData.name }}</div>
-            <div>触发类型：{{ staffData.type | formatType }}</div>
-            <div>报警等级：{{ staffData.level == 0?'普通':'危险' }}</div>
-            <div>
-              关联人员：
-              <strong style="color: #d7e0ee">{{ staffData.range?'全体人员':'非全体人员' }}</strong>
-            </div>
-            <span
-              class="icon iconfont hidden"
-              @click="hidden"
-              @touchstart.stop.prevent="hidden"
-            >&#xe614;</span>
-          </li>
-          <li class="right-content-head" key="title">
-            <span>姓名</span>
-            <span>人员编号</span>
-            <!--lfq-->
-            <span>职务</span>
-          </li>
-          <li v-for="(value) in staffData.persons" :key="value.id">
-            <span>{{ value.name }}</span>
-            <span>{{ value.pid }}</span>
-            <span>{{ value.job }}</span>
-            <!--lfq-->
-          </li>
-        </transition-group>
-        <!-- </ul> -->
       </div>
       <div class="page-check">
         <el-pagination
@@ -105,6 +78,8 @@
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
 import Spinner from "@/components/common/Spinner.vue";
+import PopTitle from "@/components/common/PopTitle.vue";
+
 import params from "@/apis/commonParams.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
 
@@ -119,7 +94,8 @@ export default {
   components: {
     LhCheckbox,
     SearchItem,
-    Spinner
+    Spinner,
+    PopTitle
   },
   mixins: [scrollMixin],
   data() {
@@ -360,7 +336,6 @@ export default {
 
 <style lang="less" scoped>
 .fence {
-  font-size: 1.4rem;
   overflow: auto;
   box-sizing: border-box;
   .defence-list {
@@ -374,10 +349,13 @@ export default {
     }
     .content-controller {
       display: flex;
-      // justify-content: space-around;
-      height: 4rem;
+      height: 7.7rem;
+      line-height: 7.7rem;
       align-items: center;
-      // padding-left: 10px;
+      button {
+        padding: 0 2rem;
+        border-radius: 0.4rem;
+      }
       & > div {
         margin-right: 2rem;
       }
@@ -386,13 +364,6 @@ export default {
         background-repeat: no-repeat;
         background-size: 100% 100%;
       }
-      // .search-bar {
-      //   flex-grow: 1;
-      //   margin: 0 2rem;
-      //   height: 26px;
-      //   position: relative;
-      //   z-index: 0;
-      // }
     }
     .check-bar {
       display: flex;
@@ -416,16 +387,12 @@ export default {
         }
       }
       .search-bar {
-        width: 18rem;
+        width: 34.6rem;
         display: flex;
         justify-content: center;
       }
     }
     .monitor-grop-list {
-      // height: 324px;
-      overflow: auto;
-      background: rgba(178, 223, 255, 0.1);
-      border-radius: 0.5rem;
       &::-webkit-scrollbar {
         /*滚动条整体样式*/
         width: 0.5rem; /*高宽分别对应横竖滚动条的尺寸*/
@@ -435,18 +402,11 @@ export default {
         border-radius: 0.3rem;
         background: rgba(255, 255, 255, 0.3);
       }
-      .grop-title {
-        background: rgba(178, 223, 255, 0.2);
-        border-radius: 0.5rem 0.5rem 0px 0px;
-      }
       li {
-        height: 3.6rem;
         display: flex;
         align-items: center;
-        // padding: 10px 0;
         cursor: pointer;
         padding-left: 1rem;
-        // box-sizing: border-box;
         & > span {
           display: inline-block;
           width: 14%;
@@ -458,78 +418,10 @@ export default {
           width: 8%;
         }
       }
-      li:hover {
-        background: rgba(134, 208, 255, 0.1);
-      }
     }
     .content {
       display: flex;
-      height: 37rem;
-    }
-    .right-content {
-      width: 18%;
-      height: 100%;
-      flex-grow: 2;
-      border-left: 1px solid rgba(178, 223, 255, 0.2);
-      overflow: auto;
-      background: rgba(178, 223, 255, 0.1);
-      border-radius: 0.5rem;
-      margin-left: 1rem;
-      font-size: 1.2rem;
-      &::-webkit-scrollbar {
-        /*滚动条整体样式*/
-        width: 0.5rem; /*高宽分别对应横竖滚动条的尺寸*/
-      }
-      &::-webkit-scrollbar-thumb {
-        /*滚动条里面小方块*/
-        border-radius: 0.3rem;
-        background: rgba(255, 255, 255, 0.3);
-        height: 3rem;
-      }
-      .right-content-head {
-        background: rgba(178, 223, 255, 0.2);
-      }
-
-      .description {
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        padding-left: 2rem;
-        line-height: 2.4rem;
-        position: relative;
-        .hidden {
-          position: absolute;
-          right: 0;
-          display: inline-block;
-          width: 2rem;
-          line-height: 2rem;
-          margin: 0.4rem;
-          &:hover {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 0.3rem;
-          }
-        }
-      }
-      li {
-        cursor: pointer;
-        display: flex;
-        line-height: 3.6rem;
-        span {
-          display: inline-block;
-          text-align: center; /*lfq*/
-          width: 33%;
-        }
-        span:first-of-type {
-          flex-grow: 1;
-          text-align: center;
-        }
-        span:nth-of-type(2) {
-          flex-grow: 2;
-        }
-      }
-      li:hover {
-        background: rgba(134, 208, 255, 0.1);
-      }
+      height: 58rem;
     }
   }
 }

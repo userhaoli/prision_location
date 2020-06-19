@@ -133,53 +133,6 @@ export default {
     window.addEventListener("resize", onResize.bind(this));
   },
   methods: {
-    // initAlarm() {
-    //   let myChart = echarts.init(this.$refs.statistics);
-    //   myChart.setOption({
-    //     tooltip: {
-    //       trigger: "item",
-    //       formatter: "{a} <br/>{b}: {c} ({d}%)"
-    //     },
-    //     legend: {
-    //       orient: "vertical",
-    //       left: 10,
-    //       data: ["紧急", "一般", "危急"],
-    //       textStyle:{color:"#859EED"}
-    //     },
-    //     series: [
-    //       {
-    //         name: "处理情况",
-    //         type: "pie",
-    //         selectedMode: "single",
-    //         radius: [0, "30%"],
-    //         label: {
-    //           position: "inner"
-    //         },
-    //         labelLine: {
-    //           show: false
-    //         },
-    //         data: [
-    //           { value: 679, name: "未处理 679",itemStyle:{color:"#6E88DF"}  },
-    //           { value: 1548, name: "已处理 1548",itemStyle:{color:"#3252BA"}  }
-    //         ]
-    //       },
-    //       {
-    //         name: "报警等级",
-    //         type: "pie",
-    //         radius: ["50%", "80%"],
-    //         label: {
-    //           position: "outside",
-    //           color:"#859EED"
-    //         },
-    //         data: [
-    //           { value: 310, name: "紧急 310" },
-    //           { value: 234, name: "一般 234" },
-    //           { value: 135, name: "危急 135" }
-    //         ]
-    //       }
-    //     ]
-    //   });
-    // },
     initAlarm() {
       let myChart = echarts.init(this.$refs.statistics);
       myChart.setOption({

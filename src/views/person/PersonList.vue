@@ -1,9 +1,9 @@
 <template>
   <div class="person-list pop-container">
-    <div class="pop-title">人员列表</div>
+    <pop-title :title="'人员列表'"></pop-title>
     <div class="monitor-content">
       <div class="left-content">
-        <div class="content-controller">
+        <div class="content-controller height77">
           <div class="check-item">
             <spinner
               :content="personType[typeid]||' 职务'"
@@ -21,8 +21,8 @@
           @touchmove="scrollElement"
           ref="listBar"
         >
-          <transition-group tag="div">
-            <div class="grop-title" :key="'aaa'">
+          <div>
+            <div class="grop-title list-title" :key="'aaa'">
               <span v-show="!flag" class="photo"></span>
               <span>姓名</span>
               <!--<span v-show="!flag">性别</span>-->
@@ -38,6 +38,7 @@
               @click="checkStaff(value)"
               @touchstart.stop.prevent="checkStaff(value,index)"
               :class="count==index?'hover-style':''"
+              class="list-item"
             >
               <!--   @dblclick="findPerson(value.label)" -->
               <span class="photo" v-show="!flag">
@@ -51,7 +52,7 @@
               <span>{{ value.type === 0?'公安':'地铁人员' }}</span>
               <span>{{ value.job }}</span>
             </div>
-          </transition-group>
+          </div>
         </div>
       </div>
       <div class="right-content" v-show="flag">
@@ -139,6 +140,8 @@
 <script>
 import Spinner from "@/components/common/Spinner.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
+import PopTitle from "@/components/common/PopTitle.vue";
+
 import { getSearchResult, getPagePerson } from "@/apis/interfance.js";
 import params from "@/apis/commonParams.js";
 import personMixin from "@/mixin/personMixin.js";
@@ -147,7 +150,8 @@ export default {
   mixins: [personMixin],
   components: {
     SearchItem,
-    Spinner
+    Spinner,
+    PopTitle
   },
   data() {
     return {
@@ -350,7 +354,6 @@ export default {
 <style lang="less">
 .person-list {
   .monitor-content {
-    font-size: 1.4rem;
     display: flex;
     // background: rgba(24, 45, 77, 0.6);
     height: 86%;
@@ -362,7 +365,6 @@ export default {
     .content-controller {
       display: flex;
       justify-content: space-between;
-      height: 4rem;
       align-items: center;
       color: #fff;
       box-sizing: border-box;
@@ -391,10 +393,9 @@ export default {
       }
     }
     .monitor-grop-list {
-      height: 36.8rem;
+      height: 74%;
       overflow: auto;
       color: #fff;
-      background: rgba(178, 223, 255, 0.1);
       border-radius: 0.5rem;
       &::-webkit-scrollbar {
         /*滚动条整体样式*/
@@ -405,15 +406,10 @@ export default {
         border-radius: 0.3rem;
         background: rgba(134, 208, 255, 0.3);
       }
-      .grop-title {
-        background: rgba(178, 223, 255, 0.2);
-        border-radius: 0.5rem 0.5rem 0rem 0rem;
-      }
       & > div > div {
         display: flex;
         align-items: center;
         cursor: pointer;
-        line-height: 3.6rem;
         padding-left: 1rem;
         .photo {
           width: 12%;
@@ -432,9 +428,6 @@ export default {
           width: 32%;
           flex-grow: 1;
         }
-      }
-      & > div > div:hover {
-        background: rgba(134, 208, 255, 0.1);
       }
       & > div > .hover-style {
         background: rgba(134, 208, 255, 0.1);

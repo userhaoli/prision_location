@@ -1,8 +1,8 @@
 <template>
-  <div class="track-panel  pop-container">
-     <div class="pop-title">电子围栏</div>
-    <ul class="view-mode">
-      <li>
+  <div class="track-panel pop-container">
+    <pop-title :title="'轨迹回放'"></pop-title>
+    <ul class="view-mode height77">
+      <li class="marginR20">
         <search-item holder="请输入人员信息" @search="getValue" @valueChange="valueChange"></search-item>
       </li>
     </ul>
@@ -13,13 +13,13 @@
       @touchmove="scrollElement"
       ref="listBar"
     >
-      <li class="title" key="5624ll">
+      <li class="title list-title" key="5624ll">
         <div>人员姓名</div>
         <div>人员类型</div>
         <div>人员编号</div>
         <div>操作</div>
       </li>
-      <li v-for="item in personList" :key="item.id">
+      <li class="list-item" v-for="item in personList" :key="item.id">
         <div>{{item.name}}</div>
         <div>{{item.type==0?'公安':'地铁工作人员'}}</div>
         <div>{{item.pid}}</div>
@@ -88,6 +88,8 @@
 
 <script>
 import SearchItem from "@/components/common/SearchItem.vue";
+import PopTitle from "@/components/common/PopTitle.vue";
+
 import {
   getSearchResult,
   getPagePerson,
@@ -98,6 +100,7 @@ import scrollMixin from "@/mixin/scrollMixin.js";
 export default {
   components: {
     SearchItem,
+    PopTitle
   },
   mixins: [scrollMixin],
   data() {
@@ -145,7 +148,7 @@ export default {
             new Date(this.dateSelected).toDateString() + " " + this.eTime
           )
         : "";
-      getTrackData(time1, time2,this.id).then(data => {
+      getTrackData(time1, time2, this.id).then(data => {
         if (data.length === 0 || data.msg) {
           this.$message.error("该时间段无可播放轨迹");
           return;
@@ -285,17 +288,14 @@ li.el-time-spinner__item .active {
   justify-content: flex-end;
   align-items: center;
   color: #86d0ff;
-  padding: 0.6rem 0;
   li {
-    width: 18rem;
+    width: 28rem;
   }
 }
 .list {
   color: #fff;
-  font-size: 1.4rem;
-  height: 36.6rem;
+  height: 74%;
   overflow: auto;
-  background: rgba(178, 223, 255, 0.1);
   border-radius: 0.5rem;
   &::-webkit-scrollbar {
     /*滚动条整体样式*/
@@ -306,21 +306,14 @@ li.el-time-spinner__item .active {
     border-radius: 0.3rem;
     background: rgba(134, 208, 255, 0.3);
   }
-  .title {
-    background: rgba(178, 223, 255, 0.2);
-    border-radius: 0.5rem 0.5rem 0px 0px;
-  }
 
   li {
     display: flex;
     justify-content: space-between;
-    line-height: 3.6rem;
-    padding: 0 1rem;
+    padding:0 1rem;
+    box-sizing: border-box;
     & > div {
       width: 14%;
-    }
-    &:hover {
-      background: rgba(134, 208, 255, 0.1);
     }
   }
 }

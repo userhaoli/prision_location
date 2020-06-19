@@ -209,25 +209,7 @@ export default {
       navArr: [],
       allNav: [
         { name: "主页", icon: "&#xe61d;", path: "/home", class: "" },
-        {
-          name: "轨迹回放",
-          icon: "&#xe61e;",
-          path: "/home/tracklist",
-          class: ""
-        },
         { name: "电子考勤", icon: "&#xe638;", path: "/attendance", class: "" },
-        {
-          name: "电子围栏",
-          icon: "&#xe61a;",
-          path: "/home/defencelist",
-          class: ""
-        },
-        {
-          name: "数据分析",
-          icon: "&#xe62e;",
-          path: "/home/analysis",
-          class: ""
-        },
         {
           name: "警力部署",
           icon: "&#xe63d;",
@@ -235,9 +217,15 @@ export default {
           class: ""
         },
         {
-          name: "设备管理",
-          icon: "&#xe603;",
-          path: "/home/equipmentlist",
+          name: "电子围栏",
+          icon: "&#xe61a;",
+          path: "/home/defencelist",
+          class: ""
+        },
+        {
+          name: "摄像头",
+          icon: "&#xe7e8;",
+          path: "/home/cameralist",
           class: ""
         },
         {
@@ -254,28 +242,26 @@ export default {
         },
         { name: "互监组", icon: "&#xe60d;", path: "/home/hjzlist", class: "" },
         {
-          name: "摄像头",
-          icon: "&#xe7e8;",
-          path: "/home/cameralist",
+          name: "轨迹回放",
+          icon: "&#xe61e;",
+          path: "/home/tracklist",
+          class: ""
+        },
+        {
+          name: "设备管理",
+          icon: "&#xe603;",
+          path: "/home/equipmentlist",
+          class: ""
+        },
+        {
+          name: "数据分析",
+          icon: "&#xe62e;",
+          path: "/home/analysis",
           class: ""
         },
         { name: "系统设置", icon: "&#xe627;", path: "/home/set", class: "" }
       ],
       classArr: [],
-      pathArr: [
-        "/home",
-        "/home/tracklist",
-        "/attendance",
-        "/home/defencelist",
-        "/home/analysis",
-        "/policelocation",
-        "/home/equipmentlist",
-        "/home/alarmlist",
-        "/home/personlist",
-        "/home/hjzlist",
-        "/home/cameralist",
-        "/home/set"
-      ], //导航路径
       maxNavLength: 10,
       rightFlag: false, //右侧栏显示隐藏
       mapHidden: false, //小地图隐藏

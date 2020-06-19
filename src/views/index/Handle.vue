@@ -424,7 +424,6 @@ button {
       height: 10rem;
       background: rgba(39, 74, 127, 1);
       border: 1px solid rgba(51, 119, 233, 1);
-      opacity: 0.8;
       border-radius: 0.3rem;
       box-sizing: border-box;
       .top-bar {

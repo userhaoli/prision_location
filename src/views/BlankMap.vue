@@ -304,6 +304,7 @@ export default {
     },
     animate() {
       this.timer = requestAnimationFrame(this.animate);
+      console.log("1111")
       this.buffer = this.getBufferData(
         {
           isShowTrack: this.isShowTrack,
@@ -315,10 +316,11 @@ export default {
     }
   },
   beforeDestroy() {
+    console.log("2222")
+    cancelAnimationFrame(this.timer);
     window.removeEventListener("resize", this.onResize);
     window.removeEventListener("mousemove", this.moveHandler);
     window.removeEventListener("mouseup", this.upHandler);
-    cancelAnimationFrame(this.animate);
   }
 };
 </script>

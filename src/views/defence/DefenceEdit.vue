@@ -1,5 +1,6 @@
 <template>
-  <div class="defence-build">
+  <div class="defence-build pop-container">
+    <pop-title :title="'围栏编辑'"></pop-title>
     <div class="type">
       <div class="type-item">
         <span>围栏名称:</span>
@@ -39,7 +40,7 @@
       <div class="relieve">
         <p>选择解除人员</p>
         <ul>
-          <li class="oper-title">
+          <li class="oper-title list-title">
             <span>
               <lh-checkbox @sendCheckMsg="removeAll" :isChecked="allRemove"></lh-checkbox>
             </span>
@@ -47,6 +48,7 @@
             <span>人员编号</span>
           </li>
           <li
+            class="list-item"
             v-for="(item, index) in $store.state.fenceData.persons"
             :key="index"
             @dblclick="leftToRight(index)"
@@ -74,15 +76,15 @@
       <div class="add">
         <p>可添加人员</p>
         <ul @touchstart="getFirstY" @touchmove="scrollElement" ref="listBar">
-          <li class="person-class">
+          <li class="person-class height50">
             <div>
               <spinner :content="personType[typeid]" :list="personType" @sendValue="getPersonType"></spinner>
             </div>
-            <div class="search-bar">
+            <div class="search-bar marginR20">
               <search-item holder="请输入人员信息" @search="getValue" @valueChange="valueChange"></search-item>
             </div>
           </li>
-          <li class="oper-title">
+          <li class="oper-title list-title">
             <span>
               <lh-checkbox @sendCheckMsg="addAll" :isChecked="allAdd"></lh-checkbox>
             </span>
@@ -90,7 +92,12 @@
             <span>人员编号</span>
             <span>类型</span>
           </li>
-          <li v-for="(item, index) in rightData" :key="index" @dblclick="rightToLeft(index)">
+          <li
+            class="list-item"
+            v-for="(item, index) in rightData"
+            :key="index"
+            @dblclick="rightToLeft(index)"
+          >
             <span>
               <lh-checkbox @sendCheckMsg="addItem($event, index)" :isChecked="item.is_selected"></lh-checkbox>
             </span>
@@ -103,11 +110,11 @@
     </div>
     <div class="bot-bar">
       <div class="draw-defence">
-        <button class="common-button" @click="drawFence">重新绘制围栏</button>
+        <button class="common-button height38-button" @click="drawFence">重新绘制围栏</button>
       </div>
       <div class="right-bar">
-        <button class="common-button" @click="backToMain">返回</button>
-        <button class="common-button" @click="submit">提交</button>
+        <button class="common-button height38-button marginR20" @click="backToMain">返回</button>
+        <button class="common-button height38-button" @click="submit">提交</button>
       </div>
     </div>
   </div>
@@ -117,6 +124,8 @@
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
 import Spinner from "@/components/common/Spinner.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
+import PopTitle from "@/components/common/PopTitle.vue";
+
 import checkMixin from "@/mixin/checkMixin.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
 import { getAllPerson, putFence, getSearchResult } from "@/apis/interfance.js";
@@ -124,7 +133,8 @@ export default {
   components: {
     LhCheckbox,
     Spinner,
-    SearchItem
+    SearchItem,
+    PopTitle
   },
   mixins: [checkMixin, scrollMixin],
   data() {
@@ -376,11 +386,7 @@ p {
   margin: 0.6rem 0;
 }
 .defence-build {
-  color: rgba(114, 178, 227, 1);
-  // background: rgba(24, 45, 77, 0.6);
-  height: 94%;
   box-sizing: border-box;
-  font-size: 1.4rem;
   .type {
     display: flex;
     line-height: 4rem;
@@ -402,15 +408,17 @@ p {
       margin-right: 2rem;
     }
     .type-item {
+      height: 5rem;
+      line-height: 5rem;
       span {
         margin-right: 1rem;
       }
       input {
-        width: 15rem;
+        width: 20rem;
         color: #fff;
         background: 0;
-        line-height: 2.6rem;
-        height: 2.6rem;
+        line-height: 3rem;
+        height: 3rem;
         background: rgba(0, 0, 0, 0.2);
         border: 0;
         border-radius: 0.5rem;
@@ -420,7 +428,7 @@ p {
   }
   .check-oper {
     display: flex;
-    padding: 0px 1rem 4px 1rem;
+    padding: 0rem 1rem 1rem 1rem;
     border-bottom: 1px solid rgba(178, 223, 255, 0.2);
     align-items: center;
     & > div {
@@ -436,7 +444,7 @@ p {
     font-size: 1.4rem;
     display: flex;
     padding: 0 1rem;
-    height: 73%;
+    height: 74%;
     color: #fff;
     .relieve {
       width: 34%;
@@ -465,34 +473,24 @@ p {
     }
     .add {
       flex-grow: 1;
-      .oper-title {
-        // padding: 4px 0;
-        background: rgba(178, 223, 255, 0.2);
-        border-radius: 0.5rem 0.5rem 0px 0px;
-      }
       .person-class > div {
         width: 15rem;
       }
       .person-class > .search-bar {
-        width: 18rem;
+        width: 28rem;
       }
     }
     ul {
       border: 1px solid rgba(178, 223, 255, 0.2);
-      height: 90%;
+      height: 95%;
       overflow: auto;
-      background: rgba(178, 223, 255, 0.1);
       border-radius: 0.5rem;
-
       li {
         display: flex;
         justify-content: space-between;
         align-items: center;
         line-height: 3.6rem;
         padding-left: 1rem;
-        &:hover {
-          background: rgba(134, 208, 255, 0.1);
-        }
         input {
           width: 20%;
         }
@@ -503,11 +501,6 @@ p {
         span:first-of-type {
           width: 8%;
         }
-      }
-      .oper-title {
-        background: rgba(178, 223, 255, 0.2);
-        border-radius: 0.5rem 0.5rem 0px 0px;
-        line-height: 3rem;
       }
     }
     ul::-webkit-scrollbar {
@@ -520,11 +513,6 @@ p {
       background: rgba(255, 255, 255, 0.3);
     }
   }
-  // .bot-bar {
-  //   display: flex;
-  //   margin-top: 10px;
-  //   justify-content: flex-end;
-  // }
   .bot-bar {
     display: flex;
     margin-top: 1rem;

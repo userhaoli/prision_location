@@ -1,9 +1,6 @@
 <template>
   <div class="table-wrapper pop-container">
-    <div class="pop-title">
-      <span>摄像头</span>
-      <span class="icon iconfont marginR10">&#xe640;</span>
-    </div>
+    <pop-title :title="'摄像头'"></pop-title>
     <div class="camera-oper">
       <spinner :content="mapArr[mapid]||'地图'" :list="mapArr" @sendValue="getValue"></spinner>
       <search-item @valueChange="searchValue" holder="请输入设备编号"></search-item>
@@ -79,6 +76,7 @@
 <script>
 import Spinner from "@/components/common/Spinner.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
+import PopTitle from "@/components/common/PopTitle.vue";
 import {
   getCameraPage,
   getCameraData //lfq
@@ -88,7 +86,8 @@ import scrollMixin from "@/mixin/scrollMixin.js";
 export default {
   components: {
     Spinner,
-    SearchItem
+    SearchItem,
+    PopTitle
   },
   data() {
     return {

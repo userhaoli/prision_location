@@ -1,5 +1,6 @@
 <template>
-  <div class="defence-build">
+  <div class="defence-build pop-container">
+    <pop-title :title="'增加围栏'"></pop-title>
     <el-steps :active="$store.state.defenceActive" finish-status="success">
       <el-step title="设置围栏名称"></el-step>
       <el-step title="触发类型"></el-step>
@@ -50,7 +51,7 @@
       <div class="relieve">
         <p>已选择人员</p>
         <ul>
-          <li class="oper-title">
+          <li class="oper-title list-title">
             <span>
               <lh-checkbox @sendCheckMsg="removeAll" :isChecked="allRemove"></lh-checkbox>
             </span>
@@ -58,6 +59,7 @@
             <span>人员编号</span>
           </li>
           <li
+            class="list-item"
             v-for="(value, index) in $store.state.fenceData.persons"
             :key="index"
             @dblclick="leftToRight(index)"
@@ -85,15 +87,15 @@
       <div class="add">
         <p>可添加人员</p>
         <ul @touchstart="getFirstY" @touchmove="scrollElement" ref="listBar">
-          <li class="person-class">
+          <li class="person-class height50">
             <div>
               <spinner :content="personType[typeid]" :list="personType" @sendValue="getPersonType"></spinner>
             </div>
-            <div class="search-bar">
+            <div class="search-bar marginR20">
               <search-item holder="请输入人员信息" @search="getValue" @valueChange="valueChange"></search-item>
             </div>
           </li>
-          <li class="oper-title">
+          <li class="oper-title list-title">
             <span>
               <lh-checkbox @sendCheckMsg="addAll" :isChecked="allAdd"></lh-checkbox>
             </span>
@@ -101,7 +103,12 @@
             <span>人员编号</span>
             <span>类型</span>
           </li>
-          <li v-for="(value, index) in checkPerson" :key="index" @dblclick="rightToLeft(index)">
+          <li
+            class="list-item"
+            v-for="(value, index) in checkPerson"
+            :key="index"
+            @dblclick="rightToLeft(index)"
+          >
             <span>
               <lh-checkbox @sendCheckMsg="addItem($event, index)" :isChecked="value.is_selected"></lh-checkbox>
             </span>
@@ -114,11 +121,11 @@
     </div>
     <div class="bot-bar">
       <div class="draw-defence" v-show="$store.state.defenceActive > 3">
-        <button class="common-button" @click="drawFence">绘制围栏</button>
+        <button class="common-button height38-button" @click="drawFence">绘制围栏</button>
       </div>
       <div class="right-bar" v-show="$store.state.defenceActive > 4">
-        <button class="common-button" @click="backToMain">返回</button>
-        <button class="common-button" @click="submit">提交</button>
+        <button class="common-button height38-button marginR20" @click="backToMain">返回</button>
+        <button class="common-button height38-button" @click="submit">提交</button>
       </div>
     </div>
   </div>
@@ -128,6 +135,8 @@
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
 import Spinner from "@/components/common/Spinner.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
+import PopTitle from "@/components/common/PopTitle.vue";
+
 import checkMixin from "@/mixin/checkMixin.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
 
@@ -136,7 +145,8 @@ export default {
   components: {
     LhCheckbox,
     Spinner,
-    SearchItem
+    SearchItem,
+    PopTitle
   },
   mixins: [checkMixin, scrollMixin],
   data() {
@@ -411,12 +421,6 @@ p {
   padding: 0 1rem;
 }
 .defence-build {
-  color: #fff;
-  // background: rgba(24, 45, 77, 0.6);
-  height: 93%;
-  box-sizing: border-box;
-  font-size: 14px;
-  opacity: 0.8;
   .type {
     display: flex;
     line-height: 4rem;
@@ -476,10 +480,11 @@ p {
     font-size: 1.4rem;
     display: flex;
     padding: 0 1rem;
-    height: 62.5%;
+    height: 67%;
     color: #fff;
     .relieve {
       width: 34%;
+      height: 100%;
     }
     .center-icon {
       width: 8%;
@@ -507,24 +512,19 @@ p {
     }
     .add {
       flex-grow: 1;
-      .oper-title {
-        // padding: 4px 0;
-        background: rgba(178, 223, 255, 0.2);
-        border-radius: 0.5rem 0.5rem 0px 0px;
-      }
+      height: 100%;
       .person-class > div {
         width: 10rem;
       }
       .person-class > .search-bar {
-        width: 24rem;
+        width: 28rem;
       }
     }
     ul {
       border: 1px solid rgba(178, 223, 255, 0.2);
-      height: 90%;
-      overflow: auto;
-      background: rgba(178, 223, 255, 0.1);
+      overflow: hidden;
       border-radius: 0.5rem;
+      height: 91%;
       li {
         display: flex;
         justify-content: space-between;
@@ -545,11 +545,6 @@ p {
         span:first-of-type {
           width: 8%;
         }
-      }
-      .oper-title {
-        line-height: 3rem;
-        background: rgba(178, 223, 255, 0.2);
-        border-radius: 0.5rem 0.5rem 0px 0px;
       }
     }
     ul::-webkit-scrollbar {

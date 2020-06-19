@@ -1,12 +1,12 @@
 <template>
   <div class="alarm-panel pop-container">
-    <div class="pop-title">报警信息</div>
+    <pop-title :title="'报警信息'"></pop-title>
     <div @click="set" @touchstart.stop.prevent="set">
       <img width="22px" height="22px" class="setting-button" src content="设置" />
     </div>
-    <ul class="check-bar">
+    <ul class="check-bar height77">
       <!--报警等级-->
-      <li style="width: 11.4rem;">
+      <li style="width: 11.4rem;" class="marginL20">
         <spinner :content="typeArr[level]" :list="typeArr" @sendValue="getAlarmLevelList"></spinner>
       </li>
       <!--报警类型-->
@@ -53,17 +53,21 @@
       @touchmove="scrollElement"
       ref="listBar"
     >
-      <li class="title" key="title">
+      <li class="title list-title" key="title">
         <div>编号</div>
         <div style="width: 18%">报警类型</div>
         <div class="alarm-time" style="width: 22%">报警时间</div>
         <div style="width: 20%">所在区域</div>
         <div style="width: 11%">处理状态</div>
         <div style="width: 11%">报警等级</div>
-        <!-- <div style="width: 10%">操作</div> -->
         <div></div>
       </li>
-      <li v-for="(item) in alarmData" :key="item.id" :class="item.status?'handle-style':''">
+      <li
+        class="list-item"
+        v-for="(item) in alarmData"
+        :key="item.id"
+        :class="item.status?'handle-style':''"
+      >
         <div style="width: 10%">{{ item.id }}</div>
         <div style="width: 18%">{{ item.type.name }}</div>
         <div class="alarm-time" style="width: 22%">{{ item.logtime | timeFormat }}</div>
@@ -79,9 +83,7 @@
           <span>查看详情</span>
         </div>
       </li>
-      <!-- <li></li> -->
     </transition-group>
-    <!-- </ul> -->
     <div class="page-check">
       <div>
         <el-pagination
@@ -106,8 +108,8 @@ let _maxDate = null;
 import Spinner from "@/components/common/Spinner.vue";
 import moment from "moment";
 import scrollMixin from "@/mixin/scrollMixin.js";
+import PopTitle from "@/components/common/PopTitle.vue";
 
-// import SearchItem from "@/components/common/SearchItem.vue";
 import {
   getAlarmData,
   getAlamDataByContdition,
@@ -116,7 +118,8 @@ import {
 } from "@/apis/interfance.js";
 export default {
   components: {
-    Spinner
+    Spinner,
+    PopTitle
   },
   mixins: [scrollMixin],
   data() {
@@ -569,10 +572,8 @@ li.el-time-spinner__item .active {
   }
   .check-bar {
     display: flex;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid rgba(134, 208, 255, 0.1);
     color: #fff;
-    // font-size: 14px;
+    align-items: center;
     & > li {
       margin-right: 1.6rem;
     }
@@ -580,10 +581,8 @@ li.el-time-spinner__item .active {
   .alarm-msg {
     color: #fff;
     font-size: 1.4rem;
-    height: 37rem;
+    height: 74%;
     overflow: auto;
-    line-height: 3.6rem;
-    background: rgba(178, 223, 255, 0.1);
     border-radius: 0.5rem;
     &::-webkit-scrollbar {
       /*滚动条整体样式*/
@@ -594,18 +593,12 @@ li.el-time-spinner__item .active {
       border-radius: 0.3rem;
       background: rgba(255, 255, 255, 0.3);
     }
-    .handle-style {
-      opacity: 0.6;
-      // background: rgba(161, 161, 161,0.2);
-    }
     li {
       padding: 0 1rem;
       display: flex;
       align-items: center;
-      border-bottom: 1px solid rgba(134, 208, 255, 0.1);
-      // padding: 4px 0px;
+      box-sizing: border-box;
       &:hover {
-        background: rgba(134, 208, 255, 0.1);
         .alarm-check > span {
           // display: block;
           text-decoration: underline;
@@ -624,10 +617,6 @@ li.el-time-spinner__item .active {
       .alarm-time {
         flex-grow: 1;
       }
-    }
-    .title {
-      background: rgba(178, 223, 255, 0.2);
-      border-radius: 0.5rem 0.5rem 0px 0px;
     }
   }
 }

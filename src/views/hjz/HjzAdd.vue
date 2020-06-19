@@ -1,11 +1,11 @@
 <template>
-  <div class="defence-build">
+  <div class="defence-build pop-container">
+    <pop-title :title="'围栏编辑'"></pop-title>
     <el-steps :active="$store.state.defenceActive" finish-status="success">
       <el-step title="设置互监组名称"></el-step>
       <el-step title="互监距离"></el-step>
       <el-step title="解除时间"></el-step>
       <el-step title="选择人员"></el-step>
-      <!-- <el-step title="绘制围栏"></el-step> -->
       <el-step title="提交"></el-step>
     </el-steps>
     <div class="type">
@@ -21,24 +21,7 @@
         <span>解除时间</span>
         <input type="text" v-model="$store.state.fenceData.over_time" placeholder="解除时间" />
       </div>
-      <!-- <div class="select-bar type-item" v-show="$store.state.defenceActive > 0">
-        <span>触发类型</span>
-        <spinner
-          :content="typeArr[$store.state.fenceData.type]||'类型'"
-          :list="typeArr"
-          @sendValue="getType"
-        ></spinner>
-      </div>-->
-      <!-- <div class="select-bar type-item" v-show="$store.state.defenceActive > 0">
-        <span>报警等级</span>
-        <spinner
-          :content="levelArr[$store.state.fenceData.level]||'等级'"
-          :list="levelArr"
-          @sendValue="getLevel"
-        ></spinner>
-      </div>-->
     </div>
-
     <div class="check-oper" v-show="$store.state.defenceActive > 2">
       <div>
         <lh-checkbox
@@ -52,12 +35,11 @@
         <span class="number">{{ checkedNum }}</span>
       </div>
     </div>
-
     <div class="operation" v-show="$store.state.defenceActive > 2">
       <div class="relieve">
         <p>已选择人员</p>
         <ul>
-          <li class="oper-title">
+          <li class="oper-title list-title">
             <span>
               <lh-checkbox @sendCheckMsg="removeAll" :isChecked="allRemove"></lh-checkbox>
             </span>
@@ -65,6 +47,7 @@
             <span>人员编号</span>
           </li>
           <li
+            class="list-item"
             v-for="(value, index) in $store.state.fenceData.persons"
             :key="index"
             @dblclick="leftToRight(index)"
@@ -92,15 +75,15 @@
       <div class="add">
         <p>可添加人员</p>
         <ul @touchstart="getFirstY" @touchmove="scrollElement" ref="listBar">
-          <li class="person-class">
+          <li class="person-class height50">
             <div>
               <spinner :content="personType[typeid]" :list="personType" @sendValue="getPersonType"></spinner>
             </div>
-            <div class="search-bar">
+            <div class="search-bar marginR20">
               <search-item holder="请输入人员信息" @search="getValue" @valueChange="valueChange"></search-item>
             </div>
           </li>
-          <li class="oper-title">
+          <li class="oper-title list-title">
             <span>
               <lh-checkbox @sendCheckMsg="addAll" :isChecked="allAdd"></lh-checkbox>
             </span>
@@ -108,7 +91,7 @@
             <span>人员编号</span>
             <span>类型</span>
           </li>
-          <li v-for="(value, index) in checkPerson" :key="index" @dblclick="rightToLeft(index)">
+          <li class="list-item" v-for="(value, index) in checkPerson" :key="index" @dblclick="rightToLeft(index)">
             <span>
               <lh-checkbox @sendCheckMsg="addItem($event, index)" :isChecked="value.is_selected"></lh-checkbox>
             </span>
@@ -121,8 +104,8 @@
     </div>
     <div class="bot-bar">
       <div class="right-bar" v-show="$store.state.defenceActive > 3">
-        <button class="common-button" @click="backToMain">返回</button>
-        <button class="common-button" @click="submit">提交</button>
+        <button class="common-button height38-button marginR20" @click="backToMain">返回</button>
+        <button class="common-button height38-button" @click="submit">提交</button>
       </div>
     </div>
   </div>
@@ -132,6 +115,8 @@
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
 import Spinner from "@/components/common/Spinner.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
+import PopTitle from "@/components/common/PopTitle.vue";
+
 import checkMixin from "@/mixin/checkMixin.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
 
@@ -140,7 +125,8 @@ export default {
   components: {
     LhCheckbox,
     Spinner,
-    SearchItem
+    SearchItem,
+    PopTitle
   },
   mixins: [checkMixin, scrollMixin],
   data() {
@@ -436,12 +422,6 @@ p {
   padding: 0 1rem;
 }
 .defence-build {
-  color: #fff;
-  // background: rgba(24, 45, 77, 0.6);
-  height: 93%;
-  box-sizing: border-box;
-  font-size: 14px;
-  opacity: 0.8;
   .type {
     display: flex;
     line-height: 4rem;
@@ -501,7 +481,7 @@ p {
     font-size: 1.4rem;
     display: flex;
     padding: 0 1rem;
-    height: 62.5%;
+    height: 66%;
     color: #fff;
     .relieve {
       width: 34%;
@@ -532,23 +512,18 @@ p {
     }
     .add {
       flex-grow: 1;
-      .oper-title {
-        // padding: 4px 0;
-        background: rgba(178, 223, 255, 0.2);
-        border-radius: 0.5rem 0.5rem 0px 0px;
-      }
+  
       .person-class > div {
         width: 10rem;
       }
       .person-class > .search-bar {
-        width: 24rem;
+        width: 28rem;
       }
     }
     ul {
       border: 1px solid rgba(178, 223, 255, 0.2);
       height: 90%;
       overflow: auto;
-      background: rgba(178, 223, 255, 0.1);
       border-radius: 0.5rem;
       li {
         display: flex;
@@ -557,9 +532,6 @@ p {
         line-height: 3.6rem;
         padding-left: 1rem;
         cursor: pointer;
-        &:hover {
-          background: rgba(134, 208, 255, 0.1);
-        }
         input {
           width: 20%;
         }
@@ -570,11 +542,6 @@ p {
         span:first-of-type {
           width: 8%;
         }
-      }
-      .oper-title {
-        line-height: 3rem;
-        background: rgba(178, 223, 255, 0.2);
-        border-radius: 0.5rem 0.5rem 0px 0px;
       }
     }
     ul::-webkit-scrollbar {

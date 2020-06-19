@@ -1,6 +1,6 @@
 <template>
   <div class="equip-manage pop-container" @click="cancelAll">
-    <div class="pop-title">数据分析</div>
+    <pop-title :title="'设备管理'"></pop-title>
     <div class="content-controller">
       <div class="select-bar type-item">
         <button
@@ -199,6 +199,8 @@
 import Spinner from "@/components/common/Spinner.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
+import PopTitle from "@/components/common/PopTitle.vue";
+
 import scrollMixin from "@/mixin/scrollMixin.js";
 
 import {
@@ -215,7 +217,8 @@ export default {
   components: {
     Spinner,
     SearchItem,
-    LhCheckbox
+    LhCheckbox,
+    PopTitle
   },
   mixins: [scrollMixin],
   props: {

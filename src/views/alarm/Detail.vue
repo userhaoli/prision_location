@@ -1,13 +1,11 @@
 <template>
-  <div class="alarm-detail">
+  <div class="alarm-detail pop-container">
+    <pop-title :title="'轨迹回放'"></pop-title>
     <div class="monitor-content">
       <div class="left-content">
         <div class="content-controller">
           <!--报警详情-->
           <ul class="alarm-info-data">
-            <!-- <li class="back-icon" @click="backAlarms">
-              <span class="icon iconfont">&#xe607;</span>
-            </li>-->
             <li>
               <span style="width:18%">报警编号：{{ alarmData.id }}</span>
               <span>
@@ -48,11 +46,11 @@
           <div>处理时间：{{ staffData.processedtime }}</div>
         </li>
         <li class="right-content-head">
-          <button class="common-button" @click="checkHistoryTrack">历史轨迹</button>
-          <button class="common-button" @click="findPerson">人员位置</button>
+          <button class="common-button height38-button marginR20" @click="checkHistoryTrack">历史轨迹</button>
+          <button class="common-button height38-button" @click="findPerson">人员位置</button>
         </li>
         <li class="right-content-head">
-          <button class="common-button" @click="handleAlarm">立即处理</button>
+          <button class="common-button height38-button marginR20" @click="handleAlarm">立即处理</button>
         </li>
       </ul>
     </div>
@@ -81,12 +79,17 @@
   </div>
 </template>
 <script>
+import PopTitle from "@/components/common/PopTitle.vue";
+
 import params from "@/apis/commonParams.js";
 import { getAlarmDetail, handleAlarmData } from "@/apis/interfance.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
 
 export default {
   mixins: [scrollMixin],
+  components: {
+    PopTitle
+  },
   data() {
     return {
       alarmData: {},
@@ -116,15 +119,11 @@ export default {
   },
   mounted() {
     this.baseUrl = params.cameraImgUrl;
-    console.log(this.$route.params.id);
     getAlarmDetail(this.$route.params.id).then(data => {
       this.alarmData = data;
-      // this.$store.state.labelData.id = data.labelid;
       this.imgSrc = this.mapImg[data.map.id];
       this.tips = `${data.x}   ${data.y}`;
-      // this.$nextTick(() => {
       this.$refs.mapImg.onload = () => {
-        // console.log(this.$refs.mapImg.width,this.$refs.mapImg.naturalWidth)
         this.$refs.pointImg.style.left =
           (this.$refs.mapImg.width / this.$refs.mapImg.naturalWidth) * data.x -
           15 +
@@ -295,27 +294,24 @@ export default {
   width: 100%;
 }
 .alarm-detail {
-  font-size: 1.2rem;
-  width: 100%;
-  height: 92%;
   color: #fff;
-  opacity: 0.8;
-  overflow: auto;
-  &::-webkit-scrollbar {
-    /*滚动条整体样式*/
-    width: 0.6rem; /*高宽分别对应横竖滚动条的尺寸*/
-  }
-  &::-webkit-scrollbar-thumb {
-    /*滚动条里面小方块*/
-    border-radius: 0.3rem;
-    background: rgba(255, 255, 255, 0.3);
-  }
+
   .monitor-content {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 95%;
     .left-content {
       width: 75%;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 0.6rem; /*高宽分别对应横竖滚动条的尺寸*/
+      }
+      &::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 0.3rem;
+        background: rgba(255, 255, 255, 0.3);
+      }
       .alarm-area {
         width: 58rem;
         margin: 0 auto;
