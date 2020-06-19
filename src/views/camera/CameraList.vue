@@ -1,6 +1,9 @@
 <template>
   <div class="table-wrapper pop-container">
-    <div class="pop-title">摄像头</div>
+    <div class="pop-title">
+      <span>摄像头</span>
+      <span class="icon iconfont marginR10">&#xe640;</span>
+    </div>
     <div class="camera-oper">
       <spinner :content="mapArr[mapid]||'地图'" :list="mapArr" @sendValue="getValue"></spinner>
       <search-item @valueChange="searchValue" holder="请输入设备编号"></search-item>

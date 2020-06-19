@@ -27,7 +27,7 @@
           @click="changeState(true,item.id,item.type)"
           @touchstart.stop.prevent="changeState(true,item.id,item.type)"
         >
-          <lh-button content="轨迹回放"></lh-button>
+          <button>轨迹回放</button>
         </div>
       </li>
     </transition-group>
@@ -88,7 +88,6 @@
 
 <script>
 import SearchItem from "@/components/common/SearchItem.vue";
-import LhButton from "@/components/common/LhButton.vue";
 import {
   getSearchResult,
   getPagePerson,
@@ -99,7 +98,6 @@ import scrollMixin from "@/mixin/scrollMixin.js";
 export default {
   components: {
     SearchItem,
-    LhButton
   },
   mixins: [scrollMixin],
   data() {

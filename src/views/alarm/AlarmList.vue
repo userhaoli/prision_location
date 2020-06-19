@@ -108,7 +108,6 @@ import moment from "moment";
 import scrollMixin from "@/mixin/scrollMixin.js";
 
 // import SearchItem from "@/components/common/SearchItem.vue";
-// import LhButton from "@/components/common/LhButton.vue";
 import {
   getAlarmData,
   getAlamDataByContdition,
@@ -118,8 +117,6 @@ import {
 export default {
   components: {
     Spinner
-    // SearchItem,
-    // LhButton
   },
   mixins: [scrollMixin],
   data() {

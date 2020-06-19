@@ -48,11 +48,11 @@
           <div>处理时间：{{ staffData.processedtime }}</div>
         </li>
         <li class="right-content-head">
-          <lh-button content="历史轨迹" @checkClick="checkHistoryTrack"></lh-button>
-          <lh-button content="人员位置" @checkClick="findPerson"></lh-button>
+          <button class="common-button" @click="checkHistoryTrack">历史轨迹</button>
+          <button class="common-button" @click="findPerson">人员位置</button>
         </li>
         <li class="right-content-head">
-          <lh-button content="立即处理" v-show="!alarmData.status" @checkClick="handleAlarm"></lh-button>
+          <button class="common-button" @click="handleAlarm">立即处理</button>
         </li>
       </ul>
     </div>
@@ -82,16 +82,10 @@
 </template>
 <script>
 import params from "@/apis/commonParams.js";
-import LhButton from "@/components/common/LhButton.vue";
 import { getAlarmDetail, handleAlarmData } from "@/apis/interfance.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
 
 export default {
-  components: {
-    // Spinner,
-    // VideoItem,
-    LhButton
-  },
   mixins: [scrollMixin],
   data() {
     return {
@@ -122,7 +116,7 @@ export default {
   },
   mounted() {
     this.baseUrl = params.cameraImgUrl;
-    console.log(this.$route.params.id)
+    console.log(this.$route.params.id);
     getAlarmDetail(this.$route.params.id).then(data => {
       this.alarmData = data;
       // this.$store.state.labelData.id = data.labelid;

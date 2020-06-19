@@ -1,6 +1,6 @@
 <template>
   <div class="person-list pop-container">
-       <div class="pop-title">人员列表</div>
+    <div class="pop-title">人员列表</div>
     <div class="monitor-content">
       <div class="left-content">
         <div class="content-controller">
@@ -103,16 +103,16 @@
           </div>
           <div class="person-oper">
             <div>
-              <lh-button :content="trackFlag?'隐藏轨迹':'实时轨迹'" @checkClick="track"></lh-button>
+              <button class="common-button" @click="track">{{trackFlag?'隐藏轨迹':'实时轨迹'}}</button>
             </div>
             <div>
-              <lh-button content="历史轨迹" @checkClick="checkHistoryTrack"></lh-button>
+              <button class="common-button" @click="checkHistoryTrack">历史轨迹</button>
             </div>
             <div>
-              <lh-button :content="followFlag?'取消跟踪':'实时跟踪'" @checkClick="follow"></lh-button>
+              <button class="common-button" @click="follow">{{followFlag?'取消跟踪':'实时跟踪'}}</button>
             </div>
             <div>
-              <lh-button content="查看位置" @checkClick="findPerson(personData.label)"></lh-button>
+              <button class="common-button" @click="findPerson(personData.label)">查看位置</button>
             </div>
           </div>
         </div>
@@ -139,11 +139,7 @@
 <script>
 import Spinner from "@/components/common/Spinner.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
-import LhButton from "@/components/common/LhButton.vue";
-import {
-  getSearchResult,
-  getPagePerson
-} from "@/apis/interfance.js";
+import { getSearchResult, getPagePerson } from "@/apis/interfance.js";
 import params from "@/apis/commonParams.js";
 import personMixin from "@/mixin/personMixin.js";
 
@@ -151,8 +147,7 @@ export default {
   mixins: [personMixin],
   components: {
     SearchItem,
-    Spinner,
-    LhButton
+    Spinner
   },
   data() {
     return {
@@ -170,7 +165,7 @@ export default {
       srcBigArr: ["/images/police_big.png", "/images/staff_big.png"],
       searchWords: "",
       page: 1,
-      count: -1,
+      count: -1
     };
   },
   mounted() {

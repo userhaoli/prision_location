@@ -114,11 +114,11 @@
     </div>
     <div class="bot-bar">
       <div class="draw-defence" v-show="$store.state.defenceActive > 3">
-        <lh-button content="绘制围栏" @checkClick="drawFence"></lh-button>
+        <button class="common-button" @click="drawFence">绘制围栏</button>
       </div>
       <div class="right-bar" v-show="$store.state.defenceActive > 4">
-        <lh-button content="返回" @checkClick="backToMain"></lh-button>
-        <lh-button content="提交" @checkClick="submit"></lh-button>
+        <button class="common-button" @click="backToMain">返回</button>
+        <button class="common-button" @click="submit">提交</button>
       </div>
     </div>
   </div>
@@ -127,7 +127,6 @@
 <script>
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
 import Spinner from "@/components/common/Spinner.vue";
-import LhButton from "@/components/common/LhButton.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
 import checkMixin from "@/mixin/checkMixin.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
@@ -137,7 +136,6 @@ export default {
   components: {
     LhCheckbox,
     Spinner,
-    LhButton,
     SearchItem
   },
   mixins: [checkMixin, scrollMixin],
@@ -301,13 +299,17 @@ export default {
     valueChange(val) {
       let reg = /[\u4E00-\u9FA5\\s]/gim;
       if (reg.test(val) === true) {
-        getSearchResult({ name: val }, this.typeid,undefined,200).then(data => {
-          this.checkPerson = data.results;
-        });
+        getSearchResult({ name: val }, this.typeid, undefined, 200).then(
+          data => {
+            this.checkPerson = data.results;
+          }
+        );
       } else if (reg.test(val) === false) {
-        getSearchResult({ polid: val }, this.typeid,undefined,200).then(data => {
-          this.checkPerson = data.results;
-        });
+        getSearchResult({ polid: val }, this.typeid, undefined, 200).then(
+          data => {
+            this.checkPerson = data.results;
+          }
+        );
       }
     },
     rightToLeft(index) {
@@ -385,14 +387,15 @@ export default {
       }
     },
     checkPerson(val) {
-      let arr = this.$store.state.fenceData.persons,newArr=[...val];
+      let arr = this.$store.state.fenceData.persons,
+        newArr = [...val];
       let length = arr.length;
       for (var i = 0; i < length; i++) {
-        newArr =  newArr.filter((value)=>{
-          return  arr[i].id != value.id
-        })
+        newArr = newArr.filter(value => {
+          return arr[i].id != value.id;
+        });
       }
-      if(newArr && newArr.length != val.length){
+      if (newArr && newArr.length != val.length) {
         this.checkPerson = newArr;
       }
     }
@@ -404,7 +407,7 @@ export default {
 p {
   margin: 0.6rem 0;
 }
-.defence-build  .el-steps {
+.defence-build .el-steps {
   padding: 0 1rem;
 }
 .defence-build {
@@ -585,11 +588,11 @@ p {
   border-radius: 0.3rem;
   background: rgba(134, 208, 255, 0.3);
 }
- .el-step__title {
+.el-step__title {
   font-size: 1.4rem;
   line-height: 3rem;
 }
- .el-step__title.is-process {
+.el-step__title.is-process {
   font-weight: 700;
   color: #f2f6fc;
 }

@@ -2,6 +2,7 @@
   <div class="search-item">
     <input type="text" :placeholder="holder" v-model="value" @keydown.enter="search" @blur="hidden" />
     <img src="../images/search.png" alt="这原本是张图片" @click="search" @touchstart="search" />
+    <span class="icon iconfont vertical">&#xe605;</span>
     <button class="value-clear" @click="clearValue" v-show="value">
       <span class="icon iconfont">&#xe614;</span>
     </button>
@@ -41,11 +42,13 @@ export default {
 <style lang="less">
 .search-item {
   width: 100%;
+  height: 3.8rem;
+  line-height: 3.8rem;
   position: relative;
   .value-clear {
     font-size: 1.4rem;
     position: absolute;
-    right: 3rem;
+    right: 4.2rem;
     top: 0.8rem;
     width: 1.6rem;
     height: 1.6rem;
@@ -60,22 +63,28 @@ export default {
   }
   input {
     width: 100%;
-    height: 3rem;
-    line-height: 3rem;
-    background: rgba(0, 0, 0, 1);
-    opacity: 0.2;
-    border-radius: 0.5rem;
-    color: #fff;
-    padding: 0 0.4rem;
-    font-size: 1.4rem;
+    height: 3.8rem;
+    // line-height: 3.8rem;
+    background: rgba(30, 159, 255, 0);
+    border: 1px solid rgba(51, 119, 233, 1);
+    border-radius: 0.2rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.6rem;
     box-sizing: border-box;
-    border: 0;
+    text-indent: 1rem;
   }
   img {
     position: absolute;
     cursor: pointer;
     right: 0.8rem;
     top: 0.8rem;
+  }
+  .vertical {
+    font-size: 2.4rem;
+    color: rgba(51, 119, 233, 1);
+    position: absolute;
+    right: 2.4rem;
+    top: 0rem;
   }
   .association-bar {
     position: absolute;

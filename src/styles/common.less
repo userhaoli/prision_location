@@ -101,7 +101,7 @@ button:focus {
 }
 
 //button颜色
-.commin-button {
+.common-button {
   background: rgba(82, 145, 255, 1);
   color: rgba(255, 255, 255, 1);
 
@@ -115,6 +115,68 @@ button:focus {
   display: block;
   margin-top: 2rem;
 }
+
+.marginR10 {
+  margin-right: 1rem;
+}
+.marginR20 {
+  margin-right: 2rem;
+}
+.marginL20 {
+  margin-left: 2rem;
+}
+//字体样式
+.font14 {
+  font-size: 1.4rem;
+}
+
+.font16 {
+  font-size: 1.6rem;
+}
+
+.font18 {
+  font-size: 1.8rem;
+}
+
+.font20 {
+  font-size: 2.0rem;
+}
+.textCenter{
+  text-align: center;
+}
+//列表样式
+.list-title{
+  border-top:1px solid rgba(102,153,204,0.5);
+  border-bottom:1px solid rgba(102,153,204,0.5);
+  height:4rem;
+  line-height: 4rem;
+}
+.list-item{
+  height:4rem;
+  line-height: 4rem;
+  font-size: 1.6rem;
+  &:hover{
+    background:rgba(52,97,189,0.6);
+  }
+}
+//flex布局
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flexAliCen {
+  display: flex;
+  align-items: center;
+}
+
+.flexSpaBet {
+  display: flex;
+  justify-content: space-between;
+}
+
+//弹窗页样式
 .pop-container {
   width: 114rem;
   height: 76rem;
@@ -123,14 +185,38 @@ button:focus {
   box-shadow: 0px 0.9rem 2.1rem 0px rgba(12, 7, 4, 0.35);
   opacity: 0.95;
   border-radius: 0.5rem;
-  margin:2rem auto;
+  margin: 2rem auto;
   font-size: 1.6rem;
-  color:rgba(255,255,255,1);
+  color: rgba(255, 255, 255, 1);
+
   .pop-title {
     height: 4rem;
     line-height: 4rem;
     background: #3461BD;
     border-radius: 0.5rem 0.5rem 0px 0px;
     text-indent: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .icon {
+      display: block;
+      width: 2rem;
+      height: 2rem;
+      text-indent: 0;
+      line-height: 2rem;
+      text-align: center;
+      &:hover {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.3rem;
+      }
+    }
   }
+}
+
+//行高
+.height24{
+  height:2.4rem;
+  height:2.4rem;
 }

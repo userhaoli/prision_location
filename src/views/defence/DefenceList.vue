@@ -3,9 +3,9 @@
     <div class="pop-title">电子围栏</div>
     <div class="defence-list">
       <div class="content-controller">
-        <lh-button content="新增" @checkClick="add"></lh-button>
-        <lh-button content="编辑" @checkClick="edit"></lh-button>
-        <lh-button content="删除" @checkClick="dele"></lh-button>
+        <button class="common-button" @click="add">新增</button>
+        <button class="common-button" @click="edit">编辑</button>
+        <button class="common-button" @click="dele">删除</button>
         <div class="check-bar">
           <div class="check-type">
             <spinner :content="mapArr[mapid]||'地图'" :list="mapArr" @sendValue="getMap"></spinner>
@@ -102,7 +102,6 @@
   </div>
 </template>
 <script>
-import LhButton from "@/components/common/LhButton.vue";
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
 import Spinner from "@/components/common/Spinner.vue";
@@ -118,7 +117,6 @@ import {
 
 export default {
   components: {
-    LhButton,
     LhCheckbox,
     SearchItem,
     Spinner

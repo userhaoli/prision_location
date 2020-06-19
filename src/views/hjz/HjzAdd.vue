@@ -121,8 +121,8 @@
     </div>
     <div class="bot-bar">
       <div class="right-bar" v-show="$store.state.defenceActive > 3">
-        <lh-button content="返回" @checkClick="backToMain"></lh-button>
-        <lh-button content="提交" @checkClick="submit"></lh-button>
+        <button class="common-button" @click="backToMain">返回</button>
+        <button class="common-button" @click="submit">提交</button>
       </div>
     </div>
   </div>
@@ -131,7 +131,6 @@
 <script>
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
 import Spinner from "@/components/common/Spinner.vue";
-import LhButton from "@/components/common/LhButton.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
 import checkMixin from "@/mixin/checkMixin.js";
 import scrollMixin from "@/mixin/scrollMixin.js";
@@ -141,7 +140,6 @@ export default {
   components: {
     LhCheckbox,
     Spinner,
-    LhButton,
     SearchItem
   },
   mixins: [checkMixin, scrollMixin],

@@ -29,21 +29,9 @@
           @touchstart.stop.prevent="checkType(4)"
         >协调器</button>
       </div>
-      <lh-button
-        content="新增"
-        @click.native="addEquipment"
-        @touchstart.native.stop.prevent="addEquipment"
-      ></lh-button>
-      <lh-button
-        content="编辑"
-        @click.native="updateEquipment"
-        @touchstart.native.stop.prevent="updateEquipment"
-      ></lh-button>
-      <lh-button
-        content="删除"
-        @click.native="deleteEquipment"
-        @touchstart.native.stop.prevent="deleteEquipment"
-      ></lh-button>
+      <button class="common-button" @click="addEquipment">新增</button>
+      <button class="common-button" @click="updateEquipment">编辑</button>
+      <button class="common-button" @click="deleteEquipment">删除</button>
       <div style="width:25%;"></div>
     </div>
     <div class="equip-oper" v-show="type===0||type===1">
@@ -186,7 +174,6 @@
               <span class="icon iconfont" :style="style[2]" title="rfid">&#xe7c3;</span>
             </div>
             <p :title="item.ip">{{item.ip}}</p>
-            <!-- <p :title="item.soft_version">{{item.soft_version}}</p> -->
           </div>
         </div>
       </transition-group>
@@ -211,7 +198,6 @@
 <script>
 import Spinner from "@/components/common/Spinner.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
-import LhButton from "@/components/common/LhButton.vue";
 import LhCheckbox from "@/components/common/LhCheckbox.vue";
 import scrollMixin from "@/mixin/scrollMixin.js";
 
@@ -229,7 +215,6 @@ export default {
   components: {
     Spinner,
     SearchItem,
-    LhButton,
     LhCheckbox
   },
   mixins: [scrollMixin],
@@ -564,11 +549,6 @@ export default {
               }
             });
 
-            // screenStation(this.page).then(data => {
-            //   this.total = data.count;
-            //   this.stationList = data.results;
-            // });
-
             return;
           }
           //如果不是基站
@@ -760,9 +740,6 @@ export default {
       height: 31rem;
       padding: 0 1rem;
       overflow: auto;
-      // flex-wrap: wrap;
-      // justify-content: flex-start;
-      // align-items: center;
       &::-webkit-scrollbar {
         /*滚动条整体样式*/
         width: 0.5rem; /*高宽分别对应横竖滚动条的尺寸*/
@@ -803,15 +780,6 @@ export default {
             box-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
           }
         }
-
-        // .item-circle {
-        //   text-align: center;
-        //   margin-top: 4px;
-        //   span {
-        //     font-size: 2rem;
-        //   }
-        // }
-
         .item-square {
           width: 4rem;
           height: 4rem;
