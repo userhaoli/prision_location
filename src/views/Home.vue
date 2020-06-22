@@ -122,8 +122,6 @@
           <canvas ref="littleCanvas" id="littleCanvas" width="280" height="140">
             <P>你的浏览器不支持"canvas"!请升级浏览器!</P>
           </canvas>
-          <canvas id="innerCanvas" ref="innerCanvas" width="280" height="140"></canvas>
-          <!-- :style="'backgroundImage:' + backImage" -->
         </div>
       </div>
     </transition>
@@ -150,24 +148,24 @@
       <router-view></router-view>
     </div>
     <!-- 导航栏 -->
-      <div class="main-nav">
-        <div class="nav-check" @click="changeSwitch">
-          <span class="icon iconfont">&#xe600;</span>
-        </div>
-        <ul class="nav-items">
-          <li
-            @click="linkPage(item.path)"
-            :class="item.class"
-            v-for="(item,index) in navArr"
-            :key="index"
-          >
-            <span class="icon iconfont" v-html="item.icon"></span>
-            <p>{{item.name}}</p>
-          </li>
-        </ul>
-        <div class="nav-check right-check" @click="changeSwitch">
-          <span class="icon iconfont">&#xe602;</span>
-        </div>
+    <div class="main-nav" v-show="isShowNav">
+      <div class="nav-check" @click="changeSwitch">
+        <span class="icon iconfont">&#xe600;</span>
+      </div>
+      <ul class="nav-items">
+        <li
+          @click="linkPage(item.path)"
+          :class="item.class"
+          v-for="(item,index) in navArr"
+          :key="index"
+        >
+          <span class="icon iconfont" v-html="item.icon"></span>
+          <p>{{item.name}}</p>
+        </li>
+      </ul>
+      <div class="nav-check right-check" @click="changeSwitch">
+        <span class="icon iconfont">&#xe602;</span>
+      </div>
     </div>
   </div>
 </template>
@@ -180,6 +178,9 @@ import Person from "@/utils/person.js";
 import mapScale from "@/utils/map_scale.js";
 import mapDrag from "@/utils/map_drag.js";
 import interval from "@/utils/interval.js";
+import drawArc from "@/utils/draw_arc.js";
+import littleMapFollow from "@/utils/little_map_follow.js";
+
 import { getAllLabel, getCameraData } from "@/apis/interfance.js";
 export default {
   components: {
@@ -270,18 +271,17 @@ export default {
       isShowCamera: true,
       isShow3D: false,
       isShowOther: false,
-      isShowNav: true
+      isShowNav: true,
+      worker: null,
+      littleCanvas: null,
+      litMapflag:false,
+      littleDrag:false,
     };
   },
   mounted() {
-    // let data = JSON.parse(sessionStorage.getItem("nav"));
-    // if (data) {
-    //   this.navArr = data;
-    // } else {
+    this.worker = new Worker("/worker.js");
+    this.littleMapInit();
     this.navArr = this.allNav.slice(0, this.maxNavLength);
-    //   sessionStorage.setItem("nav", JSON.stringify(this.navArr));
-    // }
-    console.log(this.navArr);
     let canvas = this.$refs.canvas;
     this.canvas = this.$refs.canvas;
     this.ctx = this.canvas.getContext("2d");
@@ -331,12 +331,48 @@ export default {
       this.$store.state.personList = obj;
       this.personTimer = interval.call(this, Person, this.$store.state.mapid);
     });
+    let littleCanvas = this.$refs.littleCanvas;
+    this.littleCanvas = this.$refs.littleCanvas;
+    //小地图
+    littleCanvas.addEventListener("mousedown", event => {
+      if (this.$store.state.isiPad) return;
+      let e = event || window.event;
+      this.litMapflag = true;
+      this.littleDrag = true;
+      let startX = e.offsetX,
+        startY = e.offsetY,
+        elWidth = this.$refs.littleCanvas.offsetWidth,
+        elHeight = this.$refs.littleCanvas.offsetHeight;
+      let width =
+        (window.innerWidth / this.mapImg.width / this.scale) * elWidth;
+      let height =
+        ((window.innerHeight - 34) / this.mapImg.height / this.scale) *
+        elHeight;
+      this.drawLittleMap({
+        shape: "square",
+        data: {
+          startX,
+          startY,
+          width: width,
+          height: height,
+          color: "#f00",
+          pos: this.pos,
+          scaleX: elWidth / this.mapImg.width,
+          scaleY: elHeight / this.mapImg.height,
+          mapid: this.$store.state.mapid
+        }
+      });
+      this.viewPortFollow(startX, startY, getBuffer);
+    });
+    littleCanvas.addEventListener("mousemove", e => {
+      drawArc.call(this, e, getBuffer);
+    });
     //地图缩放
     canvas.addEventListener(
       "mousewheel",
       e => {
         mapScale.call(this, e, getBuffer);
-        // littleMapFollow.call(this);
+        littleMapFollow.call(this);
       },
       { passive: false }
     );
@@ -401,10 +437,6 @@ export default {
               this.sy,
               steps[0].map_id
             );
-            // if (value.isFirst && value.follow) {
-            //   this.popMonitorVideo(steps[0].cameras[0]);
-            //   value.isFirst = false;
-            // }
             if (steps.length > 1) {
               (value.track || value.follow) &&
                 value.trackArr.push([
@@ -412,9 +444,6 @@ export default {
                   steps[0].pos[1],
                   steps[0].map_id
                 ]);
-              // if (value.follow && steps[0].cameras[0] !== steps[1].cameras[0]) {
-              //   this.popMonitorVideo(steps[1].cameras[0]);
-              // }
               steps.shift();
             }
             if (steps.length > 40) {
@@ -437,11 +466,6 @@ export default {
                 steps[0].map_id
               ]);
           }
-          // if (value.follow) {
-          //   personFollow.call(this, value.startX, value.startY, value.follow);
-          //   value.mapid !== this.$store.state.mapid &&
-          //     this.changeMap(undefined, value.mapid);
-          // }
         });
         if (this.trackBackFlag === false) {
           this.buffer = this.getBufferData(
@@ -453,10 +477,7 @@ export default {
           );
           this.drawImage();
         }
-        // littleMapFollow.call(this);
-        // this.chartFlag && this.drawHeatChart(this.chartFlag);
         clearTimeout(timer);
-        // console.log(+new Date() - time);
         if (this.stopAnimate == false) {
           this.animate();
         } else {
@@ -564,6 +585,7 @@ export default {
     //鼠标移动
     moveHandler(e) {
       mapDrag.call(this, e, getBuffer);
+      littleMapFollow.call(this);
     },
     upHandler() {
       this.$refs.canvas.style.cursor = "default";
@@ -656,6 +678,48 @@ export default {
     },
     hidden(flag) {
       this.mapHidden = flag;
+    },
+    //绘制小地图
+    drawLittleMap(parmas) {
+      let { shape, data } = parmas;
+      this.worker.postMessage({
+        name: shape,
+        data: data
+      });
+    },
+    //小地图初始化
+    littleMapInit() {
+      const offscreen = document
+        .getElementById("littleCanvas")
+        .transferControlToOffscreen();
+      this.worker.postMessage(
+        {
+          canvas: offscreen
+        },
+        [offscreen]
+      );
+    },
+    //视口跟随
+    viewPortFollow(startX, startY) {
+      let rateX = startX / this.littleCanvas.width;
+      let rateY = startY / this.littleCanvas.height;
+      this.sx = -(
+        rateX * this.mapImg.width * this.scale -
+        window.innerWidth / 2
+      );
+      this.sy = -(
+        rateY * this.mapImg.height * this.scale -
+        window.innerHeight / 2
+      );
+      // this.buffer = this.getBufferCanvas(
+      //   {
+      //     isShowTrack: this.isShowTrack,
+      //     isShowDefence: true,
+      //     isSelected: true
+      //   },
+      //   this.$store.state.chartArr
+      // );
+      // this.drawImage();
     }
   },
   beforeDestroy() {
@@ -666,27 +730,6 @@ export default {
   },
   watch: {
     $route: {
-      // handler(val) {
-      //   let length = this.navArr.length;
-      //   this.classArr = [];
-      //   if (val.name === "Main" || val.name === "Home") {
-      //     this.popupShow = false;
-      //     if (length === 0 || length === this.maxNavLength) {
-      //      this.classArr[0] = "active";
-      //     }
-      //   } else {
-      //     this.popupShow = true;
-      //     this.pathArr.forEach((value, index) => {
-      //       if (value === val.path) {
-      //         if( length === 0 ||  length  === this.maxNavLength ){
-      //               this.classArr[index] = "active";
-      //         }else{
-      //            this.classArr[index-this.maxNavLength] = "active";
-      //         }
-      //       }
-      //     });
-      //   }
-      // },
       handler(val) {
         this.popupShow = true;
         this.allNav.forEach(value => {
@@ -717,63 +760,62 @@ export default {
     // cursor: move;
   }
 
-    .main-nav {
-      width: 124rem;
-      height: 8rem;
-      background: url("./UI/nav.png");
+  .main-nav {
+    width: 124rem;
+    height: 8rem;
+    background: url("./UI/nav.png");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(91, 169, 233, 0.8);
+    margin: 0 auto;
+    border-radius: 0.4rem;
+    position: fixed;
+    bottom: 2rem;
+    left: calc(~"50% - 62rem");
+
+    .nav-check {
+      .icon {
+        font-size: 3rem;
+        opacity: 0.8;
+      }
+      &:hover {
+        color: #33eaff;
+      }
+    }
+    .right-check {
+      margin-left: 4rem;
+    }
+    .nav-items {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(91, 169, 233, 0.8);
-      margin: 0 auto;
-      border-radius: 0.4rem;
-      position: fixed;
-      bottom: 2rem;
-      left: calc(~"50% - 62rem");
-
-
-      .nav-check {
-        .icon {
-          font-size: 3rem;
-          opacity: 0.8;
-        }
-        &:hover {
-          color: #33eaff;
-        }
-      }
-      .right-check {
-        margin-left: 4rem;
-      }
-      .nav-items {
+      width: 100rem;
+      text-align: center;
+      li {
+        cursor: pointer;
+        width: 6rem;
+        height: 8rem;
+        background: rgba(255, 255, 255, 0);
         display: flex;
-        width: 100rem;
-        text-align: center;
-        li {
-          cursor: pointer;
-          width: 6rem;
-          height: 8rem;
-          background: rgba(255, 255, 255, 0);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          margin-left: 4rem;
-          &:hover {
-            color: #66e4ff;
-            background: url("./UI/active.png") no-repeat;
-            background-position: center;
-          }
-        }
-        .active {
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 4rem;
+        &:hover {
           color: #66e4ff;
           background: url("./UI/active.png") no-repeat;
           background-position: center;
         }
       }
-      .icon {
-        font-size: 2.4rem;
+      .active {
+        color: #66e4ff;
+        background: url("./UI/active.png") no-repeat;
+        background-position: center;
       }
     }
-  
+    .icon {
+      font-size: 2.4rem;
+    }
+  }
+
   .popup {
     position: fixed;
     top: 8rem;
@@ -926,7 +968,11 @@ export default {
     color: rgba(255, 255, 255, 1);
     font-size: 1.3rem;
     text-align: center;
-    // position: relative;
+    background: rgba(5, 15, 39, 1);
+    border: 1px solid rgba(51, 119, 233, 1);
+    box-shadow: 0px 0.9rem 2.1rem 0px rgba(12, 7, 4, 0.35);
+    opacity: 0.85;
+    border-radius: 0.5rem;
     .map-nav {
       display: flex;
       background: rgba(42, 72, 137, 1);
@@ -968,7 +1014,8 @@ export default {
       position: relative;
       background: rgba(0, 31, 98, 0.85);
       box-sizing: border-box;
-      // background:#fff;
+      background: url("/images/TianfuSquareMetroLine1.png") no-repeat center;
+      background-size: 100% 100%;
     }
     #littleCanvas {
       cursor: pointer;
@@ -1066,6 +1113,10 @@ export default {
         display: block;
       }
     }
+  }
+  .container {
+    width: 280px;
+    height: 140px;
   }
   .map-hidden {
     position: fixed;
