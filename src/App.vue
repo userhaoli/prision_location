@@ -24,6 +24,7 @@
 export default {
   mounted() {
     this.$store.state.titleBar = this.$refs.titleBar;
+    console.log("111")
     this.computedRem();
     window.addEventListener("resize", () => {
       this.computedRem();

@@ -4,10 +4,10 @@
     <div class="monitor-content">
       <div class="left-content">
         <div class="content-controller height77">
-          <div class="check-item">
+          <div class="check-item marginL20">
             <spinner :content="mapArr[mapid]||'地图'" :list="mapArr" @sendValue="getValue"></spinner>
           </div>
-          <div class="search-bar">
+          <div class="search-bar marginR20">
             <search-item @valueChange="searchValue" holder="请输入设备编号"></search-item>
           </div>
         </div>
@@ -173,12 +173,9 @@ export default {
 .camera-list {
   .monitor-content {
     display: flex;
-    // background: rgba(24, 45, 77, 0.6);
     height: 86%;
     .left-content {
-      // width: 55%;
       flex-grow: 1;
-      // margin-right: 1rem;
     }
     .content-controller {
       display: flex;
@@ -202,9 +199,7 @@ export default {
         background-size: 100% 100%;
       }
       .search-bar {
-        width: 18rem;
-        // flex-grow: 1;
-        // margin-right: 1rem;
+        width: 28rem;
         margin-left: 0.6rem;
         position: relative;
         z-index: 0;

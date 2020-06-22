@@ -232,11 +232,13 @@ export function getAllBaseStation() {
     ).then(data => data.data)
 }
 //获取某些基站
-export function screenStation(mapid, ip) {
+export function screenStation(mapid, ip, size,page) {
     ip = ip || '';
     mapid = mapid == 5 ? '' : mapid;
+    size = size ? size : 200;
+    page = page ? page : 1;
     return axios.get(
-        baseURL + `/equipment/basestation/?size=200&map=${mapid}&ip=${ip}&fullIp=`
+        baseURL + `/equipment/basestation/?size=${size}&page=${page}&map=${mapid}&ip=${ip}&fullIp=`
     ).then(data => data.data)
 }
 

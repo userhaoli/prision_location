@@ -287,7 +287,7 @@ export default {
     this.ctx = this.canvas.getContext("2d");
     this.mapImg = new Image();
     this.mapImg.src = "/images/TianfuSquareMetroLine1.png";
-
+    console.dir(this.$store.state.titleBar)
     let titleHeight = this.$store.state.titleBar.offsetHeight;
     this.mapImg.onload = () => {
       this.canvas.width = window.innerWidth;
@@ -862,7 +862,8 @@ export default {
   .aside-left {
     width: 27rem;
     height: 54rem;
-    background: url("./UI/left_color.png");
+    background: url("./UI/left_color.png") no-repeat center;
+    background-size: 100% 100%;
     box-shadow: 0px 9px 21px 0px rgba(12, 7, 4, 0.35);
     opacity: 0.95;
     position: absolute;

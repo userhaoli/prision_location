@@ -62,7 +62,7 @@
         @touchmove="scrollElement"
         ref="listBar"
       >
-        <!-- <div v-for="(item,index) in stationList" :key="item.ip">
+        <div v-for="(item,index) in stationList" :key="item.ip">
           <div
             :class="'station-item '+ (item.is_selected?'checked':'')"
             @dblclick="checkEquip(item.id)"
@@ -75,17 +75,6 @@
             <p :title="item.ip">{{item.ip}}</p>
             <p :title="item.soft_version">{{item.soft_version}}</p>
           </div>
-        </div>-->
-        <div
-          v-for="(item,index) in stationList"
-          :key="item.ip"
-          @click="selectStation(item.is_selected,index)"
-          :class="'station-item '+ (item.is_selected?'checked':'')"
-        >
-          <div></div>
-          <span class="icon iconfont">&#xe666;</span>
-          <p :title="item.ip">{{item.ip}}</p>
-          <p :title="item.soft_version">{{item.soft_version}}</p>
         </div>
       </transition-group>
     </div>
@@ -462,7 +451,7 @@ export default {
     getStation() {
       let mapid = this.mapid === "" ? "" : this.mapid + 1;
       this.classList = [];
-      screenStation(mapid, "",21).then(data => {
+      screenStation(mapid, "").then(data => {
         this.total = data.count;
         this.stationList = data.results;
       });
@@ -607,7 +596,7 @@ export default {
       let mapid;
       switch (this.type) {
         case 0:
-          screenStation(this.$store.state.mapid, "",21).then(data => {
+          screenStation(this.$store.state.mapid, "").then(data => {
             this.total = data.count;
             this.stationList = data.results;
           });
@@ -635,7 +624,7 @@ export default {
       let mapid = this.mapid === "" ? "" : this.mapid + 1;
       switch (this.type) {
         case 0:
-          screenStation(mapid,"",21).then(data => {
+          screenStation(mapid).then(data => {
             this.total = data.count;
             this.stationList = data.results;
           });
@@ -655,7 +644,7 @@ export default {
     searchValue(value) {
       switch (this.type) {
         case 0:
-          screenStation(this.mapid + 1, value,21).then(data => {
+          screenStation(this.mapid + 1, value).then(data => {
             this.total = data.count;
             this.stationList = data.results;
           });
@@ -735,6 +724,7 @@ export default {
 <style lang="less">
 .equip-manage {
   overflow: auto;
+  font-size: 1.4rem;
   .equip-oper {
     display: flex;
     justify-content: space-between;
@@ -747,6 +737,7 @@ export default {
     }
   }
   .station {
+    background: rgba(178, 223, 255, 0.1);
     border-radius: 5px;
     .station-tips {
       padding: 0.4rem 1rem;
@@ -774,27 +765,28 @@ export default {
         height: 9rem;
         display: flex;
         justify-content: center;
+        // flex-grow: 1;
       }
 
       .station-item {
-        width: 12.6rem;
-        height: 12rem;
+        width: 6.8rem;
+        height: 6.8rem;
         margin-top: 2rem;
+        border-radius: 0.6rem;
+        border: 1px solid #ccc;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        text-align: center;
         cursor: pointer;
-        background: url("../UI/equip_unchecked.png") no-repeat center;
-        background-size: 100% 100%;
-        margin-left: 3rem;
+
         &:hover {
-          background: url("../UI/equip_checked.png") no-repeat center;
-          background-size: 100% 100%;
-          // .item-square {
-          //   box-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
-          // }
+          box-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
+          border: 0.2rem solid rgb(0, 89, 223);
+          text-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
+          .item-square {
+            box-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
+          }
         }
         .item-square {
           width: 4rem;
@@ -810,30 +802,24 @@ export default {
             font-size: 1.8rem;
           }
         }
-        span {
-          font-size: 4rem;
-          margin-top: 2rem;
-        }
         p {
+          width: 150%;
           text-align: center;
           font-size: 1.2rem;
           margin: 1px 0;
+          transform: scale(0.7);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          line-height: 2rem;
-          height: 2rem;
         }
       }
       .checked {
-        background: url("../UI/equip_checked.png") no-repeat center;
-        background-size: 100% 100%;
-        // box-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
-        // border: 0.2rem solid rgb(0, 89, 223);
-        // text-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
-        // .item-square {
-        //   box-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
-        // }
+        box-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
+        border: 0.2rem solid rgb(0, 89, 223);
+        text-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
+        .item-square {
+          box-shadow: 0rem 0rem 1rem rgb(0, 102, 255);
+        }
       }
       // .invalid {
       //   background: #707070;
@@ -880,7 +866,7 @@ export default {
   }
 
   .monitor-grop-list {
-    height: 59rem;
+    height:59rem;
   }
   & > ul {
     height: 55.4rem;

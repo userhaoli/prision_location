@@ -23,9 +23,9 @@
         >
           <div>
             <div class="grop-title list-title" :key="'aaa'">
-              <span v-show="!flag" class="photo"></span>
+              <span class="photo"></span>
               <span>姓名</span>
-              <span v-show="!flag">电话</span>
+              <span>电话</span>
               <span>编号</span>
               <span>类型</span>
               <span>职务</span>
@@ -34,30 +34,36 @@
             <div
               v-for="(value,index) in personList"
               :key="value.id"
-              @click="checkStaff(value)"
-              @touchstart.stop.prevent="checkStaff(value,index)"
               :class="count==index?'hover-style':''"
               class="list-item"
             >
-              <span class="photo" v-show="!flag">
+              <span class="photo">
                 <img :src="value.imageurl?(baseUrl+value.imageurl):srcArr[value.type]" alt="??" />
               </span>
               <span>{{ value.name }}</span>
-              <span v-show="!flag">{{ value.tel }}</span>
+              <span>{{ value.tel }}</span>
               <span>{{ value.pid }}</span>
               <span>{{ value.type === 0?'公安':'地铁人员' }}</span>
               <span>{{ value.job }}</span>
-              <span> <router-link :to="'/home/personinfo'">详细信息</router-link> </span>
+              <span>
+                <router-link :to="'/home/personinfo'">详细信息</router-link>
+                <span
+                  @click="checkStaff(value)"
+                  @touchstart.stop.prevent="checkStaff(value,index)"
+                  class="marginL20"
+                >基本信息</span>
+              </span>
             </div>
           </div>
         </div>
       </div>
       <div class="right-content" v-show="flag">
+        <div class="pop-title">
+          <span>人员基本信息</span>
+          <span class="icon iconfont marginR10" @click="closeDetail">&#xe640;</span>
+        </div>
         <div class="person-msgs">
           <div class="msg-head">
-            <div class="msg-back" @click="hiddenRightBar" @touchstart.stop.prevent="hiddenRightBar">
-              <span class="icon iconfont">&#xe614;</span>
-            </div>
             <div class="msgs-top">
               <div class="data-box" style="width: 11rem;height: 16.5rem;">
                 <div class="line-box">
@@ -325,6 +331,9 @@ export default {
     scrollElement(e) {
       this.$refs.listBar.scrollTop -= e.targetTouches[0].pageY - this.oldY;
       this.oldY = e.targetTouches[0].pageY;
+    },
+    closeDetail() {
+      this.flag = false;
     }
   },
   watch: {
@@ -339,12 +348,11 @@ export default {
 .person-list {
   .monitor-content {
     display: flex;
-    // background: rgba(24, 45, 77, 0.6);
-    height: 86%;
+    width: 100%;
+    height: calc(~"100% - 4rem");
+    position: relative;
     .left-content {
-      // width: 55%;
       flex-grow: 1;
-      // margin-right: 1rem;
     }
     .content-controller {
       display: flex;
@@ -416,12 +424,16 @@ export default {
       }
     }
     .right-content {
-      color: #fff;
-      width: 42%;
-      border-left: 1px solid rgba(178, 223, 255, 0.2);
-      padding: 0.8rem;
+      position: absolute;
+      width: 60%;
+      height: 60%;
+      top: calc(~"50% - 30%");
+      left: calc(~"50% - 30%");
+      background: rgba(5, 15, 39, 1);
+      border: 1px solid rgba(51, 119, 233, 1);
+      box-shadow: 0px 0.9rem 2.1rem 0px rgba(12, 7, 4, 0.35);
+      opacity: 0.95;
       border-radius: 0.5rem;
-      box-sizing: border-box;
       .tips {
         font-size: 1.8rem;
       }
