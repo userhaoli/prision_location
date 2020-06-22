@@ -1,6 +1,7 @@
 <template>
-  <div class="set root-element">
-    <div class="wrapper">
+  <div class="set pop-container">
+    <pop-title :title="'系统设置'"></pop-title>
+    <div class="container">
       <ul class="nav">
         <li>显示</li>
         <li>报警</li>
@@ -24,7 +25,8 @@
           <input type="checkbox" />摄像头
         </div>
         <div class="set-equip">
-           定位频率:<input type="text" />
+          定位频率:
+          <input type="text" />
         </div>
       </div>
     </div>
@@ -32,20 +34,31 @@
 </template>
 
 <script>
-export default {};
+import PopTitle from "@/components/common/PopTitle.vue";
+export default {
+  components: {
+    PopTitle
+  }
+};
 </script>
 
 <style lang="less">
 .set {
-  display: flex;
   justify-content: center;
   align-items: center;
-  .wrapper {
-    background: #4491f8;
-    width: 60rem;
-    height: 60rem;
+  width: 40%;
+  height: 60%;
+  position: absolute;
+  top: calc(~"50% - 40%");
+  left: calc(~"50% - 20%");
+  // margin: 0 auto;
+  background: rgba(5, 15, 39, 1);
+  border: 1px solid rgba(51, 119, 233, 1);
+  box-shadow: 0px 0.9rem 2.1rem 0px rgba(12, 7, 4, 0.35);
+  opacity: 0.95;
+  border-radius: 0.5rem;
+  .container {
     display: flex;
-    border-radius: 1rem;
     .nav {
       width: 20%;
       height: 100%;

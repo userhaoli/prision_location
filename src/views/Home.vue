@@ -150,7 +150,6 @@
       <router-view></router-view>
     </div>
     <!-- 导航栏 -->
-    <div class="nav-container" v-show="isShowNav">
       <div class="main-nav">
         <div class="nav-check" @click="changeSwitch">
           <span class="icon iconfont">&#xe600;</span>
@@ -169,7 +168,6 @@
         <div class="nav-check right-check" @click="changeSwitch">
           <span class="icon iconfont">&#xe602;</span>
         </div>
-      </div>
     </div>
   </div>
 </template>
@@ -718,12 +716,7 @@ export default {
     height: 100%;
     // cursor: move;
   }
-  .nav-container {
-    position: fixed;
-    bottom: 2rem;
-    left: 0rem;
-    width: 100%;
-    font-size: 1.4rem;
+
     .main-nav {
       width: 124rem;
       height: 8rem;
@@ -733,7 +726,12 @@ export default {
       justify-content: center;
       color: rgba(91, 169, 233, 0.8);
       margin: 0 auto;
-      border-radius: 4px;
+      border-radius: 0.4rem;
+      position: fixed;
+      bottom: 2rem;
+      left: calc(~"50% - 62rem");
+
+
       .nav-check {
         .icon {
           font-size: 3rem;
@@ -775,7 +773,7 @@ export default {
         font-size: 2.4rem;
       }
     }
-  }
+  
   .popup {
     position: fixed;
     top: 8rem;

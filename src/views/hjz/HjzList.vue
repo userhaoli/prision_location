@@ -43,6 +43,12 @@
         </div>
       </li>
     </ul>
+    <div class="hjz-detail" v-show="detailFlag">
+      <div class="pop-title">
+        <span>互监组详情</span>
+        <span class="icon iconfont marginR10" @click="closeDetail">&#xe640;</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,25 +64,33 @@ export default {
     PopTitle
   },
   data() {
-    return {};
+    return {
+      detailFlag:false,
+    };
   },
   mounted() {},
   methods: {
     add() {
       this.$router.push("/home/hjzadd");
     },
-    showDetail() {},
+    showDetail() {
+      this.detailFlag = true;
+    },
 
     edit() {
       this.$router.push("/home/hjzedit");
     },
-    delet() {}
+    delet() {},
+    closeDetail(){
+      this.detailFlag = false;
+    }
   }
 };
 </script>
 
 <style lang="less">
 .hjz-list {
+  position: relative;
   .oper-bar {
     height: 7.8rem;
     line-height: 7.8rem;
@@ -115,6 +129,18 @@ export default {
         }
       }
     }
+  }
+  .hjz-detail {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    top: calc(~"50% - 30%");
+    left: calc(~"50% - 30%");
+    background: rgba(5, 15, 39, 1);
+    border: 1px solid rgba(51, 119, 233, 1);
+    box-shadow: 0px 9px 21px 0px rgba(12, 7, 4, 0.35);
+    opacity: 0.95;
+    border-radius: 5px;
   }
 }
 </style>

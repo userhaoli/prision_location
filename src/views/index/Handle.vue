@@ -55,7 +55,8 @@
             }}
           </span>
           <p>
-             <span style="line-height:2.6rem">{{ item.logtime | formatTime }}</span> <br/>
+            <span style="line-height:2.6rem">{{ item.logtime | formatTime }}</span>
+            <br />
             <span style="color:#FF7352">[{{item.map.name}}]</span>发生
             <span style="color:#D9354E">
               [{{
@@ -155,8 +156,7 @@ export default {
   methods: {
     //报警详情
     alarmDetail(id) {
-      this.$store.commit("changeAlarmId", id);
-      this.$emit("getDetail");
+      this.$router.push("/home/detail/" + id);
     },
     //处理报警信息
     handleAlarm(id, index) {
@@ -388,7 +388,7 @@ button {
       line-height: 3rem;
       margin: 1rem 0;
       color: #ffffff;
-      background: #3672C3;
+      background: #3672c3;
       border-radius: 0.3rem;
       padding: 0 1.9rem;
       font-size: 1.4rem;
@@ -450,7 +450,7 @@ button {
       .bot-bar {
         text-align: right;
         line-height: 2.6rem;
-        margin-top:0.6rem;
+        margin-top: 0.6rem;
         button {
           font-size: 1.2rem;
           color: #fff;

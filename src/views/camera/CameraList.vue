@@ -1,74 +1,70 @@
 <template>
-  <div class="table-wrapper pop-container">
+  <div class="camera-list pop-container">
     <pop-title :title="'摄像头'"></pop-title>
-    <div class="camera-oper">
-      <spinner :content="mapArr[mapid]||'地图'" :list="mapArr" @sendValue="getValue"></spinner>
-      <search-item @valueChange="searchValue" holder="请输入设备编号"></search-item>
-    </div>
-    <el-table
-      :data="classList"
-      :row-style="rowStyle"
-      :cell-style="cellStyle"
-      :header-cell-style="headerCellStyle"
-      :header-row-style="headerRowStyle"
-      @touchstart="getFirstY"
-      @touchmove="scrollElement"
-      ref="listBar"
-    >
-      <el-table-column type="expand" align="center">
-        <template slot-scope="scope">
-          <el-form class="expandCameraInfo" label-width="8rem" label-position="left">
-            <el-row>
-              <el-col>
-                <el-form-item label="坐标X" class="slotScope">{{scope.row.x}}</el-form-item>
-              </el-col>
-              <el-col>
-                <el-form-item label="坐标Y" class="slotScope">{{scope.row.y}}</el-form-item>
-              </el-col>
-              <el-col>
-                <el-form-item label="URL地址" class="slotScope">{{scope.row.url?scope.row.url:""}}</el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-        </template>
-      </el-table-column>
-      <el-table-column prop="camera_id" label="摄像头编号"></el-table-column>
-      <!-- <el-table-column :formatter="statusFormat" label="所在线路"></el-table-column> -->
-      <!-- <el-table-column prop="map.name" label="所在区域"></el-table-column> -->
-      <el-table-column prop="camera_name" label="名称"></el-table-column>
-      <el-table-column prop="map.name" label="所在地图"></el-table-column>
-      <el-table-column label="其他" width="60px">
-        <template slot-scope="scopes">
-          <div class="check-detail">
-            <div class="content-controller play-icon">
-              <img
-                src
-                alt="播放"
-                title="播放"
-                @click="loadMonitor(scopes.row.id)"
-                @touchstart.stop.prevent="loadMonitor(scopes.row.id)"
-              />
-              <!--播放视频 lfq-->
+    <div class="monitor-content">
+      <div class="left-content">
+        <div class="content-controller height77">
+          <div class="check-item">
+            <spinner :content="mapArr[mapid]||'地图'" :list="mapArr" @sendValue="getValue"></spinner>
+          </div>
+          <div class="search-bar">
+            <search-item @valueChange="searchValue" holder="请输入设备编号"></search-item>
+          </div>
+        </div>
+        <div
+          class="monitor-grop-list"
+          @touchstart="getFirstY"
+          @touchmove="scrollElement"
+          ref="listBar"
+        >
+          <div>
+            <div class="grop-title list-title" :key="'aaa'">
+              <span>编号</span>
+              <span>名称</span>
+              <span>所在地图</span>
+              <span>x坐标</span>
+              <span>y坐标</span>
+              <span>操作</span>
+            </div>
+            <div
+              v-for="(value,index) in classList"
+              :key="value.id"
+              :class="count==index?'hover-style':''"
+              class="list-item"
+            >
+              <span>{{ value.camera_id }}</span>
+              <span>{{ value.camera_name }}</span>
+              <span>{{ value.map.name }}</span>
+              <span>{{ value.x }}</span>
+              <span>{{ value.y}}</span>
+              <span class="play-item">
+                <img
+                  src="../UI/play.png"
+                  alt="播放"
+                  title="播放"
+                  @click="loadMonitor(value.id)"
+                  @touchstart.stop.prevent="loadMonitor(value.id)"
+                />
+              </span>
             </div>
           </div>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="page-check">
-      <div>
-        <el-pagination
-          background
-          layout="total, prev, pager, next"
-          :total="total"
-          :page-size="10"
-          :current-page="page"
-          prev-text="上一页"
-          next-text="下一页"
-          @current-change="getData"
-          @prev-click="getData"
-          @next-click="getData"
-        ></el-pagination>
+        </div>
       </div>
+    </div>
+    <div class="page-check">
+      <el-pagination
+        background
+        layout="total, prev, pager, next"
+        :pager-count="5"
+        :total="total"
+        :page-size="10"
+        :current-page="page"
+        prev-text="上一页"
+        next-text="下一页"
+        @current-change="getData"
+        @prev-click="getData"
+        @next-click="getData"
+      ></el-pagination>
     </div>
   </div>
 </template>
@@ -77,6 +73,7 @@
 import Spinner from "@/components/common/Spinner.vue";
 import SearchItem from "@/components/common/SearchItem.vue";
 import PopTitle from "@/components/common/PopTitle.vue";
+
 import {
   getCameraPage,
   getCameraData //lfq
@@ -100,7 +97,8 @@ export default {
         "",
         "天府广场负三楼一号线",
         "天府广场负四楼二号线"
-      ]
+      ],
+      count:0,
     };
   },
   mixins: [scrollMixin],
@@ -140,10 +138,6 @@ export default {
     checkEquip(id) {
       this.$emit("dblclicked", { id, flag: "camera" });
     },
-    // statusFormat: function(row) {
-    //   let status = row.map.station.line;
-    //   return status + "号线";
-    // },
     rowStyle() {
       return "background-color: transparent;color: rgba(255, 255, 255, 1);border-none;border-color:rgba(134, 208, 255, 0.1);";
     },
@@ -159,7 +153,7 @@ export default {
     getValue(value, index) {
       this.mapid = index;
       this.page = 1;
-      console.log(value, index);
+      // console.log(value, index);
       getCameraPage(this.page, index + 1).then(data => {
         this.total = data.count;
         this.classList = data.results;
@@ -175,140 +169,237 @@ export default {
   }
 };
 </script>
-
 <style lang="less">
-.el-form-item__label {
-  color: rgba(255, 255, 255, 1);
-}
-.expandCameraInfo .slotScope {
-  color: rgb(255, 255, 255);
-}
-.expandCameraInfo {
-  line-height: 1rem;
-}
-.slotScope form-label {
-  color: rgba(255, 255, 255, 1);
-}
-
-.table-wrapper .el-table--fit {
-  /*height: 40rem;*/
-  background: rgba(178, 223, 255, 0.1);
-  border-radius: 0.5rem;
-}
-// .table-wrapper  .el-table,
-.el-table__expanded-cell {
-  background-color: transparent;
-}
-.table-wrapper .el-table_1_column_5 {
-  width: 5rem !important;
-}
-.table-wrapper .el-table__header-wrapper {
-  height: 3.6rem;
-  background: rgba(178, 223, 255, 0.2);
-  border-radius: 0.5rem 0.5rem 0rem 0rem;
-}
-.table-wrapper .el-table__header-wrapper th {
-  padding: 0;
-}
-.table-wrapper .el-table__expand-icon {
-  color: #fff;
-}
-.table-wrapper .el-form-item__label {
-  color: #fff;
-}
-.table-wrapper .el-table__expand-icon > .el-icon {
-  margin-top: -0.7rem;
-}
-.table-wrapper .el-form-item {
-  padding: 0 5.5rem;
-  margin: 0;
-}
-.table-wrapper .el-table tr {
-  background-color: transparent !important;
-  height: 3.6rem;
-}
-.table-wrapper .el-table--enable-row-transition .el-table__body td,
-.el-table .cell {
-  background-color: transparent;
-  padding: 0;
-}
-.el-table__row > td {
-  border: none;
-}
-.el-table::before {
-  height: 0rem;
-}
-.el-table {
-  height: 37.4rem;
-  overflow: auto;
-  &::-webkit-scrollbar {
-    /*!*滚动条整体样式*!*/
-    width: 0.5rem; /* !*高宽分别对应横竖滚动条的尺寸*!*/
-  }
-  &::-webkit-scrollbar-thumb {
-    /*!*滚动条里面小方块*!*/
-    border-radius: 0.3rem;
-    background: rgba(255, 255, 255, 0.3);
-    height: 3rem;
-  }
-}
-.table-wrapper .el-table tr:hover {
-  background: rgba(134, 208, 255, 0.1) !important;
-}
-.table-wrapper {
-  .camera-oper {
+.camera-list {
+  .monitor-content {
     display: flex;
-    justify-content: space-between;
-    padding: 0.4rem 0;
-    & > .item {
-      width: 18rem;
+    // background: rgba(24, 45, 77, 0.6);
+    height: 86%;
+    .left-content {
+      // width: 55%;
+      flex-grow: 1;
+      // margin-right: 1rem;
     }
-    & > .search-item {
-      width: 18rem;
+    .content-controller {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      box-sizing: border-box;
+      .check-item {
+        display: flex;
+        align-items: center;
+        font-size: 1.4rem;
+        margin-right: 1rem;
+        // opacity: 0.8;
+        .item {
+          width: 15rem;
+        }
+      }
+      .active {
+        // background-image: url(../images/set_hover.png);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
+      .search-bar {
+        width: 18rem;
+        // flex-grow: 1;
+        // margin-right: 1rem;
+        margin-left: 0.6rem;
+        position: relative;
+        z-index: 0;
+      }
+    }
+    .monitor-grop-list {
+      height: 74%;
+      overflow: auto;
+      color: #fff;
+      border-radius: 0.5rem;
+      &::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 0.5rem; /*高宽分别对应横竖滚动条的尺寸*/
+      }
+      &::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 0.3rem;
+        background: rgba(134, 208, 255, 0.3);
+      }
+      & > div > div {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding-left: 1rem;
+        .photo {
+          width: 12%;
+          display: flex;
+          align-items: center;
+        }
+        img {
+          height: 3.2rem;
+        }
+        .play-item{
+          line-height: 0;
+        }
+        span {
+          display: inline-block;
+          width: 32%;
+          flex-grow: 1;
+        }
+      }
+    }
+    .right-content {
+      margin-top: 0.6rem;
+      color: #fff;
+      width: 42%;
+      border-left: 1px solid rgba(178, 223, 255, 0.2);
+      padding: 0.8rem;
+      background: rgba(178, 223, 255, 0.1);
+      border-radius: 0.5rem;
+      margin-left: 1rem;
+      .tips {
+        font-size: 1.8rem;
+      }
+      .msg-head {
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        .msg-back {
+          padding-bottom: 0.6rem;
+          text-align: right;
+          font-size: 2rem;
+          display: inline-block;
+          cursor: pointer;
+          &:hover {
+            color: #598dcc;
+          }
+        }
+        .msgs-top {
+          display: flex;
+          justify-content: center;
+          margin-top: 2rem;
+          & > div {
+            display: flex;
+            flex-direction: column;
+            span {
+              border-bottom: 1px solid rgb(72, 108, 144);
+              margin-bottom: 0.6rem;
+            }
+          }
+        }
+        img {
+          width: 11rem;
+          height: 16.5rem;
+        }
+        li {
+          margin-top: 1rem;
+          border-bottom: 1px solid rgb(72, 108, 144);
+        }
+      }
+      .person-desc {
+        line-height: 1.8rem;
+        h4 {
+          margin: 0.6rem 0;
+        }
+        p {
+          height: 12rem;
+          margin: 0.6rem 0;
+        }
+      }
+      .person-oper {
+        display: flex;
+        margin-top: 9rem;
+        padding-left: 1rem;
+        & > div {
+          width: 40%;
+        }
+      }
     }
   }
-  el-table-column {
-    background: rgba(24, 45, 77, 0.6);
-    display: flex;
-    align-items: center;
-    line-height: 4rem;
-    /*// padding: 1rem 0;*/
-    cursor: pointer;
-    & > div {
-      display: inline-block;
-      width: 4%;
-    }
-  }
-
-  .el-table tr:hover {
-    color: rgba(134, 208, 255, 1);
-    background: rgba(134, 208, 255, 0.1);
-    img {
-      display: block;
-    }
-    .check-detail > span {
-      /*display: inline;*/
-      margin-left: 2rem;
-    }
-  }
-  .check-detail {
-    color: rgba(134, 208, 255, 1);
-    height: 3rem;
-    display: flex;
-    padding-left: 1rem;
-    span {
-      display: none;
-    }
-  }
-  .play-icon {
-    justify-content: space-between;
-    img {
-      width: 3rem;
-      height: 3rem;
-      /*display: none;*/
-      display: block;
-    }
-  }
+}
+* {
+  box-sizing: border-box;
+}
+:after,
+:before {
+  box-sizing: border-box;
+}
+/*lfq*/
+.data-box {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #619eff;
+  position: relative;
+  box-shadow: 0 0 1rem #619eff;
+}
+.data-box .line-box i.t-l-line {
+  height: 0.4rem;
+  width: 2.6rem;
+  left: -0.3rem;
+  top: -0.3rem;
+}
+.data-box .line-box i.t-l-line {
+  height: 0.4rem;
+  width: 2.6rem;
+  left: -0.3rem;
+  top: -0.3rem;
+}
+.data-box .line-box i.l-t-line {
+  width: 0.4rem;
+  height: 2.4rem;
+  left: -0.3rem;
+  top: -0.3rem;
+}
+.data-box .line-box i.t-r-line {
+  height: 0.4rem;
+  width: 2.6rem;
+  right: -0.3rem;
+  top: -0.3rem;
+}
+.data-box .line-box i.r-t-line {
+  width: 0.4rem;
+  height: 2.4rem;
+  right: -0.3rem;
+  top: -0.3rem;
+}
+.data-box .line-box i.l-b-line {
+  width: 0.4rem;
+  height: 2.4rem;
+  left: -0.3rem;
+  bottom: -0.3rem;
+}
+.data-box .line-box i.b-l-line {
+  height: 0.4rem;
+  width: 2.6rem;
+  left: -0.3rem;
+  bottom: -0.3rem;
+}
+.data-box .line-box i.r-b-line {
+  width: 0.4rem;
+  height: 2.4rem;
+  right: -0.3rem;
+  bottom: -0.3rem;
+}
+.data-box .line-box i.b-r-line {
+  height: 0.4rem;
+  width: 2.6rem;
+  right: -0.3rem;
+  bottom: -0.3rem;
+}
+.data-box .line-box i {
+  background-color: #4788fb;
+  box-shadow: 0 0 1rem #619eff;
+  position: absolute;
+}
+.data-box .line-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+em,
+i,
+strong {
+  font-style: normal;
 }
 .el-pagination__total {
   color: #fff;

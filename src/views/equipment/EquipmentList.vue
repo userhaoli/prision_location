@@ -4,34 +4,39 @@
     <div class="content-controller">
       <div class="select-bar type-item">
         <button
+          class="height38-button"
           :class="checkedArr[0]"
           @click="checkType(0)"
           @touchstart.stop.prevent="checkType(0)"
         >基站</button>
         <button
+          class="height38-button marginL20"
           :class="checkedArr[1]"
           @click="checkType(1)"
           @touchstart.stop.prevent="checkType(1)"
         >摄像头</button>
         <button
+          class="height38-button marginL20"
           :class="checkedArr[2]"
           @click="checkType(2)"
           @touchstart.stop.prevent="checkType(2)"
         >标签</button>
         <button
+          class="height38-button marginL20"
           :class="checkedArr[3]"
           @click="checkType(3)"
           @touchstart.stop.prevent="checkType(3)"
         >基站组</button>
         <button
+          class="height38-button marginL20"
           :class="checkedArr[4]"
           @click="checkType(4)"
           @touchstart.stop.prevent="checkType(4)"
         >协调器</button>
       </div>
-      <button class="common-button" @click="addEquipment">新增</button>
-      <button class="common-button" @click="updateEquipment">编辑</button>
-      <button class="common-button" @click="deleteEquipment">删除</button>
+      <button class="common-button height38-button" @click="addEquipment">新增</button>
+      <button class="common-button height38-button" @click="updateEquipment">编辑</button>
+      <button class="common-button height38-button" @click="deleteEquipment">删除</button>
       <div style="width:25%;"></div>
     </div>
     <div class="equip-oper" v-show="type===0||type===1">
@@ -740,7 +745,7 @@ export default {
       border-radius: 0.5rem 0.5rem 0rem 0rem;
     }
     .station-list {
-      height: 31rem;
+      height: 55rem;
       padding: 0 1rem;
       overflow: auto;
       &::-webkit-scrollbar {
@@ -836,24 +841,18 @@ export default {
     height: 4rem;
     align-items: center;
     .select-bar {
-      // margin-left: 1rem;
       .active {
-        background: rgba(89, 141, 204, 1);
+        background: rgba(82, 145, 255, 1);
         color: rgba(255, 255, 255, 1);
       }
       button {
-        font-size: 1.4rem;
-        border: 0;
+        background: rgba(35, 64, 111, 1);
         cursor: pointer;
-        width: 6.2rem;
-        height: 3rem;
-        background: rgba(58, 101, 153, 0.3);
-        border-radius: 0.3rem 0rem 0rem 0.3rem;
-        color: rgba(134, 208, 255, 1);
+        color: #fff;
+        font-size: 1.6rem;
       }
     }
     .active {
-      // background-image: url(../images/set_hover.png);
       background-repeat: no-repeat;
       background-size: 100% 100%;
     }
@@ -867,10 +866,10 @@ export default {
   }
 
   .monitor-grop-list {
-    height: 37rem;
+    height:59rem;
   }
   & > ul {
-    height: 33.4rem;
+    height: 55.4rem;
     overflow: auto;
     color: rgba(255, 255, 255, 1);
     background: rgba(178, 223, 255, 0.1);
