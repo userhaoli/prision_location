@@ -274,8 +274,8 @@ export default {
       isShowNav: true,
       worker: null,
       littleCanvas: null,
-      litMapflag:false,
-      littleDrag:false,
+      litMapflag: false,
+      littleDrag: false
     };
   },
   mounted() {
@@ -287,9 +287,11 @@ export default {
     this.ctx = this.canvas.getContext("2d");
     this.mapImg = new Image();
     this.mapImg.src = "/images/TianfuSquareMetroLine1.png";
+
+    let titleHeight = this.$store.state.titleBar.offsetHeight;
     this.mapImg.onload = () => {
       this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight - 80;
+      this.canvas.height = window.innerHeight - titleHeight;
       this.minScale = window.innerWidth / this.mapImg.width;
       this.scale = this.minScale;
       this.sx = this.getOffset(
@@ -305,7 +307,7 @@ export default {
       this.sy = this.getOffset(
         {
           x: 0,
-          y: 80
+          y: titleHeight
         },
         {
           x: 0,
@@ -549,8 +551,9 @@ export default {
     },
     //页面大小变化
     onResize() {
+      let titleHeight = this.$store.state.titleBar.offsetHeight;
       this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight - 80;
+      this.canvas.height = window.innerHeight - titleHeight;
       this.minScale = window.innerWidth / this.mapImg.width;
       this.scale = this.minScale;
       this.sx = this.getOffset(
@@ -566,7 +569,7 @@ export default {
       this.sy = this.getOffset(
         {
           x: 0,
-          y: 80
+          y: titleHeight
         },
         {
           x: 0,
@@ -720,6 +723,12 @@ export default {
       //   this.$store.state.chartArr
       // );
       // this.drawImage();
+    },
+    imageToCanvas(pos) {
+      return [
+        pos[0] * this.scale + this.sx,
+        pos[1] * this.scale + 55 + this.sy
+      ];
     }
   },
   beforeDestroy() {

@@ -4,14 +4,14 @@
     <div class="monitor-content">
       <div class="left-content">
         <div class="content-controller height77">
-          <div class="check-item">
+          <div class="check-item marginL20">
             <spinner
               :content="personType[typeid]||' 职务'"
               :list="personType"
               @sendValue="getPersonType"
             ></spinner>
           </div>
-          <div class="search-bar">
+          <div class="search-bar marginR20">
             <search-item holder="请输入人员信息" @search="getValue" @valueChange="valueChange"></search-item>
           </div>
         </div>
@@ -25,12 +25,11 @@
             <div class="grop-title list-title" :key="'aaa'">
               <span v-show="!flag" class="photo"></span>
               <span>姓名</span>
-              <!--<span v-show="!flag">性别</span>-->
-              <!--lfq-->
               <span v-show="!flag">电话</span>
               <span>编号</span>
               <span>类型</span>
               <span>职务</span>
+              <span>详细信息</span>
             </div>
             <div
               v-for="(value,index) in personList"
@@ -40,17 +39,15 @@
               :class="count==index?'hover-style':''"
               class="list-item"
             >
-              <!--   @dblclick="findPerson(value.label)" -->
               <span class="photo" v-show="!flag">
                 <img :src="value.imageurl?(baseUrl+value.imageurl):srcArr[value.type]" alt="??" />
               </span>
               <span>{{ value.name }}</span>
-              <!--<span v-show="!flag">{{ value.sex ? "男" : "女" }}</span>-->
-              <!--lfq-->
               <span v-show="!flag">{{ value.tel }}</span>
               <span>{{ value.pid }}</span>
               <span>{{ value.type === 0?'公安':'地铁人员' }}</span>
               <span>{{ value.job }}</span>
+              <span> <router-link :to="'/home/personinfo'">详细信息</router-link> </span>
             </div>
           </div>
         </div>
@@ -87,11 +84,8 @@
 
               <div style="line-height: 2.2rem;padding-top: 0.5rem;margin-left: 2rem;">
                 <span>姓名：{{ personData.name }}</span>
-                <!--<span>性别：{{ personData.sex ? "男" : "女" }}</span>-->
-                <!--lfq-->
                 <span>编号：{{ personData.pid }}</span>
                 <span>电话：{{ personData.tel }}</span>
-                <!--<span>职务：{{ personData.job }}</span>-->
                 <span>
                   类型：{{
                   personData.type===0?'公安':'地铁人员'
@@ -337,16 +331,6 @@ export default {
     typeid() {
       this.valueChange(this.searchWords);
     }
-    // "$store.state.labelData.id": {
-    //   handler(val) {
-    //     this.$store.state.persons.forEach(value => {
-    //       if (value.labelId == val) {
-    //         this.$store.state.trackFlag = value.track;
-    //         this.$store.state.followFlag = value.follow;
-    //       }
-    //     });
-    //   }
-    // }
   }
 };
 </script>
@@ -384,9 +368,7 @@ export default {
         background-size: 100% 100%;
       }
       .search-bar {
-        width: 18rem;
-        // flex-grow: 1;
-        // margin-right: 1rem;
+        width: 28rem;
         margin-left: 0.6rem;
         position: relative;
         z-index: 0;
@@ -434,14 +416,12 @@ export default {
       }
     }
     .right-content {
-      margin-top: 0.6rem;
       color: #fff;
       width: 42%;
       border-left: 1px solid rgba(178, 223, 255, 0.2);
       padding: 0.8rem;
-      background: rgba(178, 223, 255, 0.1);
       border-radius: 0.5rem;
-      margin-left: 1rem;
+      box-sizing: border-box;
       .tips {
         font-size: 1.8rem;
       }

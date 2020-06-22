@@ -1,71 +1,76 @@
 <template>
-  <div class="person-info root-element">
-    <div class="base-info">
-      <h4>基本信息</h4>
-      <div class="info-content">
-        <div class="content-top">
-          <img src="/images/favicon.ico" alt />
-          <ul class="info-right">
-            <li>姓名:张三</li>
-            <li>性别:男</li>
-            <li>编号:115055</li>
-            <li>标签ID:uwb1202</li>
+  <div class="person-info pop-container">
+    <pop-title :title="'人员列表'"></pop-title>
+    <div class="person-content">
+      <div class="base-info">
+        <h4>基本信息</h4>
+        <div class="info-content">
+          <div class="content-top">
+            <img src="/images/favicon.ico" alt />
+            <ul class="info-right">
+              <li>姓名:张三</li>
+              <li>性别:男</li>
+              <li>编号:115055</li>
+              <li>标签ID:uwb1202</li>
+            </ul>
+          </div>
+          <ul class="content-bottom">
+            <li>身份证号：511322199805265512</li>
+            <li>家庭住址：四川省成都市xxxx</li>
+            <li>身份证号：511322199805265512</li>
           </ul>
         </div>
-        <ul class="content-bottom">
-          <li>身份证号：511322199805265512</li>
-          <li>家庭住址：四川省成都市xxxx</li>
-          <li>身份证号：511322199805265512</li>
+      </div>
+      <div class="alarm-statistics">
+        <h4>报警统计</h4>
+        <div class="alarm-pic" ref="alarmGraph"></div>
+      </div>
+      <div class="label-info">
+        <h4>标签信息</h4>
+      </div>
+      <div class="alarm-info">
+        <h4>报警信息</h4>
+        <ul class="alarm-content">
+          <li>
+            <div class="alarm-items">
+              <p>2020-06-01 13：42：50</p>
+              <p>
+                在xxxxx发出越界报警【紧急】
+                <span @click="linkToDetail">查看</span>
+              </p>
+            </div>
+            <div class="alarm-items">
+              <p>2020-06-01 13：42：50</p>
+              <p>
+                在xxxxx发出越界报警【紧急】
+                <span>查看</span>
+              </p>
+            </div>
+            <div class="alarm-items">
+              <p>2020-06-01 13：42：50</p>
+              <p>
+                在xxxxx发出越界报警【紧急】
+                <span>查看</span>
+              </p>
+            </div>
+            <div class="alarm-items">
+              <p>2020-06-01 13：42：50</p>
+              <p>
+                在xxxxx发出越界报警【紧急】
+                <span>查看</span>
+              </p>
+            </div>
+          </li>
+          <li ref="radarGraph"></li>
         </ul>
       </div>
-    </div>
-    <div class="alarm-statistics">
-      <h4>报警统计</h4>
-      <div class="alarm-pic" ref="alarmGraph"></div>
-    </div>
-    <div class="label-info">
-      <h4>标签信息</h4>
-    </div>
-    <div class="alarm-info">
-      <h4>报警信息</h4>
-      <ul class="alarm-content">
-        <li>
-          <div class="alarm-item">
-            <p>2020-06-01 13：42：50</p>
-            <p>
-              在xxxxx发出越界报警【紧急】
-              <span @click="linkToDetail">查看</span>
-            </p>
-          </div>
-          <div class="alarm-item">
-            <p>2020-06-01 13：42：50</p>
-            <p>
-              在xxxxx发出越界报警【紧急】
-              <span>查看</span>
-            </p>
-          </div>
-          <div class="alarm-item">
-            <p>2020-06-01 13：42：50</p>
-            <p>
-              在xxxxx发出越界报警【紧急】
-              <span>查看</span>
-            </p>
-          </div>
-          <div class="alarm-item">
-            <p>2020-06-01 13：42：50</p>
-            <p>
-              在xxxxx发出越界报警【紧急】
-              <span>查看</span>
-            </p>
-          </div>
-        </li>
-        <li ref="radarGraph"></li>
-      </ul>
     </div>
   </div>
 </template>
 
 <script>
+import PopTitle from "@/components/common/PopTitle.vue";
+
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/bar");
 require("echarts/lib/chart/radar");
@@ -74,6 +79,9 @@ require("echarts/lib/chart/radar");
 require("echarts/lib/component/tooltip");
 require("echarts/lib/component/title");
 export default {
+  components: {
+    PopTitle
+  },
   data() {
     return {};
   },
@@ -138,8 +146,8 @@ export default {
           text: "报警数据雷达图",
           left: "center",
           textStyle: {
-            color: '#fff'
-        }
+            color: "#fff"
+          }
         },
         tooltip: {
           trigger: "axis"
@@ -156,8 +164,7 @@ export default {
               { text: "脱离互监组报警 85", max: 100 },
               { text: "聚集报警 40", max: 100 },
               { text: "低电量报警 60", max: 100 },
-              { text: "sos主动报警 30", max: 100 },
-              
+              { text: "sos主动报警 30", max: 100 }
             ],
             radius: 80,
             center: ["50%", "40%"]
@@ -172,7 +179,7 @@ export default {
             areaStyle: {},
             data: [
               {
-                value: [60, 73, 85, 40, 60,30],
+                value: [60, 73, 85, 40, 60, 30],
                 name: "报警统计"
               }
             ]
@@ -180,83 +187,91 @@ export default {
         ]
       });
     },
-    linkToDetail(){
-        this.$router.push("/detail")
+    linkToDetail() {
+      this.$router.push("/detail");
     }
   }
 };
 </script>
 
 <style lang="less">
-@title_Height: 2.6rem;
+@title_Height: 5.6rem;
 .person-info {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  width: 140rem;
-  margin: 0 auto;
-  & > div {
-    width: 45%;
-    height: 45%;
-    border: 1px solid #fff;
-    h4 {
-      font-size: 1.8rem;
-      height: @title_Height;
-      line-height: @title_Height;
-    }
-    .info-content {
-      width: 100%;
-      height: calc(~"100% - @{title_Height}");
-      font-size: 1.6rem;
-      .content-top {
-        display: flex;
-        img {
-          width: 30%;
-          margin: 0 2rem;
+  .person-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: calc(~"100% - 4rem");
+    margin: 0 auto;
+    & > div {
+      width: 45%;
+      height: 45%;
+      background: url("../UI/statistics.png") no-repeat center;
+      background-size: 100% 100%;
+      padding-left: 2rem;
+      box-sizing: border-box;
+      h4 {
+        height: @title_Height;
+        line-height: @title_Height;
+        font-family: Microsoft YaHei;
+        font-weight: 400;
+        color: rgba(102, 228, 255, 1);
+      }
+      .info-content {
+        width: 100%;
+        height: calc(~"100% - @{title_Height}");
+        font-size: 1.6rem;
+        .content-top {
+          display: flex;
+          img {
+            width: 30%;
+            margin: 0 2rem;
+          }
+          .info-right {
+            li {
+              margin-top: 1.5rem;
+            }
+          }
         }
-        .info-right {
+        .content-bottom {
+          margin-left: 2rem;
           li {
-            margin-top: 1.5rem;
+            line-height: 3rem;
+            height: 3rem;
           }
         }
       }
-      .content-bottom {
-        margin-left: 2rem;
+      .alarm-pic {
+        width: 100%;
+        height: calc(~"100% - @{title_Height}");
+      }
+      .alarm-content {
+        font-size: 1.4rem;
+        width: 100%;
+        height: calc(~"100% - @{title_Height}");
+        display: flex;
         li {
-          line-height: 3rem;
-          height: 3rem;
-        }
-      }
-    }
-    .alarm-pic {
-      width: 100%;
-      height: calc(~"100% - @{title_Height}");
-    }
-    .alarm-content {
-      font-size: 1.4rem;
-      width: 100%;
-      height: calc(~"100% - @{title_Height}");
-      display: flex;
-      li {
-        width: 50%;
-        .alarm-item {
-          height: 5rem;
-          margin-top: 0.8rem;
-          margin-left: 1rem;
-          p {
-            height: 2.5rem;
-            line-height: 2.5rem;
-          }
-          p:nth-of-type(2) {
-            text-indent: 2rem;
-          }
-          span{
+          width: 50%;
+          .alarm-items {
+            height: 5rem;
+            margin-top: 0.8rem;
+            margin-left: 1rem;
+            p {
+              height: 2.5rem;
+              line-height: 2.5rem;
+            }
+            p:nth-of-type(2) {
+              text-indent: 2rem;
+            }
+            span {
               cursor: pointer;
-              color:#00c297;
-              &:hover{
-                  text-decoration: underline;
+              color: #00c297;
+              &:hover {
+                text-decoration: underline;
               }
+            }
           }
         }
       }

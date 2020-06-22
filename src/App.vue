@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="title-style">
+    <div class="title-style" ref="titleBar">
       <div class="container">
         <div class="time">
           <img src="./views/UI/clock.png" alt="这是个小图标" />
@@ -23,7 +23,7 @@
 <script>
 export default {
   mounted() {
-    console.log(new Date().toUTCString());
+    this.$store.state.titleBar = this.$refs.titleBar;
     this.computedRem();
     window.addEventListener("resize", () => {
       this.computedRem();

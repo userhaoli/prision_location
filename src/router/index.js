@@ -14,11 +14,7 @@ const routes = [{
     name: 'index',
     component: () => import('../views/Index.vue')
   },
-  {
-    path: '/personinfo',
-    name: 'PersonInfo',
-    component: () => import('../views/person/PersonInfo.vue')
-  },
+
   {
     path: '/alarmdetail',
     name: 'AlarmDetail',
@@ -58,6 +54,11 @@ const routes = [{
         path: 'personlist',
         name: 'PersonList',
         component: () => import('@/views/person/PersonList.vue')
+      },
+      {
+        path: 'personinfo',
+        name: 'PersonInfo',
+        component: () => import('../views/person/PersonInfo.vue')
       },
       {
         path: 'defencelist',
