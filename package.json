@@ -16,7 +16,7 @@
     "element-ui": "^2.13.0",
     "flv.js": "^1.5.0",
     "heatmap.js": "^2.0.5",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "normalize.css": "^8.0.1",
     "three": "^0.115.0",
     "threebsp": "^1.0.4",
